@@ -505,7 +505,9 @@ export default function AdminDashboard() {
                           item.status === 'pending' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300' : 
                           item.status === 'regenerating' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300' : 
                           'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300'}`}>
-                          {item.status.charAt(0).toUpperCase() + item.status.slice(1)}
+                          {(item.status && typeof item.status === 'string') ? 
+                            item.status.charAt(0).toUpperCase() + item.status.slice(1) : 
+                            'Unknown'}
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
