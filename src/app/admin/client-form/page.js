@@ -2,78 +2,88 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import ClientInfoForm from '../../components/ClientInfoForm';
 
 export default function ClientFormPage() {
-  const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [message, setMessage] = useState(null);
+  const router = useRouter();
 
   const handleSubmit = async (formData) => {
     setIsSubmitting(true);
+    setMessage({ type: 'info', text: 'Saving client information and starting content generation...' });
+
     try {
-      // First, save the client info
-      const saveResponse = await fetch('/api/client-info', {
+      // Save client info
+      await fetch('/api/client-info', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
 
-      if (!saveResponse.ok) {
-        throw new Error('Failed to save client information');
-      }
-      
-      // Then, start the orchestration process
-      const orchestrateResponse = await fetch('/api/orchestrate', {
+      // Start orchestration process
+      const response = await fetch('/api/orchestrate', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           action: 'generate',
           clientInfo: formData
         }),
       });
 
-      if (!orchestrateResponse.ok) {
+      if (!response.ok) {
         throw new Error('Failed to start content generation');
       }
 
-      const data = await orchestrateResponse.json();
-      alert(`Content generation started successfully: ${data.message}`);
-      
-      // Redirect back to admin dashboard to see progress
-      router.push('/admin');
+      setMessage({ 
+        type: 'success', 
+        text: 'Content generation started successfully! Redirecting to admin dashboard...' 
+      });
+
+      // Redirect to admin dashboard after a short delay
+      setTimeout(() => {
+        router.push('/admin');
+      }, 2000);
+
     } catch (error) {
-      console.error('Error during form submission:', error);
-      alert(`An error occurred: ${error.message}`);
-    } finally {
+      console.error('Error submitting form:', error);
+      setMessage({ 
+        type: 'error', 
+        text: `An error occurred: ${error.message}` 
+      });
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="max-w-4xl mx-auto py-8 px-4">
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Client Information Form</h1>
-        <Link 
-          href="/admin" 
-          className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded hover:bg-gray-300 dark:hover:bg-gray-600"
-        >
-          Back to Dashboard
-        </Link>
-      </div>
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">Client Information Form</h1>
       
-      <div className="mb-6">
-        <p className="text-gray-600 dark:text-gray-400">
-          Fill in the client details below to generate website content optimized for their business.
-          Fields marked with * are required.
-        </p>
-      </div>
+      {message && (
+        <div className={`p-4 mb-6 rounded-md ${
+          message.type === 'success' ? 'bg-green-100 text-green-800 border border-green-300' :
+          message.type === 'error' ? 'bg-red-100 text-red-800 border border-red-300' :
+          'bg-blue-100 text-blue-800 border border-blue-300'
+        }`}>
+          {message.text}
+        </div>
+      )}
+      
+      <p className="mb-6 text-gray-700 dark:text-gray-300">
+        Fill out this form with your client&apos;s information to automatically generate website content
+        tailored to their business needs.
+      </p>
       
       <ClientInfoForm onSubmit={handleSubmit} isSubmitting={isSubmitting} />
+      
+      <div className="mt-8 text-center">
+        <a 
+          href="/admin"
+          className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+        >
+          Return to Admin Dashboard
+        </a>
+      </div>
     </div>
   );
 }

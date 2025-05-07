@@ -1,19 +1,98 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
+import fs from 'fs/promises';
+import { existsSync, readFileSync } from 'fs';
 import path from 'path';
 import { orchestrateAgents } from '../../../../orchestrate.js';
 
-// In-memory storage for activities and status
+// Initialize with data from files if available
 let agentActivities = [];
 let contentStatus = [];
+let progressStatus = {
+  contentCompletion: 0,
+  seoOptimization: 0,
+  keywordsGenerated: 0,
+  pagesCreated: 0,
+  pagesApproved: 0
+};
 let clientInformation = null;
+
+// Initialize data from files
+try {
+  // Try public/api path first (Next.js static data)
+  const activitiesPath = path.join(process.cwd(), 'public', 'api', 'agent-activities', 'data.json');
+  const contentPath = path.join(process.cwd(), 'public', 'api', 'content', 'data.json');
+  
+  // Fallback to data directory
+  const dataActivitiesPath = path.join(process.cwd(), 'data', 'agent-activities.json');
+  const dataContentPath = path.join(process.cwd(), 'data', 'content-status.json');
+  
+  if (existsSync(activitiesPath)) {
+    agentActivities = JSON.parse(readFileSync(activitiesPath, 'utf8'));
+    console.log(`Loaded ${agentActivities.length} activities from public/api`);
+  } else if (existsSync(dataActivitiesPath)) {
+    agentActivities = JSON.parse(readFileSync(dataActivitiesPath, 'utf8'));
+    console.log(`Loaded ${agentActivities.length} activities from data directory`);
+  }
+  
+  if (existsSync(contentPath)) {
+    contentStatus = JSON.parse(readFileSync(contentPath, 'utf8'));
+    console.log(`Loaded ${contentStatus.length} content items from public/api`);
+  } else if (existsSync(dataContentPath)) {
+    contentStatus = JSON.parse(readFileSync(dataContentPath, 'utf8'));
+    console.log(`Loaded ${contentStatus.length} content items from data directory`);
+  }
+  
+  // If we don't have content status data but have content files,
+  // generate content status from content directory
+  if (contentStatus.length === 0) {
+    const contentDir = path.join(process.cwd(), 'content');
+    if (existsSync(contentDir)) {
+      const files = fs.readdirSync(contentDir).filter(file => file.endsWith('.md'));
+      contentStatus = files.map(file => {
+        const pageName = file.replace('.md', '');
+        return {
+          id: pageName,
+          title: pageName.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' '),
+          status: 'pending',
+          lastUpdated: new Date().toISOString(),
+          author: 'Content Writer Agent'
+        };
+      });
+      console.log(`Generated ${contentStatus.length} content items from content directory`);
+    }
+  }
+  
+  // Load client info
+  const clientInfoPath = path.join(process.cwd(), 'data', 'client-info.json');
+  if (existsSync(clientInfoPath)) {
+    clientInformation = JSON.parse(readFileSync(clientInfoPath, 'utf8'));
+  }
+  
+  // Calculate progress status
+  if (contentStatus.length > 0) {
+    progressStatus = {
+      contentCompletion: Math.round((contentStatus.length / 5) * 100), // Assuming 5 pages is complete
+      seoOptimization: 60, // Default value
+      keywordsGenerated: contentStatus.length * 3, // Rough estimate
+      pagesCreated: contentStatus.length,
+      pagesApproved: contentStatus.filter(c => c.status === 'approved').length
+    };
+  }
+  
+} catch (error) {
+  console.error('Error initializing API data:', error);
+}
 
 export async function GET() {
   try {
+    // Check if we need to scan for new content
+    await scanForNewContent();
+    
     // Return current state of agent activities and content status
     return NextResponse.json({
       agentActivities,
       contentStatus,
+      progress: progressStatus,
       clientInfo: clientInformation
     });
   } catch (error) {
@@ -32,10 +111,11 @@ export async function POST(request) {
       clientInformation = clientInfo;
       // Save client info to a file for persistence
       const clientDataDir = path.join(process.cwd(), 'data');
-      if (!fs.existsSync(clientDataDir)) {
-        fs.mkdirSync(clientDataDir, { recursive: true });
-      }
-      fs.writeFileSync(
+      await fs.mkdir(clientDataDir, { recursive: true }).catch(err => {
+        if (err.code !== 'EEXIST') throw err;
+      });
+      
+      await fs.writeFile(
         path.join(clientDataDir, 'client-info.json'),
         JSON.stringify(clientInfo, null, 2)
       );
@@ -70,13 +150,15 @@ export async function POST(request) {
           regenerationFeedback: feedback || 'Please improve this content.'
         });
         
-        // Start regeneration in background
-        orchestrateAgents({ 
-          regeneratePageId: pageId,
-          feedback,
-          onActivity: logActivity,
-          onContentUpdate: updateContentStatus
-        });
+        // Schedule regeneration to run asynchronously and avoid blocking the response
+        setTimeout(() => {
+          orchestrateAgents({ 
+            regeneratePageId: pageId,
+            feedback,
+            onActivity: logActivity,
+            onContentUpdate: updateContentStatus
+          }).catch(err => console.error('Error in regeneration:', err));
+        }, 0);
         
         return NextResponse.json({
           message: 'Content regeneration started',
@@ -89,6 +171,75 @@ export async function POST(request) {
   } catch (error) {
     console.error('Error in POST /api/orchestrate:', error);
     return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+}
+
+// Helper function to scan content directory and update contentStatus
+async function scanForNewContent() {
+  try {
+    const contentDir = path.join(process.cwd(), 'content');
+    const contentDirExists = await fs.stat(contentDir).catch(() => false);
+    
+    if (!contentDirExists) {
+      return;
+    }
+    
+    const files = await fs.readdir(contentDir);
+    const mdFiles = files.filter(file => file.endsWith('.md'));
+    
+    // Check for new files that aren't in contentStatus
+    for (const file of mdFiles) {
+      const pageName = file.replace('.md', '');
+      const existing = contentStatus.find(item => item.id === pageName);
+      
+      if (!existing) {
+        // New file found, add to content status
+        const stats = await fs.stat(path.join(contentDir, file));
+        const title = pageName
+          .split('-')
+          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(' ');
+          
+        contentStatus.push({
+          id: pageName,
+          title,
+          status: 'pending',
+          lastUpdated: stats.mtime.toISOString(),
+          author: 'Content Writer Agent'
+        });
+        
+        // Update progress status
+        progressStatus.pagesCreated = contentStatus.length;
+        progressStatus.contentCompletion = Math.round((contentStatus.length / 5) * 100);
+        
+        console.log(`Added new page to content status: ${pageName}`);
+      }
+    }
+    
+    // Save updated content status
+    const dataDir = path.join(process.cwd(), 'data');
+    await fs.mkdir(dataDir, { recursive: true }).catch(err => {
+      if (err.code !== 'EEXIST') throw err;
+    });
+    
+    await fs.writeFile(
+      path.join(dataDir, 'content-status.json'),
+      JSON.stringify(contentStatus, null, 2)
+    );
+    
+    // Also save to public/api for static access
+    const publicApiDir = path.join(process.cwd(), 'public', 'api', 'content');
+    await fs.mkdir(publicApiDir, { recursive: true }).catch(err => {
+      if (err.code !== 'EEXIST') throw err;
+    });
+    
+    await fs.writeFile(
+      path.join(publicApiDir, 'data.json'),
+      JSON.stringify(contentStatus, null, 2)
+    );
+    
+  } catch (error) {
+    console.error('Error scanning for new content:', error);
   }
 }
 
@@ -110,11 +261,23 @@ function logActivity(activity) {
   // Save activities to file for persistence
   try {
     const dataDir = path.join(process.cwd(), 'data');
-    if (!fs.existsSync(dataDir)) {
-      fs.mkdirSync(dataDir, { recursive: true });
-    }
-    fs.writeFileSync(
+    fs.mkdir(dataDir, { recursive: true }).catch(err => {
+      if (err.code !== 'EEXIST') throw err;
+    });
+    
+    fs.writeFile(
       path.join(dataDir, 'agent-activities.json'),
+      JSON.stringify(agentActivities, null, 2)
+    );
+    
+    // Also save to public/api for static access
+    const publicApiDir = path.join(process.cwd(), 'public', 'api', 'agent-activities');
+    fs.mkdir(publicApiDir, { recursive: true }).catch(err => {
+      if (err.code !== 'EEXIST') throw err;
+    });
+    
+    fs.writeFile(
+      path.join(publicApiDir, 'data.json'),
       JSON.stringify(agentActivities, null, 2)
     );
   } catch (err) {
@@ -136,14 +299,31 @@ function updateContentStatus(contentUpdate) {
     contentStatus.push(contentUpdate);
   }
   
+  // Update progress numbers
+  progressStatus.pagesCreated = contentStatus.length;
+  progressStatus.pagesApproved = contentStatus.filter(c => c.status === 'approved').length;
+  progressStatus.contentCompletion = Math.round((contentStatus.length / 5) * 100);
+  
   // Save content status to file for persistence
   try {
     const dataDir = path.join(process.cwd(), 'data');
-    if (!fs.existsSync(dataDir)) {
-      fs.mkdirSync(dataDir, { recursive: true });
-    }
-    fs.writeFileSync(
+    fs.mkdir(dataDir, { recursive: true }).catch(err => {
+      if (err.code !== 'EEXIST') throw err;
+    });
+    
+    fs.writeFile(
       path.join(dataDir, 'content-status.json'),
+      JSON.stringify(contentStatus, null, 2)
+    );
+    
+    // Also save to public/api for static access
+    const publicApiDir = path.join(process.cwd(), 'public', 'api', 'content');
+    fs.mkdir(publicApiDir, { recursive: true }).catch(err => {
+      if (err.code !== 'EEXIST') throw err;
+    });
+    
+    fs.writeFile(
+      path.join(publicApiDir, 'data.json'),
       JSON.stringify(contentStatus, null, 2)
     );
   } catch (err) {

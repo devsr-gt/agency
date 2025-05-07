@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const { orchestrate } = require('./orchestrate');
+const { orchestrateAgents } = require('./orchestrate');
 const readline = require('readline');
 
 const rl = readline.createInterface({
@@ -20,7 +20,7 @@ console.log('\nNote: This process may incur charges on your OpenAI account for u
 rl.question('Do you want to proceed with the orchestration process? (yes/no): ', (answer) => {
   if (answer.toLowerCase() === 'yes' || answer.toLowerCase() === 'y') {
     console.log('\nStarting the orchestration process...\n');
-    orchestrate()
+    orchestrateAgents()
       .then(() => {
         console.log('\nOrchestration process completed successfully!');
         rl.close();

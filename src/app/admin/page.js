@@ -125,8 +125,8 @@ export default function AdminDashboard() {
             if (data.contentStatus) setContent(data.contentStatus);
             if (data.progress) setProgressStatus(data.progress);
           }
-        } catch (error) {
-          console.error('Polling error:', error);
+        } catch (_error) {
+          console.error('Polling error:', _error);
         }
       }, 5000); // Poll every 5 seconds
     }
@@ -195,14 +195,14 @@ export default function AdminDashboard() {
           pageId: id,
           status: newStatus
         }),
-      }).catch(error => {
+      }).catch(_error => { // Changed 'error' to '_error' as it's not used in the log below
         console.log('Status update API not implemented, simulating success');
         return { ok: true };
       });
       
       if (!response.ok) {
         // Revert status if update fails
-        setContent(content);
+        setContent(content); // Revert to original content state on failure
         alert('Failed to update content status');
       }
     } catch (error) {
@@ -226,8 +226,8 @@ export default function AdminDashboard() {
         console.warn('Content API not available, using placeholder');
         setCurrentContent('# Sample Content\n\nThis is a placeholder for the actual content. The API to fetch content is not currently available.');
       }
-    } catch (error) {
-      console.error('Content fetch error:', error);
+    } catch (err) {
+      console.error('Content fetch error:', err);
       setCurrentContent('# Error\n\nFailed to load content. Please try again later.');
     } finally {
       setLoadingContent(false);

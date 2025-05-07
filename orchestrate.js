@@ -1,5 +1,6 @@
 const { OpenAI } = require('openai');
-const fs = require('fs').promises;
+const fsPromises = require('fs').promises;
+const fs = require('fs');
 const path = require('path');
 const { exec, execSync } = require('child_process');
 require('dotenv').config();
@@ -10,6 +11,26 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 // Agent activities log
 let agentActivities = [];
 let contentStatus = [];
+
+// Load existing activities and content status if available
+try {
+  const activitiesPath = path.join('public', 'api', 'agent-activities', 'data.json');
+  const contentStatusPath = path.join('public', 'api', 'content', 'data.json');
+  
+  if (fs.existsSync(activitiesPath)) {
+    const data = fs.readFileSync(activitiesPath, 'utf8');
+    agentActivities = JSON.parse(data);
+  }
+  
+  if (fs.existsSync(contentStatusPath)) {
+    const data = fs.readFileSync(contentStatusPath, 'utf8');
+    contentStatus = JSON.parse(data);
+  }
+  
+  console.log(`Loaded ${agentActivities.length} existing activities and ${contentStatus.length} content items`);
+} catch (error) {
+  console.error('Error loading existing data:', error.message);
+}
 
 // Log agent activity
 async function logActivity(agent, action, details) {
@@ -24,14 +45,25 @@ async function logActivity(agent, action, details) {
   
   // Save activities to a file that can be accessed by the admin dashboard
   try {
-    await fs.mkdir(path.join('public', 'api', 'agent-activities'), { recursive: true });
-    await fs.writeFile(
+    await fsPromises.mkdir(path.join('public', 'api', 'agent-activities'), { recursive: true });
+    await fsPromises.writeFile(
       path.join('public', 'api', 'agent-activities', 'data.json'), 
       JSON.stringify(agentActivities, null, 2)
     );
     console.log(`Activity logged: ${agent} - ${action}`);
   } catch (error) {
     console.error(`Failed to save agent activity: ${error.message}`);
+  }
+  
+  // Also save to data directory for API access
+  try {
+    await fsPromises.mkdir(path.join('data'), { recursive: true });
+    await fsPromises.writeFile(
+      path.join('data', 'agent-activities.json'), 
+      JSON.stringify(agentActivities, null, 2)
+    );
+  } catch (error) {
+    console.error(`Failed to save agent activity to data dir: ${error.message}`);
   }
 }
 
@@ -58,8 +90,8 @@ async function updateContentStatus(id, title, status, author) {
   
   // Save content status to a file that can be accessed by the admin dashboard
   try {
-    await fs.mkdir(path.join('public', 'api', 'content'), { recursive: true });
-    await fs.writeFile(
+    await fsPromises.mkdir(path.join('public', 'api', 'content'), { recursive: true });
+    await fsPromises.writeFile(
       path.join('public', 'api', 'content', 'data.json'), 
       JSON.stringify(contentStatus, null, 2)
     );
@@ -220,11 +252,11 @@ async function manageThread(agents, pagesToGenerate = ['homepage', 'services', '
 
         // If this is the content writer, save the output to a markdown file
         if (msg.assistant_id === agents.contentWriter.id && latestMessage) {
-          await fs.mkdir('content', { recursive: true });
+          await fsPromises.mkdir('content', { recursive: true });
           const formattedPageName = formatPageName(pageName);
           
           // Save agent response to a file
-          await fs.writeFile(path.join('content', `${formattedPageName}.md`), latestMessage);
+          await fsPromises.writeFile(path.join('content', `${formattedPageName}.md`), latestMessage);
           console.log(`Content saved to content/${formattedPageName}.md`);
           
           // Update content status
@@ -296,10 +328,10 @@ function formatPageTitle(pageName) {
 async function processImages() {
   console.log('Processing images from markdown content...');
   const contentDir = 'content';
-  const files = await fs.readdir(contentDir);
+  const files = await fsPromises.readdir(contentDir);
   for (const file of files) {
     console.log(`Processing file: ${file}`);
-    let content = await fs.readFile(path.join(contentDir, file), 'utf8');
+    let content = await fsPromises.readFile(path.join(contentDir, file), 'utf8');
     const placeholderRegex = /!\[.*?\]\(generate: (.*?)\)/g;
     let match;
     let imageCount = 0;
@@ -324,7 +356,7 @@ async function processImages() {
           console.log(`Downloading image to: ${imagePath}`);
           
           // Create directories if they don't exist
-          await fs.mkdir(path.dirname(imagePath), { recursive: true })
+          await fsPromises.mkdir(path.dirname(imagePath), { recursive: true })
             .catch(err => {
               if (err.code !== 'EEXIST') throw err;
             });
@@ -332,7 +364,7 @@ async function processImages() {
           // Download and save the image
           const imageResponse = await fetch(image.data[0].url);
           const imageBuffer = Buffer.from(await imageResponse.arrayBuffer());
-          await fs.writeFile(imagePath, imageBuffer);
+          await fsPromises.writeFile(imagePath, imageBuffer);
           
           // Update the markdown content
           content = content.replace(match[0], `![${description}](${webImagePath})`);
@@ -348,7 +380,7 @@ async function processImages() {
     }
     
     // Save the updated markdown content
-    await fs.writeFile(path.join(contentDir, file), content);
+    await fsPromises.writeFile(path.join(contentDir, file), content);
     console.log(`Updated markdown saved with ${imageCount} image(s)`);
   }
 }
@@ -360,15 +392,15 @@ async function buildPages() {
   const pagesDir = path.join('src', 'pages');
   
   // Create pages directory if it doesn't exist
-  await fs.mkdir(pagesDir, { recursive: true })
+  await fsPromises.mkdir(pagesDir, { recursive: true })
     .catch(err => {
       if (err.code !== 'EEXIST') throw err;
     });
   
-  const files = await fs.readdir(contentDir);
+  const files = await fsPromises.readdir(contentDir);
   for (const file of files) {
     console.log(`Processing file for page creation: ${file}`);
-    const content = await fs.readFile(path.join(contentDir, file), 'utf8');
+    const content = await fsPromises.readFile(path.join(contentDir, file), 'utf8');
     
     // Extract frontmatter if present
     const frontmatterMatch = content.match(/---\n([\s\S]*?)\n---/);
@@ -404,7 +436,7 @@ export default function ${pageName.charAt(0).toUpperCase() + pageName.slice(1)}(
   );
 }`;
 
-    await fs.writeFile(path.join(pagesDir, `${pageName}.js`), pageScript);
+    await fsPromises.writeFile(path.join(pagesDir, `${pageName}.js`), pageScript);
     console.log(`Page created: ${pagesDir}/${pageName}.js`);
     
     // Copy content status to include build status
@@ -422,14 +454,14 @@ async function regenerateContent(pageId, feedback) {
   
   try {
     const contentDataPath = path.join('src', 'app', 'api', 'content', 'data.json');
-    const contentData = JSON.parse(await fs.readFile(contentDataPath, 'utf8'));
+    const contentData = JSON.parse(await fsPromises.readFile(contentDataPath, 'utf8'));
     const pageData = contentData.find(page => page.id === pageId);
     existingContent = pageData?.content || '';
     
     // Try to get client info
     try {
       const clientDataPath = path.join('src', 'app', 'api', 'client-info', 'data.json');
-      clientInfo = JSON.parse(await fs.readFile(clientDataPath, 'utf8'));
+      clientInfo = JSON.parse(await fsPromises.readFile(clientDataPath, 'utf8'));
     } catch (error) {
       console.log('No client info found');
     }
@@ -513,7 +545,7 @@ Please provide a complete rewrite that addresses all the feedback while maintain
     
     if (newContent) {
       // Save the new content
-      await fs.writeFile(path.join('content', `${pageId}.md`), newContent);
+      await fsPromises.writeFile(path.join('content', `${pageId}.md`), newContent);
       
       // Update content status
       await updateContentStatus(pageId, 'regenerated');
