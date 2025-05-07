@@ -20,43 +20,36 @@ export default function Homepage() {
           )
         }}
       >
-        {`# Premier Legal Defense and Advocacy
+        {`# Sevens Legal: Your Trusted Criminal Defense Advocates
 
-## Your Trusted Partner in Criminal Defense and Personal Injury
+![a group of experienced lawyers in sleek suits around a large wooden table, engaged in discussion with legal documents in front of them, an office backdrop showcasing law books and diplomas](/images/homepage-image-0-1746659615861.webp)
 
-At [Law Firm Name], we are committed to providing exceptional legal representation tailored to your unique needs. As specialists in both criminal defense and personal injury law, we bring a wealth of expertise and an unwavering dedication to securing the best possible outcome for each client.
+## Over 40 Years of Combined Criminal Defense Experience
 
-![experienced attorneys in a modern law office reviewing case files, with shelves of legal books and awards in the background](/images/homepage-image-0-1746657311743.webp)
+At Sevens Legal, we are dedicated to defending your rights and securing your future. With over 40 years of combined experience, our legal team brings unmatched expertise and commitment to every case. We specialize in a wide array of criminal defense areas, providing unparalleled service and personalized solutions.
 
-## Comprehensive Legal Services
+## Our Areas of Expertise
 
-### Criminal Defense
+- **Criminal Defense:** Comprehensive defense strategies for all types of criminal charges.
+- **Drug Charges:** Expert handling of cases involving possession, distribution, and trafficking.
+- **Domestic Violence:** Compassionate representation with a strong focus on your legal rights.
+- **DUI:** Skilled defense to protect your driving privileges and minimize penalties.
 
-Our criminal defense team is renowned for its strategic approach and relentless pursuit of justice. We handle a wide spectrum of cases, from misdemeanor charges to serious felonies, ensuring that your rights are vigorously protected every step of the way.
+## Why Choose Sevens Legal?
 
-### Personal Injury
+- **Decades of Expertise:** Our attorneys leverage decades of legal practice to deliver exceptional defense strategies.
+- **Client-Centric Approach:** We prioritize your needs, working closely with you to achieve the best possible outcomes.
+- **Proven Track Record:** Our history of successful case resolutions showcases our ability to effectively defend and protect our clients.
 
-When an accident disrupts your life, our personal injury lawyers are here to offer support and tactical legal strategies. We work tirelessly to secure compensation for medical expenses, lost wages, and emotional distress, so you can focus on recovery.
+Take the first step toward a strong defense. Contact Sevens Legal to schedule your free consultation today. Our team is ready to provide you with the expertise and support you deserve.
 
-## Why Choose Us?
+## Contact Us Now
 
-- **Proven Track Record**: Our firm has a distinguished history of successful case outcomes, supported by decades of collective experience.
-- **Personalized Attention**: We understand that no two cases are alike. Our personalized approach ensures tailored solutions that address your specific situation.
-- **Compassionate Advocacy**: Navigating legal challenges can be overwhelming. Our empathetic team is here to guide you with transparency and honesty.
+- **Phone:** [Insert Phone Number]
+- **Email:** [Insert Email Address]
+- **Location:** [Insert Physical Location]
 
-![attorney consulting with a client in a warmly lit office, with diplomas on the wall and comfortable seating arrangements](/images/homepage-image-1-1746657326830.webp)
-
-## Take the First Step Toward Justice
-
-Don't face your legal challenges alone. Whether you're confronted with a complex legal battle or seeking rightful compensation, we are here to help.
-
-### Contact Us Today
-
-Reach out to us for a confidential consultation and start your journey towards resolution. Call us at **[Your Phone Number]** or fill out our [contact form](#) to get started.
-
-![handshake between a client and an attorney, symbolizing agreement and trust, with both parties smiling](/images/homepage-image-2-1746657343287.webp)
-
-Together, we can protect your rights and pursue the justice you deserve. Experience the difference that a dedicated legal team can make. Let us be your advocate.`}
+Secure your future with Sevens Legal. Your defense begins with a single call.`}
       </ReactMarkdown>
     </div>
   );

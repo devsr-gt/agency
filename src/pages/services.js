@@ -6,7 +6,7 @@ import path from 'path';
 
 // This gets called at build time on the server
 export async function getStaticProps() {
-  const filePath = path.join(process.cwd(), 'content', 'services-overview.md');
+  const filePath = path.join(process.cwd(), 'content', 'services.md');
   let content = '';
   
   try {
@@ -28,7 +28,7 @@ export async function getStaticProps() {
   };
 }
 
-export default function ServicesOverview({ content }) {
+export default function Services({ content }) {
   return (
     <div className="container mx-auto p-4">
       <ReactMarkdown

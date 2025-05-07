@@ -151,7 +151,7 @@ async function setupAgents(clientData = {}) {
 }
 
 // Thread Management with streamlined content generation
-async function manageThread(agents, pagesToGenerate = ['homepage', 'services', 'about', 'contact', 'blog-1']) {
+async function manageThread(agents, pagesToGenerate = ['homepage', 'services', 'about', 'contact', 'blog']) {
   console.log('Starting direct content generation process...');
   
   // Generate each page with specific, detailed instructions
@@ -192,7 +192,7 @@ async function manageThread(agents, pagesToGenerate = ['homepage', 'services', '
           phone numbers, and email. Add a brief FAQ section about the initial consultation process.`;
         break;
       
-      case 'blog-1':
+      case 'blogs':
         pageSpecificPrompt = `Create a blog post on a relevant legal topic that would interest 
           potential clients. The post should demonstrate expertise, provide valuable information, 
           and include a call to action to contact the firm for legal help.`;
@@ -300,12 +300,12 @@ function getAgentNameById(id, agents) {
 // Helper function to format page name for file saving
 function formatPageName(pageName) {
   // Convert to kebab case and handle special cases
-  if (pageName.startsWith('blog-')) {
+  if (pageName.startsWith('blog')) {
     return pageName;
   }
   
   if (pageName === 'services') {
-    return 'services-overview';
+    return 'servicesoverview';
   }
   
   return pageName.toLowerCase().replace(/\s+/g, '-');
@@ -314,7 +314,7 @@ function formatPageName(pageName) {
 // Helper function to format page title
 function formatPageTitle(pageName) {
   // Handle special cases
-  if (pageName.startsWith('blog-')) {
+  if (pageName.startsWith('blog')) {
     const blogNum = pageName.split('-')[1];
     return `Blog Post ${blogNum}`;
   }
