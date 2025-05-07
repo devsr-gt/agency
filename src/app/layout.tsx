@@ -14,8 +14,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Harris & Associates Law Firm",
-  description: "Expert legal representation for criminal defense and personal injury cases",
+  title: "Wumpus | Expert Legal Services",
+  description: "Expert legal representation for criminal defense and personal injury cases by Wumpus",
+  icons: {
+    icon: '/wumpus/favicon.svg',
+  },
 };
 
 export default function RootLayout({
@@ -25,6 +28,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="icon" href="/wumpus/favicon.svg" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

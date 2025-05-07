@@ -2,463 +2,595 @@
   {
     "agent": "Team Lead",
     "action": "Created",
-    "details": "Assistant created with ID: asst_JZsxDfns9Hue3XoN1oCOeqot",
-    "timestamp": "2025-05-07T18:10:02.365Z"
+    "details": "Assistant created with ID: asst_aEvJ7i4UTXzp9T0AtCBo2adJ",
+    "timestamp": "2025-05-07T21:00:46.555Z"
   },
   {
     "agent": "SEO Manager",
     "action": "Created",
-    "details": "Assistant created with ID: asst_zDRoidlTsrFd3NWqsX0XFHhn",
-    "timestamp": "2025-05-07T18:10:03.076Z"
+    "details": "Assistant created with ID: asst_Y6f4K0hZ01hALpacp8WiLEf0",
+    "timestamp": "2025-05-07T21:00:47.158Z"
   },
   {
     "agent": "Content Manager",
     "action": "Created",
-    "details": "Assistant created with ID: asst_6ynV0bYutvtLwCvNl3v6DPtX",
-    "timestamp": "2025-05-07T18:10:03.495Z"
+    "details": "Assistant created with ID: asst_1piOoT1bkdVAykjviysZqhTp",
+    "timestamp": "2025-05-07T21:00:47.972Z"
   },
   {
     "agent": "Content Writer",
     "action": "Created",
-    "details": "Assistant created with ID: asst_pJqQ5ldSqZEz4O04bvBL6I8C",
-    "timestamp": "2025-05-07T18:10:04.109Z"
+    "details": "Assistant created with ID: asst_nSFIex347DCEsiRLpL3cCzUD",
+    "timestamp": "2025-05-07T21:00:48.382Z"
   },
   {
     "agent": "Image Designer",
     "action": "Created",
-    "details": "Assistant created with ID: asst_915XfDln4hqR2C2cforFrlZC",
-    "timestamp": "2025-05-07T18:10:04.514Z"
+    "details": "Assistant created with ID: asst_KoaGR3VibwnFCreVp1h2pR8r",
+    "timestamp": "2025-05-07T21:00:48.895Z"
   },
   {
     "agent": "Fact-Checker",
     "action": "Created",
-    "details": "Assistant created with ID: asst_0N6HTPlShYupWM5S5Vpz5WZQ",
-    "timestamp": "2025-05-07T18:10:04.821Z"
-  },
-  {
-    "agent": "System",
-    "action": "Setup Complete",
-    "details": "All agents have been set up for Sevens Legal",
-    "timestamp": "2025-05-07T18:10:04.822Z"
-  },
-  {
-    "agent": "System",
-    "action": "Thread Created",
-    "details": "Thread created with ID: thread_XBPj6l0JnXupXStEsGD2ReTw",
-    "timestamp": "2025-05-07T18:10:05.126Z"
-  },
-  {
-    "agent": "System",
-    "action": "Page Generation Started",
-    "details": "Content generation for homepage begun",
-    "timestamp": "2025-05-07T18:10:05.127Z"
-  },
-  {
-    "agent": "Team Lead",
-    "action": "Content Generated",
-    "details": "Generated content for homepage (2876 chars in 14s)",
-    "timestamp": "2025-05-07T18:10:23.505Z"
-  },
-  {
-    "agent": "Seo Manager",
-    "action": "Content Generated",
-    "details": "Generated content for homepage (2727 chars in 14s)",
-    "timestamp": "2025-05-07T18:10:40.182Z"
-  },
-  {
-    "agent": "Content Manager",
-    "action": "Content Generated",
-    "details": "Generated content for homepage (3910 chars in 28s)",
-    "timestamp": "2025-05-07T18:11:10.949Z"
-  },
-  {
-    "agent": "Content Writer",
-    "action": "Content Generated",
-    "details": "Generated content for homepage (4634 chars in 21s)",
-    "timestamp": "2025-05-07T18:11:34.471Z"
-  },
-  {
-    "agent": "System",
-    "action": "Content Saved",
-    "details": "Content for homepage saved to file homepage.md",
-    "timestamp": "2025-05-07T18:11:34.476Z"
-  },
-  {
-    "agent": "Image Designer",
-    "action": "Content Generated",
-    "details": "Generated content for homepage (3686 chars in 20s)",
-    "timestamp": "2025-05-07T18:11:56.378Z"
-  },
-  {
-    "agent": "Fact Checker",
-    "action": "Content Generated",
-    "details": "Generated content for homepage (3883 chars in 13s)",
-    "timestamp": "2025-05-07T18:12:12.651Z"
-  },
-  {
-    "agent": "System",
-    "action": "Page Generation Started",
-    "details": "Content generation for services begun",
-    "timestamp": "2025-05-07T18:12:12.652Z"
-  },
-  {
-    "agent": "Team Lead",
-    "action": "Content Generated",
-    "details": "Generated content for services (4013 chars in 17s)",
-    "timestamp": "2025-05-07T18:12:33.667Z"
-  },
-  {
-    "agent": "Seo Manager",
-    "action": "Content Generated",
-    "details": "Generated content for services (4615 chars in 19s)",
-    "timestamp": "2025-05-07T18:12:55.337Z"
-  },
-  {
-    "agent": "Content Manager",
-    "action": "Content Generated",
-    "details": "Generated content for services (3346 chars in 17s)",
-    "timestamp": "2025-05-07T18:13:15.719Z"
-  },
-  {
-    "agent": "Content Writer",
-    "action": "Content Generated",
-    "details": "Generated content for services (4298 chars in 21s)",
-    "timestamp": "2025-05-07T18:13:38.530Z"
-  },
-  {
-    "agent": "System",
-    "action": "Content Saved",
-    "details": "Content for services saved to file services-overview.md",
-    "timestamp": "2025-05-07T18:13:38.532Z"
-  },
-  {
-    "agent": "Image Designer",
-    "action": "Content Generated",
-    "details": "Generated content for services (4290 chars in 27s)",
-    "timestamp": "2025-05-07T18:14:13.933Z"
-  },
-  {
-    "agent": "Fact Checker",
-    "action": "Content Generated",
-    "details": "Generated content for services (2930 chars in 13s)",
-    "timestamp": "2025-05-07T18:14:31.279Z"
-  },
-  {
-    "agent": "System",
-    "action": "Page Generation Started",
-    "details": "Content generation for about begun",
-    "timestamp": "2025-05-07T18:14:31.282Z"
-  },
-  {
-    "agent": "Team Lead",
-    "action": "Content Generated",
-    "details": "Generated content for about (3798 chars in 20s)",
-    "timestamp": "2025-05-07T18:14:53.516Z"
-  },
-  {
-    "agent": "Seo Manager",
-    "action": "Content Generated",
-    "details": "Generated content for about (4147 chars in 19s)",
-    "timestamp": "2025-05-07T18:15:16.913Z"
-  },
-  {
-    "agent": "Content Manager",
-    "action": "Content Generated",
-    "details": "Generated content for about (2908 chars in 19s)",
-    "timestamp": "2025-05-07T18:15:38.648Z"
-  },
-  {
-    "agent": "Content Writer",
-    "action": "Content Generated",
-    "details": "Generated content for about (4382 chars in 39s)",
-    "timestamp": "2025-05-07T18:16:20.519Z"
-  },
-  {
-    "agent": "System",
-    "action": "Content Saved",
-    "details": "Content for about saved to file about.md",
-    "timestamp": "2025-05-07T18:16:20.523Z"
-  },
-  {
-    "agent": "Image Designer",
-    "action": "Content Generated",
-    "details": "Generated content for about (4126 chars in 22s)",
-    "timestamp": "2025-05-07T18:16:45.306Z"
-  },
-  {
-    "agent": "Fact Checker",
-    "action": "Content Generated",
-    "details": "Generated content for about (4502 chars in 25s)",
-    "timestamp": "2025-05-07T18:17:12.388Z"
-  },
-  {
-    "agent": "System",
-    "action": "Page Generation Started",
-    "details": "Content generation for contact begun",
-    "timestamp": "2025-05-07T18:17:12.390Z"
-  },
-  {
-    "agent": "Team Lead",
-    "action": "Content Generated",
-    "details": "Generated content for contact (3578 chars in 17s)",
-    "timestamp": "2025-05-07T18:17:33.322Z"
-  },
-  {
-    "agent": "Seo Manager",
-    "action": "Content Generated",
-    "details": "Generated content for contact (2648 chars in 12s)",
-    "timestamp": "2025-05-07T18:17:49.785Z"
-  },
-  {
-    "agent": "Content Manager",
-    "action": "Content Generated",
-    "details": "Generated content for contact (3600 chars in 31s)",
-    "timestamp": "2025-05-07T18:18:22.745Z"
-  },
-  {
-    "agent": "Team Lead",
-    "action": "Created",
-    "details": "Assistant created with ID: asst_3iuEbR9nlmf1bIm9JKO5i3VV",
-    "timestamp": "2025-05-07T18:56:52.036Z"
-  },
-  {
-    "agent": "SEO Manager",
-    "action": "Created",
-    "details": "Assistant created with ID: asst_r8XZrEk0XTPkEIVQkCULKsss",
-    "timestamp": "2025-05-07T18:56:52.626Z"
-  },
-  {
-    "agent": "Content Manager",
-    "action": "Created",
-    "details": "Assistant created with ID: asst_CNjMkySYYZn9Rm5QpyM4ZFJD",
-    "timestamp": "2025-05-07T18:56:53.193Z"
-  },
-  {
-    "agent": "Content Writer",
-    "action": "Created",
-    "details": "Assistant created with ID: asst_KxaqttEUAafl2R4dnO4CMRAG",
-    "timestamp": "2025-05-07T18:56:54.182Z"
-  },
-  {
-    "agent": "Image Designer",
-    "action": "Created",
-    "details": "Assistant created with ID: asst_eqN8kymf8wbH3WiDS7JJUk21",
-    "timestamp": "2025-05-07T18:56:54.666Z"
-  },
-  {
-    "agent": "Fact-Checker",
-    "action": "Created",
-    "details": "Assistant created with ID: asst_sry3Phz5Z8IuOMbPHVxSpkQI",
-    "timestamp": "2025-05-07T18:56:55.939Z"
+    "details": "Assistant created with ID: asst_TUOIVKNJuqoNVwApdbs6bBa2",
+    "timestamp": "2025-05-07T21:00:49.307Z"
   },
   {
     "agent": "System",
     "action": "Setup Complete",
     "details": "All agents have been set up for Law Firm",
-    "timestamp": "2025-05-07T18:56:55.941Z"
+    "timestamp": "2025-05-07T21:00:49.308Z"
   },
   {
     "agent": "System",
     "action": "Thread Created",
-    "details": "Thread created with ID: thread_hxRNKflHb6oiTX6dhCtxqG6n",
-    "timestamp": "2025-05-07T18:56:56.311Z"
+    "details": "Thread created with ID: thread_9dI75e716uPxxzhE29ADzf7y",
+    "timestamp": "2025-05-07T21:00:49.617Z"
   },
   {
     "agent": "System",
     "action": "Page Generation Started",
     "details": "Content generation for homepage begun",
-    "timestamp": "2025-05-07T18:56:56.313Z"
+    "timestamp": "2025-05-07T21:00:49.619Z"
   },
   {
     "agent": "Team Lead",
     "action": "Content Generated",
-    "details": "Generated content for homepage (3470 chars in 13s)",
-    "timestamp": "2025-05-07T18:57:11.264Z"
+    "details": "Generated content for homepage (2701 chars in 13s)",
+    "timestamp": "2025-05-07T21:01:04.689Z"
   },
   {
     "agent": "Seo Manager",
     "action": "Content Generated",
-    "details": "Generated content for homepage (3370 chars in 14s)",
-    "timestamp": "2025-05-07T18:57:27.689Z"
+    "details": "Generated content for homepage (3113 chars in 19s)",
+    "timestamp": "2025-05-07T21:01:25.902Z"
   },
   {
     "agent": "Content Manager",
     "action": "Content Generated",
-    "details": "Generated content for homepage (3462 chars in 18s)",
-    "timestamp": "2025-05-07T18:57:48.493Z"
+    "details": "Generated content for homepage (3348 chars in 15s)",
+    "timestamp": "2025-05-07T21:01:42.832Z"
   },
   {
     "agent": "Content Writer",
     "action": "Content Generated",
-    "details": "Generated content for homepage (4264 chars in 17s)",
-    "timestamp": "2025-05-07T18:58:08.025Z"
+    "details": "Generated content for homepage (3518 chars in 20s)",
+    "timestamp": "2025-05-07T21:02:06.307Z"
   },
   {
     "agent": "System",
     "action": "Content Saved",
     "details": "Content for homepage saved to file homepage.md",
-    "timestamp": "2025-05-07T18:58:08.029Z"
+    "timestamp": "2025-05-07T21:02:06.311Z"
   },
   {
     "agent": "Image Designer",
     "action": "Content Generated",
-    "details": "Generated content for homepage (3301 chars in 17s)",
-    "timestamp": "2025-05-07T18:58:27.860Z"
+    "details": "Generated content for homepage (2815 chars in 35s)",
+    "timestamp": "2025-05-07T21:02:43.277Z"
   },
   {
     "agent": "Fact Checker",
     "action": "Content Generated",
-    "details": "Generated content for homepage (3539 chars in 14s)",
-    "timestamp": "2025-05-07T18:58:44.296Z"
+    "details": "Generated content for homepage (2776 chars in 26s)",
+    "timestamp": "2025-05-07T21:03:12.365Z"
   },
   {
     "agent": "System",
     "action": "Page Generation Started",
     "details": "Content generation for services begun",
-    "timestamp": "2025-05-07T18:58:44.297Z"
+    "timestamp": "2025-05-07T21:03:12.366Z"
   },
   {
     "agent": "Team Lead",
     "action": "Content Generated",
-    "details": "Generated content for services (4246 chars in 19s)",
-    "timestamp": "2025-05-07T18:59:05.824Z"
+    "details": "Generated content for services (4292 chars in 14s)",
+    "timestamp": "2025-05-07T21:03:28.454Z"
   },
   {
     "agent": "Seo Manager",
     "action": "Content Generated",
-    "details": "Generated content for services (4346 chars in 20s)",
-    "timestamp": "2025-05-07T18:59:27.727Z"
+    "details": "Generated content for services (3810 chars in 22s)",
+    "timestamp": "2025-05-07T21:03:52.302Z"
   },
   {
     "agent": "Content Manager",
     "action": "Content Generated",
-    "details": "Generated content for services (4291 chars in 20s)",
-    "timestamp": "2025-05-07T18:59:50.126Z"
+    "details": "Generated content for services (3654 chars in 15s)",
+    "timestamp": "2025-05-07T21:04:09.553Z"
   },
   {
     "agent": "Content Writer",
     "action": "Content Generated",
-    "details": "Generated content for services (4683 chars in 22s)",
-    "timestamp": "2025-05-07T19:00:19.733Z"
+    "details": "Generated content for services (4279 chars in 18s)",
+    "timestamp": "2025-05-07T21:04:30.040Z"
   },
   {
     "agent": "System",
     "action": "Content Saved",
     "details": "Content for services saved to file services-overview.md",
-    "timestamp": "2025-05-07T19:00:19.738Z"
+    "timestamp": "2025-05-07T21:04:30.045Z"
   },
   {
     "agent": "Image Designer",
     "action": "Content Generated",
-    "details": "Generated content for services (4562 chars in 25s)",
-    "timestamp": "2025-05-07T19:00:47.272Z"
+    "details": "Generated content for services (3325 chars in 24s)",
+    "timestamp": "2025-05-07T21:04:56.236Z"
   },
   {
     "agent": "Fact Checker",
     "action": "Content Generated",
-    "details": "Generated content for services (4361 chars in 23s)",
-    "timestamp": "2025-05-07T19:01:12.533Z"
+    "details": "Generated content for services (3222 chars in 19s)",
+    "timestamp": "2025-05-07T21:05:17.608Z"
   },
   {
     "agent": "System",
     "action": "Page Generation Started",
     "details": "Content generation for about begun",
-    "timestamp": "2025-05-07T19:01:12.538Z"
+    "timestamp": "2025-05-07T21:05:17.609Z"
   },
   {
     "agent": "Team Lead",
     "action": "Content Generated",
-    "details": "Generated content for about (3831 chars in 16s)",
-    "timestamp": "2025-05-07T19:01:31.105Z"
+    "details": "Generated content for about (3370 chars in 19s)",
+    "timestamp": "2025-05-07T21:05:39.157Z"
   },
   {
     "agent": "Seo Manager",
     "action": "Content Generated",
-    "details": "Generated content for about (3887 chars in 20s)",
-    "timestamp": "2025-05-07T19:01:53.050Z"
+    "details": "Generated content for about (3572 chars in 24s)",
+    "timestamp": "2025-05-07T21:06:05.934Z"
   },
   {
     "agent": "Content Manager",
     "action": "Content Generated",
-    "details": "Generated content for about (4521 chars in 22s)",
-    "timestamp": "2025-05-07T19:02:17.761Z"
+    "details": "Generated content for about (3582 chars in 23s)",
+    "timestamp": "2025-05-07T21:06:33.629Z"
   },
   {
     "agent": "Content Writer",
     "action": "Content Generated",
-    "details": "Generated content for about (4317 chars in 24s)",
-    "timestamp": "2025-05-07T19:02:44.492Z"
+    "details": "Generated content for about (4034 chars in 20s)",
+    "timestamp": "2025-05-07T21:06:55.952Z"
   },
   {
     "agent": "System",
     "action": "Content Saved",
     "details": "Content for about saved to file about.md",
-    "timestamp": "2025-05-07T19:02:44.498Z"
+    "timestamp": "2025-05-07T21:06:55.954Z"
   },
   {
     "agent": "Image Designer",
     "action": "Content Generated",
-    "details": "Generated content for about (4162 chars in 23s)",
-    "timestamp": "2025-05-07T19:03:11.981Z"
+    "details": "Generated content for about (4108 chars in 14s)",
+    "timestamp": "2025-05-07T21:07:17.662Z"
   },
   {
     "agent": "Fact Checker",
     "action": "Content Generated",
-    "details": "Generated content for about (4467 chars in 19s)",
-    "timestamp": "2025-05-07T19:03:32.781Z"
+    "details": "Generated content for about (3719 chars in 17s)",
+    "timestamp": "2025-05-07T21:07:37.941Z"
   },
   {
     "agent": "System",
     "action": "Page Generation Started",
     "details": "Content generation for contact begun",
-    "timestamp": "2025-05-07T19:03:32.785Z"
+    "timestamp": "2025-05-07T21:07:37.942Z"
   },
   {
     "agent": "Team Lead",
     "action": "Content Generated",
-    "details": "Generated content for contact (3874 chars in 18s)",
-    "timestamp": "2025-05-07T19:03:53.031Z"
+    "details": "Generated content for contact (3044 chars in 17s)",
+    "timestamp": "2025-05-07T21:07:57.945Z"
   },
   {
     "agent": "Seo Manager",
     "action": "Content Generated",
-    "details": "Generated content for contact (3787 chars in 17s)",
-    "timestamp": "2025-05-07T19:04:12.079Z"
+    "details": "Generated content for contact (3154 chars in 15s)",
+    "timestamp": "2025-05-07T21:08:14.891Z"
   },
   {
     "agent": "Content Manager",
     "action": "Content Generated",
-    "details": "Generated content for contact (3633 chars in 2s)",
-    "timestamp": "2025-05-07T19:04:38.866Z"
+    "details": "Generated content for contact (3204 chars in 12s)",
+    "timestamp": "2025-05-07T21:08:30.005Z"
   },
   {
     "agent": "Content Writer",
     "action": "Content Generated",
-    "details": "Generated content for contact (3825 chars in 27s)",
-    "timestamp": "2025-05-07T19:05:08.377Z"
+    "details": "Generated content for contact (3425 chars in 18s)",
+    "timestamp": "2025-05-07T21:08:53.094Z"
   },
   {
     "agent": "System",
     "action": "Content Saved",
     "details": "Content for contact saved to file contact.md",
-    "timestamp": "2025-05-07T19:05:08.382Z"
+    "timestamp": "2025-05-07T21:08:53.096Z"
+  },
+  {
+    "agent": "Team Lead",
+    "action": "Created",
+    "details": "Assistant created with ID: asst_ZdZQPApRQMecV2gpXWbVlI0v",
+    "timestamp": "2025-05-07T21:10:59.211Z"
+  },
+  {
+    "agent": "SEO Manager",
+    "action": "Created",
+    "details": "Assistant created with ID: asst_kanzuvHAo3vBpF2X671LVssq",
+    "timestamp": "2025-05-07T21:10:59.466Z"
+  },
+  {
+    "agent": "Content Manager",
+    "action": "Created",
+    "details": "Assistant created with ID: asst_qCZDireERJLdhbOMpumMrJ31",
+    "timestamp": "2025-05-07T21:11:00.230Z"
+  },
+  {
+    "agent": "Content Writer",
+    "action": "Created",
+    "details": "Assistant created with ID: asst_9BL8jR8uPbs9P0s9KHDhaiOW",
+    "timestamp": "2025-05-07T21:11:00.535Z"
+  },
+  {
+    "agent": "Image Designer",
+    "action": "Created",
+    "details": "Assistant created with ID: asst_yvfP53C3z8hX7l01pFayI1Nw",
+    "timestamp": "2025-05-07T21:11:00.764Z"
+  },
+  {
+    "agent": "Fact-Checker",
+    "action": "Created",
+    "details": "Assistant created with ID: asst_sXrcYMCZMDNAOrtI7rQhHAUW",
+    "timestamp": "2025-05-07T21:11:01.148Z"
+  },
+  {
+    "agent": "System",
+    "action": "Setup Complete",
+    "details": "All agents have been set up for Sevens Legal",
+    "timestamp": "2025-05-07T21:11:01.151Z"
+  },
+  {
+    "agent": "System",
+    "action": "Thread Created",
+    "details": "Thread created with ID: thread_z5apqxVXZK1sFqJylC97JDpW",
+    "timestamp": "2025-05-07T21:11:04.018Z"
+  },
+  {
+    "agent": "System",
+    "action": "Page Generation Started",
+    "details": "Content generation for homepage begun",
+    "timestamp": "2025-05-07T21:11:04.021Z"
+  },
+  {
+    "agent": "Team Lead",
+    "action": "Content Generated",
+    "details": "Generated content for homepage (2483 chars in 10s)",
+    "timestamp": "2025-05-07T21:11:17.839Z"
+  },
+  {
+    "agent": "Seo Manager",
+    "action": "Content Generated",
+    "details": "Generated content for homepage (3765 chars in 18s)",
+    "timestamp": "2025-05-07T21:11:38.836Z"
+  },
+  {
+    "agent": "Content Manager",
+    "action": "Content Generated",
+    "details": "Generated content for homepage (3912 chars in 15s)",
+    "timestamp": "2025-05-07T21:11:55.724Z"
+  },
+  {
+    "agent": "Content Writer",
+    "action": "Content Generated",
+    "details": "Generated content for homepage (3904 chars in 20s)",
+    "timestamp": "2025-05-07T21:12:19.179Z"
+  },
+  {
+    "agent": "System",
+    "action": "Content Saved",
+    "details": "Content for homepage saved to file homepage.md",
+    "timestamp": "2025-05-07T21:12:19.186Z"
   },
   {
     "agent": "Image Designer",
     "action": "Content Generated",
-    "details": "Generated content for contact (3838 chars in 20s)",
-    "timestamp": "2025-05-07T19:05:31.264Z"
+    "details": "Generated content for homepage (4317 chars in 10s)",
+    "timestamp": "2025-05-07T21:12:31.306Z"
   },
   {
     "agent": "Fact Checker",
     "action": "Content Generated",
-    "details": "Generated content for contact (3827 chars in 24s)",
-    "timestamp": "2025-05-07T19:05:57.518Z"
+    "details": "Generated content for homepage (4076 chars in 18s)",
+    "timestamp": "2025-05-07T21:12:51.031Z"
+  },
+  {
+    "agent": "System",
+    "action": "Page Generation Started",
+    "details": "Content generation for services begun",
+    "timestamp": "2025-05-07T21:12:51.034Z"
+  },
+  {
+    "agent": "Team Lead",
+    "action": "Content Generated",
+    "details": "Generated content for services (3785 chars in 16s)",
+    "timestamp": "2025-05-07T21:13:13.514Z"
+  },
+  {
+    "agent": "Seo Manager",
+    "action": "Content Generated",
+    "details": "Generated content for services (4485 chars in 19s)",
+    "timestamp": "2025-05-07T21:13:39.568Z"
+  },
+  {
+    "agent": "Content Manager",
+    "action": "Content Generated",
+    "details": "Generated content for services (4528 chars in 13s)",
+    "timestamp": "2025-05-07T21:13:54.060Z"
+  },
+  {
+    "agent": "Content Writer",
+    "action": "Content Generated",
+    "details": "Generated content for services (4615 chars in 16s)",
+    "timestamp": "2025-05-07T21:14:13.153Z"
+  },
+  {
+    "agent": "System",
+    "action": "Content Saved",
+    "details": "Content for services saved to file services-overview.md",
+    "timestamp": "2025-05-07T21:14:13.157Z"
+  },
+  {
+    "agent": "Image Designer",
+    "action": "Content Generated",
+    "details": "Generated content for services (4532 chars in 15s)",
+    "timestamp": "2025-05-07T21:14:31.150Z"
+  },
+  {
+    "agent": "Fact Checker",
+    "action": "Content Generated",
+    "details": "Generated content for services (4677 chars in 15s)",
+    "timestamp": "2025-05-07T21:14:48.391Z"
+  },
+  {
+    "agent": "System",
+    "action": "Page Generation Started",
+    "details": "Content generation for about begun",
+    "timestamp": "2025-05-07T21:14:48.393Z"
+  },
+  {
+    "agent": "Team Lead",
+    "action": "Content Generated",
+    "details": "Generated content for about (3003 chars in 14s)",
+    "timestamp": "2025-05-07T21:15:05.479Z"
+  },
+  {
+    "agent": "Seo Manager",
+    "action": "Content Generated",
+    "details": "Generated content for about (3812 chars in 12s)",
+    "timestamp": "2025-05-07T21:15:23.994Z"
+  },
+  {
+    "agent": "Content Manager",
+    "action": "Content Generated",
+    "details": "Generated content for about (3957 chars in 12s)",
+    "timestamp": "2025-05-07T21:15:38.178Z"
+  },
+  {
+    "agent": "Content Writer",
+    "action": "Content Generated",
+    "details": "Generated content for about (3984 chars in 17s)",
+    "timestamp": "2025-05-07T21:15:57.143Z"
+  },
+  {
+    "agent": "System",
+    "action": "Content Saved",
+    "details": "Content for about saved to file about.md",
+    "timestamp": "2025-05-07T21:15:57.146Z"
+  },
+  {
+    "agent": "Image Designer",
+    "action": "Content Generated",
+    "details": "Generated content for about (3882 chars in 14s)",
+    "timestamp": "2025-05-07T21:16:16.408Z"
+  },
+  {
+    "agent": "Fact Checker",
+    "action": "Content Generated",
+    "details": "Generated content for about (3900 chars in 21s)",
+    "timestamp": "2025-05-07T21:16:42.077Z"
+  },
+  {
+    "agent": "System",
+    "action": "Page Generation Started",
+    "details": "Content generation for contact begun",
+    "timestamp": "2025-05-07T21:16:42.079Z"
+  },
+  {
+    "agent": "Team Lead",
+    "action": "Failed",
+    "details": "Sorry, something went wrong.",
+    "timestamp": "2025-05-07T21:17:02.649Z"
+  },
+  {
+    "agent": "Team Lead",
+    "action": "Content Generated",
+    "details": "Generated content for contact (39 chars in 18s)",
+    "timestamp": "2025-05-07T21:17:02.899Z"
+  },
+  {
+    "agent": "Seo Manager",
+    "action": "Content Generated",
+    "details": "Generated content for contact (3184 chars in 15s)",
+    "timestamp": "2025-05-07T21:17:20.881Z"
+  },
+  {
+    "agent": "Content Manager",
+    "action": "Content Generated",
+    "details": "Generated content for contact (3243 chars in 12s)",
+    "timestamp": "2025-05-07T21:17:41.475Z"
+  },
+  {
+    "agent": "Content Writer",
+    "action": "Content Generated",
+    "details": "Generated content for contact (3242 chars in 13s)",
+    "timestamp": "2025-05-07T21:17:57.851Z"
+  },
+  {
+    "agent": "System",
+    "action": "Content Saved",
+    "details": "Content for contact saved to file contact.md",
+    "timestamp": "2025-05-07T21:17:57.854Z"
+  },
+  {
+    "agent": "Image Designer",
+    "action": "Content Generated",
+    "details": "Generated content for contact (3163 chars in 13s)",
+    "timestamp": "2025-05-07T21:18:12.881Z"
+  },
+  {
+    "agent": "Fact Checker",
+    "action": "Content Generated",
+    "details": "Generated content for contact (3045 chars in 17s)",
+    "timestamp": "2025-05-07T21:18:31.537Z"
   },
   {
     "agent": "System",
     "action": "Page Generation Started",
     "details": "Content generation for blog-1 begun",
-    "timestamp": "2025-05-07T19:05:57.520Z"
+    "timestamp": "2025-05-07T21:18:31.540Z"
+  },
+  {
+    "agent": "Team Lead",
+    "action": "Content Generated",
+    "details": "Generated content for blog-1 (3730 chars in 19s)",
+    "timestamp": "2025-05-07T21:18:54.161Z"
+  },
+  {
+    "agent": "Seo Manager",
+    "action": "Content Generated",
+    "details": "Generated content for blog-1 (4220 chars in 21s)",
+    "timestamp": "2025-05-07T21:19:19.782Z"
+  },
+  {
+    "agent": "Content Manager",
+    "action": "Content Generated",
+    "details": "Generated content for blog-1 (3988 chars in 17s)",
+    "timestamp": "2025-05-07T21:19:41.758Z"
+  },
+  {
+    "agent": "Content Writer",
+    "action": "Content Generated",
+    "details": "Generated content for blog-1 (3885 chars in 22s)",
+    "timestamp": "2025-05-07T21:20:05.538Z"
+  },
+  {
+    "agent": "System",
+    "action": "Content Saved",
+    "details": "Content for blog-1 saved to file blog-1.md",
+    "timestamp": "2025-05-07T21:20:05.540Z"
+  },
+  {
+    "agent": "Image Designer",
+    "action": "Content Generated",
+    "details": "Generated content for blog-1 (4192 chars in 14s)",
+    "timestamp": "2025-05-07T21:20:22.137Z"
+  },
+  {
+    "agent": "Fact Checker",
+    "action": "Content Generated",
+    "details": "Generated content for blog-1 (4291 chars in 25s)",
+    "timestamp": "2025-05-07T21:20:51.156Z"
+  },
+  {
+    "agent": "Content Writer",
+    "action": "Created",
+    "details": "Assistant created with ID: asst_cpkN1UYlMdSYJUc31PSyVrU0",
+    "timestamp": "2025-05-07T22:31:24.625Z"
+  },
+  {
+    "agent": "System",
+    "action": "Setup Complete",
+    "details": "Content generation system ready for Law Firm",
+    "timestamp": "2025-05-07T22:31:24.629Z"
+  },
+  {
+    "agent": "System",
+    "action": "Page Generation",
+    "details": "Starting content for homepage",
+    "timestamp": "2025-05-07T22:31:25.078Z"
+  },
+  {
+    "agent": "Content Writer",
+    "action": "Page Created",
+    "details": "Created Homepage (2599 chars in 12s)",
+    "timestamp": "2025-05-07T22:31:40.512Z"
+  },
+  {
+    "agent": "System",
+    "action": "Page Generation",
+    "details": "Starting content for services",
+    "timestamp": "2025-05-07T22:31:40.824Z"
+  },
+  {
+    "agent": "Content Writer",
+    "action": "Page Created",
+    "details": "Created Services Overview (3226 chars in 15s)",
+    "timestamp": "2025-05-07T22:31:57.176Z"
+  },
+  {
+    "agent": "System",
+    "action": "Page Generation",
+    "details": "Starting content for about",
+    "timestamp": "2025-05-07T22:31:57.817Z"
+  },
+  {
+    "agent": "Content Writer",
+    "action": "Page Created",
+    "details": "Created About (2932 chars in 15s)",
+    "timestamp": "2025-05-07T22:32:16.256Z"
+  },
+  {
+    "agent": "System",
+    "action": "Page Generation",
+    "details": "Starting content for contact",
+    "timestamp": "2025-05-07T22:32:16.660Z"
+  },
+  {
+    "agent": "Content Writer",
+    "action": "Page Created",
+    "details": "Created Contact (2534 chars in 14s)",
+    "timestamp": "2025-05-07T22:32:36.417Z"
+  },
+  {
+    "agent": "System",
+    "action": "Page Generation",
+    "details": "Starting content for blog-1",
+    "timestamp": "2025-05-07T22:32:36.645Z"
+  },
+  {
+    "agent": "Content Writer",
+    "action": "Page Created",
+    "details": "Created Blog Post 1 (3372 chars in 21s)",
+    "timestamp": "2025-05-07T22:32:59.984Z"
   }
 ]

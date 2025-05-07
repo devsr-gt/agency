@@ -116,7 +116,7 @@ async function createAssistant(name, instructions) {
 
 // Enhanced setup agents with client info
 async function setupAgents(clientData = {}) {
-  console.log('Setting up AI agents...');
+  console.log('Setting up AI content generator...');
   const agents = {};
   
   // Format client practice areas for use in prompts
@@ -126,157 +126,163 @@ async function setupAgents(clientData = {}) {
   const uniquePoints = clientData.uniqueSellingPoints || '';
   const targetAudience = clientData.targetAudience || '';
 
-  agents.teamLead = await createAssistant('Team Lead', 
-    `You are the team lead for a project to build a website for ${businessName}, specializing in ${practiceAreas}. 
-     The website should use a ${tone} tone and highlight these unique selling points: ${uniquePoints}.
-     Set the strategy, coordinate agents, and approve outputs. 
-     Start by posting: "Build a website to attract clients via organic search for ${businessName}."`
-  );
-
-  agents.seoManager = await createAssistant('SEO Manager', 
-    `You are an SEO expert. Research keywords for ${practiceAreas} law practice targeting ${targetAudience}.
-     Provide a list of target keywords and metadata. Share with the Content Manager.`
-  );
-
-  agents.contentManager = await createAssistant('Content Manager', 
-    `You are a content planner for ${businessName}. Use SEO keywords to plan page structure (homepage, services pages for ${practiceAreas}, about, contact).
-     Ensure content uses a ${tone} tone and highlights these unique selling points: ${uniquePoints}.
-     Guide the Content Writer and Image Designer.`
-  );
-
+  // We're simplifying to just use one primary content writer agent with comprehensive instructions
   agents.contentWriter = await createAssistant('Content Writer', 
-    `You are a professional content writer creating the actual website content for ${businessName}, specializing in ${practiceAreas} law.
-
-     IMPORTANT: You must write ONLY the final client-ready content that will appear on the website. 
-     DO NOT write about how you would write the content or include any notes/commentary about your process.
-     DO NOT use phrases like "As the content writer" or "Here's how I would write".
+    `You are a professional website content creator for ${businessName}, a law firm specializing in ${practiceAreas}.
      
-     Write direct, professional ${tone} content that's ready to be published on the website immediately.
+     IMPORTANT INSTRUCTIONS:
+     1. Write ONLY the final client-ready content that will appear on the website.
+     2. DO NOT include any meta-commentary, notes about your process, or phrases like "As a content writer".
+     3. DO NOT include any system messages, instructions, or explanations in your output.
+     4. Write in a ${tone} tone that appeals to ${targetAudience}.
+     5. Highlight these unique selling points: ${uniquePoints}.
+     6. Format content using markdown with proper headings (# for main title, ## for sections, etc.)
+     7. Include clear calls to action and contact information where appropriate.
      
-     Focus on:
-     - Creating SEO-optimized content with targeted keywords for ${practiceAreas}
-     - Highlighting the firm's unique selling points: ${uniquePoints}
-     - Writing for the target audience: ${targetAudience}
-     - Including appropriate calls to action
-     - Using markdown formatting for headings, lists, and emphasis
+     For image placeholders, use this format: ![Description of image](generate: detailed description for AI image generation)
      
-     Include image placeholders using the format: ![Description of what the image should show](generate: detailed description for AI image generation)
-     
-     Submit your content as a complete, ready-to-publish webpage that will persuasively communicate the firm's services to potential clients.`
+     Your goal is to create SEO-optimized content that demonstrates legal expertise and drives client conversions.
+     Each page should be complete, polished, and ready to publish as-is.`
   );
-
-  agents.imageDesigner = await createAssistant('Image Designer', 
-    `You generate images for ${businessName}'s website. Process markdown placeholders (e.g., ![alt](generate: description)),
-     create images that represent ${practiceAreas} law services, save to public/images, and update markdown with paths.`
-  );
-
-  agents.factChecker = await createAssistant('Fact-Checker', 
-    `You verify content accuracy for ${businessName}'s website. Check Content Writer's drafts for accuracy about ${practiceAreas} law,
-     suggest corrections, and return feedback.`
-  );
-
-  await logActivity('System', 'Setup Complete', `All agents have been set up for ${businessName}`);
-  console.log('All agents setup complete');
+  
+  await logActivity('System', 'Setup Complete', `Content generation system ready for ${businessName}`);
+  console.log('Content generator setup complete');
   return agents;
 }
 
-// Thread Management with enhanced logging
+// Thread Management with streamlined content generation
 async function manageThread(agents, pagesToGenerate = ['homepage', 'services', 'about', 'contact', 'blog-1']) {
-  console.log('Creating thread for agent communication...');
-  const thread = await openai.beta.threads.create();
-  console.log(`Thread created with ID: ${thread.id}`);
+  console.log('Starting direct content generation process...');
   
-  await logActivity('System', 'Thread Created', `Thread created with ID: ${thread.id}`);
-
-  // Create initial messages for each page type
+  // Generate each page with specific, detailed instructions
   for (const pageName of pagesToGenerate) {
-    console.log(`Starting content generation for: ${pageName}`);
-    await logActivity('System', 'Page Generation Started', `Content generation for ${pageName} begun`);
+    // Create a new thread for each page to ensure fresh context
+    let thread = await openai.beta.threads.create();
+    console.log(`Thread created for ${pageName} with ID: ${thread.id}`);
     
-    // Create a message flow for each page
-    const messages = [
-      { assistant_id: agents.teamLead.id, content: `Plan the ${pageName} page content strategy.`, role: 'user' },
-      { assistant_id: agents.seoManager.id, role: 'assistant' },
-      { assistant_id: agents.contentManager.id, role: 'assistant' },
-      { assistant_id: agents.contentWriter.id, role: 'assistant' },
-      { assistant_id: agents.imageDesigner.id, role: 'assistant' },
-      { assistant_id: agents.factChecker.id, role: 'assistant' },
-    ];
-
-    console.log(`Starting agent communication sequence for ${pageName}...`);
-    for (const msg of messages) {
-      console.log(`Processing message for agent: ${msg.assistant_id}`);
+    await logActivity('System', 'Page Generation', `Starting content for ${pageName}`);
+    console.log(`Generating content for: ${pageName}`);
+    
+    // Create a targeted prompt for each page type
+    let pageSpecificPrompt;
+    
+    switch(pageName) {
+      case 'homepage':
+        pageSpecificPrompt = `Create the homepage content for the law firm website. 
+          Include a compelling headline, brief overview of services, unique selling points, 
+          and a strong call to action. The page should immediately convey trust and expertise.`;
+        break;
       
-      await openai.beta.threads.messages.create(thread.id, {
-        role: msg.role || 'user',
-        content: msg.content || `Process the ${pageName} content based on your role.`,
-      });
-
-      console.log('Running assistant...');
-      const run = await openai.beta.threads.runs.create(thread.id, { 
-        assistant_id: msg.assistant_id 
-      });
+      case 'services':
+        pageSpecificPrompt = `Create the services overview page that details the firm's 
+          practice areas. Each service should have its own section with a clear explanation 
+          of how the firm helps clients in this area, what sets them apart, and relevant 
+          case experience or outcomes.`;
+        break;
       
-      let runStatus = await openai.beta.threads.runs.retrieve(thread.id, run.id);
-      console.log(`Run status: ${runStatus.status}`);
+      case 'about':
+        pageSpecificPrompt = `Create the about page content that tells the firm's story, 
+          introduces key attorneys, explains the firm's values and approach, and builds credibility.
+          Include sections for firm history, attorney profiles, and the firm's community involvement.`;
+        break;
       
-      // Track the starting time
-      const startTime = Date.now();
+      case 'contact':
+        pageSpecificPrompt = `Create the contact page content with a brief introduction encouraging 
+          potential clients to reach out. Include placeholders for contact form, office locations, 
+          phone numbers, and email. Add a brief FAQ section about the initial consultation process.`;
+        break;
       
-      while (runStatus.status !== 'completed') {
-        if (runStatus.status === 'failed') {
-          console.error(`Run failed: ${runStatus.last_error?.message || 'Unknown error'}`);
-          await logActivity(getAgentNameById(msg.assistant_id, agents), 'Failed', runStatus.last_error?.message || 'Unknown error');
-          break;
-        }
-        console.log(`Waiting for run to complete. Current status: ${runStatus.status}`);
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        runStatus = await openai.beta.threads.runs.retrieve(thread.id, run.id);
-      }
+      case 'blog-1':
+        pageSpecificPrompt = `Create a blog post on a relevant legal topic that would interest 
+          potential clients. The post should demonstrate expertise, provide valuable information, 
+          and include a call to action to contact the firm for legal help.`;
+        break;
       
-      // Calculate duration in seconds
-      const duration = Math.round((Date.now() - startTime) / 1000);
-
-      const response = await openai.beta.threads.messages.list(thread.id);
-      if (response.data && response.data.length > 0 && response.data[0].content && response.data[0].content.length > 0) {
-        const latestMessage = response.data[0].content[0].text?.value;
-        const agentName = getAgentNameById(msg.assistant_id, agents);
-        console.log(`Response from agent ${agentName}: ${latestMessage?.substring(0, 100)}...`);
+      default:
+        pageSpecificPrompt = `Create content for the ${pageName} page of the law firm website.`;
+    }
+    
+    // Send the detailed prompt to the content writer
+    await openai.beta.threads.messages.create(thread.id, {
+      role: 'user',
+      content: `${pageSpecificPrompt}
         
-        // Log the activity
-        await logActivity(
-          agentName, 
-          'Content Generated', 
-          `Generated content for ${pageName} (${latestMessage?.length || 0} chars in ${duration}s)`
-        );
+        IMPORTANT REMINDERS:
+        1. Write ONLY the final client-ready content in markdown format
+        2. Start with a clear main heading (#)
+        3. Do NOT include any explanations, notes, or commentary about the content
+        4. Do NOT write phrases like "Here's the content for..." or "As requested..."
+        5. Simply write the actual page content that would appear on the website
+        
+        For images, use: ![Description](generate: detailed professional legal image description)`,
+    });
 
-        // If this is the content writer, save the output to a markdown file
-        if (msg.assistant_id === agents.contentWriter.id && latestMessage) {
-          await fsPromises.mkdir('content', { recursive: true });
-          const formattedPageName = formatPageName(pageName);
-          
-          // Save agent response to a file
-          await fsPromises.writeFile(path.join('content', `${formattedPageName}.md`), latestMessage);
-          console.log(`Content saved to content/${formattedPageName}.md`);
-          
-          // Update content status
-          await updateContentStatus(
-            formattedPageName, 
-            formatPageTitle(pageName), 
-            'pending', 
-            'Content Writer Agent'
-          );
-          
-          await logActivity(
-            'System', 
-            'Content Saved', 
-            `Content for ${pageName} saved to file ${formattedPageName}.md`
-          );
-        }
-      } else {
-        console.log('No response content available');
-        await logActivity(getAgentNameById(msg.assistant_id, agents), 'No Content', `No content generated for ${pageName}`);
+    console.log('Generating content with focused instructions...');
+    const run = await openai.beta.threads.runs.create(thread.id, { 
+      assistant_id: agents.contentWriter.id 
+    });
+    
+    let runStatus = await openai.beta.threads.runs.retrieve(thread.id, run.id);
+    console.log(`Run status: ${runStatus.status}`);
+    
+    // Track the starting time
+    const startTime = Date.now();
+    
+    while (runStatus.status !== 'completed') {
+      if (runStatus.status === 'failed') {
+        console.error(`Run failed: ${runStatus.last_error?.message || 'Unknown error'}`);
+        await logActivity('Content Writer', 'Failed', `Run failed: ${runStatus.last_error?.message || 'Unknown error'}`);
+        break;
       }
+      console.log(`Waiting for content generation to complete. Current status: ${runStatus.status}`);
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      runStatus = await openai.beta.threads.runs.retrieve(thread.id, run.id);
+    }
+    
+    // Calculate duration in seconds
+    const duration = Math.round((Date.now() - startTime) / 1000);
+
+    // Retrieve the generated content
+    const response = await openai.beta.threads.messages.list(thread.id);
+    if (response.data && response.data.length > 0 && response.data[0].content && response.data[0].content.length > 0) {
+      const content = response.data[0].content[0].text?.value;
+      
+      if (content) {
+        // Process the content - ensuring it doesn't contain system prompts or explanations
+        let cleanContent = content;
+        
+        // Remove any disclaimers or explanations that might appear at the beginning
+        cleanContent = cleanContent.replace(/^(Here is|Here's|As requested|I've created|This is|Below is|Following is).*?\n/i, '');
+        
+        // Remove any note sections at the end
+        cleanContent = cleanContent.replace(/\n\*\*Note:?\*\*.*$/is, '');
+        cleanContent = cleanContent.replace(/\n\*Note:?\*.*$/is, '');
+        
+        // Save the clean content to file
+        await fsPromises.mkdir('content', { recursive: true });
+        const formattedPageName = formatPageName(pageName);
+        await fsPromises.writeFile(path.join('content', `${formattedPageName}.md`), cleanContent);
+        
+        console.log(`Content saved to content/${formattedPageName}.md (${cleanContent.length} chars, generated in ${duration}s)`);
+        
+        // Update content status
+        await updateContentStatus(
+          formattedPageName, 
+          formatPageTitle(pageName), 
+          'pending', 
+          'Content Writer'
+        );
+        
+        await logActivity(
+          'Content Writer', 
+          'Page Created', 
+          `Created ${formatPageTitle(pageName)} (${cleanContent.length} chars in ${duration}s)`
+        );
+      } else {
+        console.log('No content text found in response');
+      }
+    } else {
+      console.log('No response data available');
     }
   }
 }

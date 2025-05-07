@@ -2,7 +2,7 @@ import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import Image from 'next/image';
 
-export default function ServicesOverview() {
+export default function Services-overview() {
   return (
     <div className="container mx-auto p-4">
       <ReactMarkdown
@@ -20,66 +20,49 @@ export default function ServicesOverview() {
           )
         }}
       >
-        {`Certainly! As the content writer, here's how I would process and develop the content for Sevens Legal's services page based on the planned strategy:
+        {`# Our Legal Practice Areas
 
-### Services Page Content Development:
+At Law Firm, we specialize in providing aggressive representation and compassionate advocacy in criminal defense and personal injury cases. Our seasoned attorneys bring a wealth of knowledge and a track record of successful outcomes. Below are the key practice areas where our firm excels.
 
-**Page Introduction:**
-- **Introductory Text:**
-  "Welcome to Sevens Legal, where we are dedicated to providing superior legal defense in a comprehensive range of criminal law matters. Our team, led by a Certified Criminal Law Specialist, offers client-focused service and tailored defense strategies. Explore our services below to see how we can assist you."
+## Criminal Defense
 
+Our Criminal Defense team is known for its vigorous approach in safeguarding the rights of those accused. We understand the stakes are high, and our detailed-oriented strategy ensures the best possible outcome for each client.
 
+- **Expert Legal Guidance**: With years of experience, our attorneys navigate complex situations, from misdemeanors to high-profile felony cases.
+- **Proven Track Record**: Our firm has secured numerous not-guilty verdicts and dismissals, providing clients with a second chance to move forward with their lives.
+- **Tailored Defense Strategies**: We develop personalized defense plans backed by thorough investigations and in-depth legal research.
 
-**2. DUI Defense:**
-- **Title:** Expert DUI Representation
-- **Description:**
-  "Navigating DUI charges requires nuanced expertise and strategic planning. Our seasoned attorneys employ a meticulous approach to challenge evidence, negotiate reductions, and strive for dismissals, ensuring minimal impact on your life."
-- **Key Points:**
-  - "Aggressive contestation of evidence."
-  - "Experience in negotiating charge reductions."
-- **Visual Aid Suggestion**: A DUI defense strategy infographic illustrating processes like evidence gathering and court procedures.
+![image of a lawyer meticulously reviewing case files in an upscale office](/images/services-overview-image-0-1746657356631.webp)
 
----
+### Recent Case Success
 
-**3. Drug Offenses:**
-- **Title:** Drug-Related Defense
-- **Description:**
-  "Facing drug-related charges can be daunting, but with Sevens Legal, you have a dedicated ally. We focus on defending against charges ranging from possession to trafficking, offering a deep understanding of both state and federal laws to protect your future."
-- **Key Points:**
-  - "Comprehensive knowledge of state and federal drug laws."
-  - "Experience in rehabilitation advocacy and plea bargaining."
-- **Testimonial Snippet:**
-  "\"With Sevens Legal, I never felt alone. They understood the nuances of my case and worked tirelessly for a favorable outcome.\" — N.K."
+Our firm recently achieved a significant victory in a high-stakes federal case, where we successfully reduced charges, resulting in a favorable plea agreement for our client. This success is a testament to our commitment to excellence and relentless defense strategies.
 
----
+## Personal Injury
 
-**4. Domestic Violence:**
-- **Title:** Domestic Violence Defense
-- **Description:**
-  "Our attorneys handle domestic violence cases with sensitivity and skill, focusing on protecting your rights and seeking fair outcomes. We provide expert guidance through the complexities, including restraining orders and family law issues, with discretion and care."
-- **Key Points:**
-  - "Skilled negotiation in restraining order cases."
-  - "Comprehensive knowledge of family law intersections."
-- **Visual Aid Suggestion**: A flowchart illustrating the steps in domestic violence cases and associated defense strategies.
+Law Firm’s Personal Injury attorneys are dedicated to fighting for justice and fair compensation for victims who have suffered due to another’s negligence. We handle cases with the utmost care and attention they deserve.
 
----
+- **Comprehensive Case Management**: From investigation to settlement negotiation, we guide clients every step of the way.
+- **Significant Settlements**: Our team has secured millions of dollars in settlements and jury awards for our clients, ensuring they receive the compensation necessary for recovery.
+- **Compassionate Client Support**: We prioritize client well-being, providing support not just legally but emotionally through these challenging times.
 
-**Additional Areas of Practice:**
-- **Title Example:** White Collar Crimes
-- **Description:** 
-  "Our firm expands its expertise to include white-collar crime defense, offering tactical representation for complex cases such as fraud and embezzlement."
+![diverse team of lawyers collaborating in a conference room](/images/services-overview-image-1-1746657371816.webp)
 
----
+### Notable Outcome
 
-**Call-to-Action Section:**
-- **CTA Text:**
-  "Facing legal challenges? Contact Sevens Legal for a confidential consultation and let our experienced team guide you with exceptional legal advocacy tailored to your needs."
+In a recent personal injury case, we won a landmark settlement for a client who suffered catastrophic injuries in a vehicle accident. The settlement included compensation for medical expenses, lost wages, and future care needs, offering our client a secure path forward.
 
----
+## Contact Us
 
-**SEO Considerations:**
-- Ensure the natural integration of targeted keywords like "DUI Lawyer San Diego," "Drug Crime Defense California," and "Domestic Violence Attorney Southern California" within the content.
-- Crafting engaging and keyword-rich meta titles and descriptions for each section to improve search engine visibility and attract potential clients seeking professional criminal defense representation.`}
+If you or a loved one is in need of skilled legal representation, reach out to us today for a confidential consultation. Let the experienced attorneys at Law Firm stand by your side.
+
+- **Phone**: (555) 123-4567
+- **Email**: contact@lawfirm.com
+- **Visit Us**: 123 Justice Avenue, Suite 100, Your City, USA
+
+![image of a modern law office building with clear signage](/images/services-overview-image-2-1746657384617.webp)
+
+Choose Law Firm for your legal needs — where experience, dedication, and client success are our top priorities.`}
       </ReactMarkdown>
     </div>
   );

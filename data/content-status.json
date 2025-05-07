@@ -3,28 +3,35 @@
     "id": "homepage",
     "title": "Homepage",
     "status": "pending",
-    "lastUpdated": "2025-05-07T18:58:08.028Z",
+    "lastUpdated": "2025-05-07T21:12:19.185Z",
     "author": "Content Writer Agent"
   },
   {
     "id": "services-overview",
     "title": "Services Overview",
     "status": "pending",
-    "lastUpdated": "2025-05-07T19:00:19.738Z",
+    "lastUpdated": "2025-05-07T21:14:13.156Z",
     "author": "Content Writer Agent"
   },
   {
     "id": "about",
     "title": "About",
     "status": "pending",
-    "lastUpdated": "2025-05-07T19:02:44.497Z",
+    "lastUpdated": "2025-05-07T21:15:57.146Z",
     "author": "Content Writer Agent"
   },
   {
     "id": "contact",
     "title": "Contact",
     "status": "pending",
-    "lastUpdated": "2025-05-07T19:05:08.382Z",
+    "lastUpdated": "2025-05-07T21:17:57.854Z",
+    "author": "Content Writer Agent"
+  },
+  {
+    "id": "blog-1",
+    "title": "Blog Post 1",
+    "status": "pending",
+    "lastUpdated": "2025-05-07T21:20:05.540Z",
     "author": "Content Writer Agent"
   }
 ]

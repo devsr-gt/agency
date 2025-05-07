@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ThemeToggle } from '../components/ThemeToggle';
 import ContentEditor from '../components/ContentEditor';
+import Image from 'next/image';
 
 export default function AdminDashboard() {
   const [content, setContent] = useState([]);
@@ -358,21 +359,43 @@ export default function AdminDashboard() {
 
   return (
     <div className="container mx-auto px-4 py-8 bg-white dark:bg-gray-900 min-h-screen">
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Law Firm Website Dashboard</h1>
+          <div className="flex items-center">
+            <div className="mr-4">
+              <Image 
+                src="/wumpus/logo.svg" 
+                alt="Wumpus Logo" 
+                width={140} 
+                height={46}
+                className="h-auto w-auto"
+              />
+            </div>
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white sr-only">Wumpus Dashboard</h1>
+          </div>
           <p className="mt-2 text-gray-600 dark:text-gray-400">
             Monitor AI-generated content and agent activities
           </p>
           {clientInfo && (
             <p className="mt-2 text-sm text-blue-600 dark:text-blue-400">
-              Client: {clientInfo.businessName} - {clientInfo.industry.charAt(0).toUpperCase() + clientInfo.industry.slice(1)}
+              Client: {clientInfo.businessName} - {clientInfo.industry?.charAt(0).toUpperCase() + clientInfo.industry?.slice(1)}
             </p>
           )}
         </div>
-        <div className="flex items-center space-x-4">
+        <div className="flex flex-wrap items-center gap-3">
+          <Link
+            href="/"
+            className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg shadow transition-colors flex items-center gap-2"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M8.5 0a.5.5 0 0 0-.5.5v6a.5.5 0 0 0 1 0V1.207l5.146 5.147a.5.5 0 0 0 .708-.708L9.707.5a.5.5 0 0 0-.354-.146z"/>
+              <path d="M7.5 0a.5.5 0 0 1 .5.5V6a.5.5 0 0 1-1 0V1.207L1.854 6.354a.5.5 0 1 1-.708-.708L6.293.5A.5.5 0 0 1 7.5 0z"/>
+              <path d="M0 8a.5.5 0 0 1 .5-.5h15a.5.5 0 0 1 0 1h-15A.5.5 0 0 1 0 8z"/>
+            </svg>
+            View Site
+          </Link>
           <ThemeToggle />
-          <Link href="/" className="text-blue-600 dark:text-blue-400 hover:underline">
+          <Link href="/" className="px-4 py-2 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-lg shadow transition-colors">
             Back to Home
           </Link>
         </div>
@@ -448,8 +471,11 @@ export default function AdminDashboard() {
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Content Management</h2>
             <button
               onClick={startNewGeneration}
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow transition-colors flex items-center gap-2"
             >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z"/>
+              </svg>
               {clientInfo ? 'Generate New Content' : 'Add Client Info'}
             </button>
           </div>
@@ -489,44 +515,44 @@ export default function AdminDashboard() {
                         {item.author}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <div className="flex justify-end space-x-2">
+                        <div className="flex flex-wrap justify-end gap-2">
                           <button
                             onClick={() => handleEditContent(item.id)}
-                            className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
+                            className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded shadow transition-colors"
                           >
                             Edit
                           </button>
                           <Link 
                             href={`/preview/${item.id}`}
-                            className="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300"
+                            className="px-3 py-1 bg-green-600 hover:bg-green-700 text-white rounded shadow transition-colors flex items-center"
                           >
                             Preview
                           </Link>
                           {item.status !== 'regenerating' ? (
                             <button
                               onClick={() => triggerRegeneration(item.id)}
-                              className="text-purple-600 hover:text-purple-900 dark:text-purple-400 dark:hover:text-purple-300"
+                              className="px-3 py-1 bg-purple-600 hover:bg-purple-700 text-white rounded shadow transition-colors"
                               disabled={regenerating === item.id}
                             >
                               {regenerating === item.id ? 'Processing...' : 'Regenerate'}
                             </button>
                           ) : (
-                            <span className="text-gray-400 dark:text-gray-600">Regenerating...</span>
+                            <span className="px-3 py-1 bg-gray-400 text-white rounded shadow">Regenerating...</span>
                           )}
                           {item.status !== 'approved' && (
                             <button
                               onClick={() => handleStatusChange(item.id, 'approved')}
-                              className="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300"
+                              className="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded shadow transition-colors"
                             >
-                              Approve
+                              Publish
                             </button>
                           )}
                           {item.status === 'approved' && (
                             <button
                               onClick={() => handleStatusChange(item.id, 'pending')}
-                              className="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-300"
+                              className="px-3 py-1 bg-yellow-500 hover:bg-yellow-600 text-white rounded shadow transition-colors"
                             >
-                              Revert to Pending
+                              Unpublish
                             </button>
                           )}
                         </div>
@@ -550,7 +576,7 @@ export default function AdminDashboard() {
           
           {/* Content Regeneration Feedback Section */}
           {regenerating && (
-            <div className="bg-white dark:bg-gray-800 shadow overflow-hidden rounded-lg p-6 mt-6">
+            <div className="bg-white dark:bg-gray-800 shadow overflow-hidden rounded-lg p-4 sm:p-6 mt-6">
               <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Regeneration Feedback</h3>
               <textarea
                 value={feedback}
@@ -558,18 +584,18 @@ export default function AdminDashboard() {
                 placeholder="Enter specific feedback for regenerating this content..."
                 className="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-md h-24 bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
               />
-              <div className="mt-4 flex justify-end space-x-2">
+              <div className="mt-4 flex flex-wrap justify-end gap-2">
                 <button
                   onClick={() => setRegenerating(null)}
-                  className="px-3 py-1 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-300 rounded hover:bg-gray-300 dark:hover:bg-gray-600"
+                  className="px-3 py-1 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-300 rounded shadow hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={() => triggerRegeneration(regenerating)}
-                  className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
+                  className="px-3 py-1 bg-blue-600 text-white rounded shadow hover:bg-blue-700 transition-colors"
                 >
-                  Submit Feedback & Regenerate
+                  Submit & Regenerate
                 </button>
               </div>
             </div>

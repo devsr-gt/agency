@@ -1,26 +1,4 @@
-import React from 'react';
-import ReactMarkdown from 'react-markdown';
-import Image from 'next/image';
-
-export default function Blog-1() {
-  return (
-    <div className="container mx-auto p-4">
-      <ReactMarkdown
-        components={{
-          img: ({ src, alt }) => (
-            <div className="my-4">
-              <Image 
-                src={src} 
-                alt={alt || ''} 
-                width={600} 
-                height={400} 
-                className="rounded-lg shadow-lg" 
-              />
-            </div>
-          )
-        }}
-      >
-        {`# Understanding Your Rights: Navigating a DUI Charge
+# Understanding Your Rights: Navigating a DUI Charge
 
 Facing a DUI charge can be an overwhelming experience, fraught with legal complexities and potential consequences. At [Law Firm Name], we understand the challenges you face and are here to provide the expert guidance you need. Our experienced team specializes in criminal defense and knows how to protect your rights and work towards the best possible outcome.
 
@@ -67,8 +45,4 @@ If you or someone you know is facing a DUI charge, don't navigate the legal syst
 
 Visit our website to learn more about our services and to connect with a skilled attorney who can help defend your rights.
 
-![image of a courthouse exterior with Lady Justice statue, formal and welcoming](/images/blog-1-image-1-1746657280233.webp)`}
-      </ReactMarkdown>
-    </div>
-  );
-}
+![image of a courthouse exterior with Lady Justice statue, formal and welcoming](/images/blog-1-image-1-1746657280233.webp)

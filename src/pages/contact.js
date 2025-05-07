@@ -20,49 +20,63 @@ export default function Contact() {
           )
         }}
       >
-        {`As an image creator for Sevens Legal's contact page, here's how I would proceed with creating and incorporating relevant images to enhance the page's effectiveness:
+        {`# Contact Us
 
-### Image Creation for Contact Page:
+At Law Firm, we are committed to providing expert legal advice and representation in both criminal defense and personal injury matters. Whether you're dealing with a complex legal issue or seeking justice, our team is here to support and guide you through every step. We invite you to reach out and discover how we can help you achieve the best possible outcome.
 
-1. **Page Introduction:**
-   - **Concept:** Develop a welcoming header image that conveys approachability and professionalism. Use imagery that reflects a welcoming office environment or the firm's logo prominently displayed.
-   - **Image Path:** ![Welcome Header Image](public/images/contact_header.jpg)
+## Get in Touch
 
-2. **Contact Information Icons:**
-   - **Concept:** Create simple, recognizable icons for each method of contact to provide visual cues:
-     - **Phone Icon:** Representing direct phone contact.
-     - **Email Icon:** Symbolizing email communication.
-     - **Map Pin Icon:** For the office's physical address.
-   - **Image Paths:**
-     - ![Phone Icon](public/images/phone_icon.png)
-     - ![Email Icon](public/images/email_icon.png)
-     - ![Map Pin Icon](public/images/address_icon.png)
+Feel free to contact us via phone, email, or visit one of our convenient office locations. Our experts are ready to assist you with a personalized approach to your legal needs.
 
-3. **Contact Form Accent:**
-   - **Concept:** Design an unobtrusive visual accent that frames or highlights the contact form, drawing attention to where users need to input their details.
-   - **Image Path:** Not applicable for standalone; consider border enhancements or shaded backgrounds.
+### Contact Form
 
-4. **Map and Directions:**
-   - **Concept:** Display an embedded Google Map for easy navigation, along with a stylized graphic or photo of the firm's building to aid in visual orientation.
-   - **Image Path:** ![Office Front Image](public/images/office_front.jpg)
+Please fill out the contact form below with your details and brief message, and a member of our team will get back to you promptly.
 
-5. **Call-to-Action Graphic:**
-   - **Concept:** A compelling visual that strengthens the call-to-action, encouraging interaction. This could include an engaging graphic like an arrow pointing towards the contact form or a representation of a supportive legal environment.
-   - **Image Path:** ![CTA Graphic](public/images/cta_graphic.jpg)
+**[Contact Form Placeholder]**
 
-6. **Additional Resources:**
-   - **Concept:** Icons for linking to additional resources such as an FAQ page and social media profiles to facilitate easy access and interaction.
-   - **Image Paths:**
-     - ![FAQ Icon](public/images/faq_icon.png)
-     - ![Social Media Icons](public/images/social_media_icons.png)
+### Office Locations
 
-### Image Strategy:
+#### Main Office
+123 Justice Drive  
+Suite 456  
+Metropolis, NY 10001  
+Phone: (555) 123-4567  
+Email: info@lawfirm.com  
 
-- Maintain consistency with Sevens Legal’s branding, using a cohesive color scheme and style that aligns with the firm's identity.
-- Ensure all images are optimized for web performance, ensuring fast load times to provide a smooth user experience.
-- Each visual should not only enhance the aesthetic appeal of the page but also serve a functional purpose, guiding users effectively toward contacting the firm.
+#### Downtown Office
+789 Law Street  
+Suite 101  
+Springfield, NY 10002  
+Phone: (555) 987-6543  
+Email: downtown@lawfirm.com  
 
-Through these thoughtful visual elements, the contact page will not only look inviting but also facilitate easier and more intuitive user interaction, ultimately leading to higher engagement and conversions.`}
+### Contact Numbers
+
+- General Inquiries: (555) 123-4567
+- Criminal Defense Team: (555) 234-5678
+- Personal Injury Team: (555) 345-6789
+
+#### Email Us
+
+Email us at info@lawfirm.com for more information or to schedule a consultation.
+
+![image of a modern law firm office, spacious lobby, welcoming atmosphere](/images/contact-image-0-1746657296227.webp)
+
+## Frequently Asked Questions
+
+### What Should I Expect During My Initial Consultation?
+
+During your initial consultation, our legal team will take the time to understand the details of your case. We will discuss the potential legal avenues available and outline a tailored strategy that aligns with your goals. This meeting is an obligation-free opportunity to ask questions, so you can make an informed decision moving forward.
+
+### Do I Need to Prepare Any Documents for the Consultation?
+
+It is helpful to bring any relevant documents related to your case to the initial consultation. This may include police reports, medical records, or correspondence from other parties. These documents will assist us in evaluating your case more thoroughly.
+
+### How Long Does an Initial Consultation Take?
+
+An initial consultation typically lasts between 30 minutes to an hour, depending on the complexity of your case. We ensure that each client has ample time to discuss their legal needs in detail.
+
+For more information or to book your consultation, please reach out via phone or email. We look forward to assisting you with your legal journey.`}
       </ReactMarkdown>
     </div>
   );

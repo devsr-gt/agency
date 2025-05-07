@@ -1,11 +1,11 @@
 {
   "businessName": "Sevens Legal",
   "industry": "law",
-  "practiceAreas": "Criminal Defense, Drugs, DUI",
-  "targetAudience": "Anyone facing a crime",
-  "competitors": "https://sevenslegal.com",
+  "practiceAreas": "Criminal Defense, DUI, Drugs, Domestic Violence",
+  "targetAudience": "People facing charges for a crime.",
+  "competitors": "monderlaw.com",
   "uniqueSellingPoints": "40 years of experience",
   "tone": "professional",
-  "existingContent": "https://www.sevenslegal.com",
+  "existingContent": "sevenslegal.com",
   "additionalNotes": ""
 }
