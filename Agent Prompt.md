@@ -1,0 +1,1 @@
+Read the agent instructions and  in the current folder create a workspace and build based on the instructions. Make sure the programs run and if there are other things that need top be added to achieve functionality please add them.
