@@ -1,7 +1,26 @@
----
-title: "Premier Legal Services for Criminal Defense & Personal Injury"
-description: "Expert legal representation for criminal defense and personal injury cases. Our experienced attorneys are ready to fight for your rights."
----
+import React from 'react';
+import ReactMarkdown from 'react-markdown';
+import Image from 'next/image';
+
+export default function Sample() {
+  return (
+    <div className="container mx-auto p-4">
+      <ReactMarkdown
+        components={{
+          img: ({ src, alt }) => (
+            <div className="my-4">
+              <Image 
+                src={src} 
+                alt={alt || ''} 
+                width={600} 
+                height={400} 
+                className="rounded-lg shadow-lg" 
+              />
+            </div>
+          )
+        }}
+      >
+        {`
 
 # Harris & Associates Law Firm
 
@@ -48,4 +67,8 @@ When you've been injured due to someone else's negligence, you deserve compensat
 
 Don't face the legal system alone. Schedule your free consultation today and let our experienced legal team fight for your rights.
 
-![Modern, professional law office building with "Harris & Associates Law Firm" sign visible, well-landscaped entrance during daytime](/images/sample-image-3-1746625888353.webp)
+![Modern, professional law office building with "Harris & Associates Law Firm" sign visible, well-landscaped entrance during daytime](/images/sample-image-3-1746625888353.webp)`}
+      </ReactMarkdown>
+    </div>
+  );
+}

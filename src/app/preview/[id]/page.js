@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { ThemeToggle } from '../../components/ThemeToggle';
@@ -358,5 +357,5 @@ The requested content "${params.id}" could not be found. Please return to the da
         </div>
       </div>
     </div>
-  );
+   );
 }
