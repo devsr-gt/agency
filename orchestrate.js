@@ -19,17 +19,34 @@ try {
   
   if (fs.existsSync(activitiesPath)) {
     const data = fs.readFileSync(activitiesPath, 'utf8');
-    agentActivities = JSON.parse(data);
+    const parsedData = JSON.parse(data);
+    // Make sure we have an array
+    if (Array.isArray(parsedData)) {
+      agentActivities = parsedData;
+    } else {
+      console.log('Agent activities data is not an array, initializing empty array');
+      agentActivities = [];
+    }
   }
   
   if (fs.existsSync(contentStatusPath)) {
     const data = fs.readFileSync(contentStatusPath, 'utf8');
-    contentStatus = JSON.parse(data);
+    const parsedData = JSON.parse(data);
+    // Make sure we have an array
+    if (Array.isArray(parsedData)) {
+      contentStatus = parsedData;
+    } else {
+      console.log('Content status data is not an array, initializing empty array');
+      contentStatus = [];
+    }
   }
   
   console.log(`Loaded ${agentActivities.length} existing activities and ${contentStatus.length} content items`);
 } catch (error) {
   console.error('Error loading existing data:', error.message);
+  // Ensure we reset to empty arrays if there was an error
+  agentActivities = [];
+  contentStatus = [];
 }
 
 // Log agent activity
