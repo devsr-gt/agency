@@ -585,10 +585,10 @@ async function orchestrateAgents(options = {}) {
     onContentUpdate 
   } = options;
 
-  // Use custom activity logger if provided
-  const logActivityFn = onActivity || logActivity;
-  
   try {
+    // Use custom activity logger if provided or fall back to the default logActivity function
+    const logActivityFn = onActivity || logActivity;
+    
     // Set up agents with client information
     const agents = await setupAgents(clientInfo);
     
@@ -605,7 +605,8 @@ async function orchestrateAgents(options = {}) {
     return { success: true };
   } catch (error) {
     console.error(`Agent orchestration error: ${error.message}`);
-    await logActivityFn('System', 'Error', error.message);
+    // Use the standard logActivity function to ensure it works properly
+    await logActivity('System', 'Error', error.message);
     return { success: false, error: error.message };
   }
 }
