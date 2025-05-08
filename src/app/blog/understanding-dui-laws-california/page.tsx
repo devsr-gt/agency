@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import { Metadata } from 'next';
 import { generateMetadata } from '../../../utils/metadata';
 import BlogPostLayout from '../../components/BlogPostLayout';

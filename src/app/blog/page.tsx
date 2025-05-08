@@ -11,6 +11,7 @@ export const metadata: Metadata = generateMetadata({
   description: "Expert insights on criminal defense law, DUI charges, drug offenses, and domestic violence cases from the experienced attorneys at Sevens Legal.",
   path: "/blog",
   keywords: ["criminal defense blog", "legal blog", "law firm blog", "DUI information", "drug charge defense", "domestic violence legal advice"],
+  openGraph: {},
   image: "/images/blog-image-0-1746709482001.webp"
 });
 

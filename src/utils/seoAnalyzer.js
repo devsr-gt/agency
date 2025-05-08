@@ -3,9 +3,9 @@
  * Performs comprehensive SEO analysis on content and calculates optimization scores
  */
 
-const fs = require('fs');
-const path = require('path');
-const matter = require('gray-matter');
+import fs from 'fs';
+import path from 'path';
+import matter from 'gray-matter';
 
 // Keywords related to law firms - extended for better analysis
 const INDUSTRY_KEYWORDS = [

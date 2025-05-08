@@ -3,9 +3,7 @@ import fs from 'fs/promises';
 import { existsSync, readFileSync } from 'fs';
 import path from 'path';
 import { orchestrateAgents } from '../../../../orchestrate.js';
-
-// Import the SEO analyzer
-const { analyzeAllContent } = require('../../../utils/seoAnalyzer');
+import { analyzeAllContent } from '../../../utils/seoAnalyzer';
 
 // Initialize with data from files if available
 let agentActivities = [];

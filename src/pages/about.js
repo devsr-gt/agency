@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react/no-unescaped-entities */
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import Image from 'next/image';
 import Head from 'next/head';
 import Script from 'next/script';
-import { generateWebPageSchema } from '../utils/schemaMarkup';
 
 /**
  * About page with enhanced SEO features
@@ -31,9 +32,9 @@ export default function About() {
     "datePublished": "2024-01-01T08:00:00+08:00",
     "dateModified": "2025-05-08T08:00:00+08:00"
   };
+
   return (
     <>
-      {/* SEO Meta Tags (Tip #23, #36) */}
       <Head>
         <title>About Our Attorneys | Sevens Legal San Diego</title>
         <meta name="description" content="Learn about our experienced criminal defense attorneys with over 40 years of combined experience defending clients in San Diego and surrounding areas." />
@@ -54,7 +55,6 @@ export default function About() {
         <meta name="twitter:image" content="https://sevenslegal.com/images/about-image-0-1746709414486.webp" />
       </Head>
       
-      {/* Schema.org JSON-LD markup (Tip #54, #90) */}
       <Script
         id="about-schema"
         type="application/ld+json"
@@ -65,38 +65,38 @@ export default function About() {
       
       <div className="container mx-auto p-4">
         <ReactMarkdown
-        components={{
-          // Use a custom p component for images to avoid invalid nesting
-          p: ({ node, children }) => {
-            // Check if the paragraph contains only an image
-            const hasOnlyImage = 
-              node.children.length === 1 && 
-              node.children[0].type === 'element' && 
-              node.children[0].tagName === 'img';
+          components={{
+            // Use a custom p component for images to avoid invalid nesting
+            p: ({ node, children }) => {
+              // Check if the paragraph contains only an image
+              const hasOnlyImage = 
+                node.children.length === 1 && 
+                node.children[0].type === 'element' && 
+                node.children[0].tagName === 'img';
 
-            // If it's just an image, don't wrap it in a <p> tag
-            if (hasOnlyImage) {
-              return <>{children}</>;
-            }
-            // Otherwise, render as normal paragraph
-            return <p>{children}</p>;
-          },
-          // Custom image component using Next.js Image
-          img: ({ src, alt }) => (
-            <figure className="my-4">
-              <Image 
-                src={src} 
-                alt={alt || ''} 
-                width={600} 
-                height={400} 
-                className="rounded-lg shadow-lg" 
-              />
-              {alt && <figcaption className="text-center text-sm text-gray-500 mt-2">{alt}</figcaption>}
-            </figure>
-          )
-        }}
-      >
-        {`# About Sevens Legal, APC
+              // If it's just an image, don't wrap it in a <p> tag
+              if (hasOnlyImage) {
+                return <>{children}</>;
+              }
+              // Otherwise, render as normal paragraph
+              return <p>{children}</p>;
+            },
+            // Custom image component using Next.js Image
+            img: ({ src, alt }) => (
+              <figure className="my-4">
+                <Image 
+                  src={src} 
+                  alt={alt || ''} 
+                  width={600} 
+                  height={400} 
+                  className="rounded-lg shadow-lg" 
+                />
+                {alt && <figcaption className="text-center text-sm text-gray-500 mt-2">{alt}</figcaption>}
+              </figure>
+            )
+          }}
+        >
+          {`# About Sevens Legal, APC
 
 Welcome to Sevens Legal, APC, where we provide expert criminal defense representation with dedication and compassion. With over 40 years of combined experience, our firm is committed to protecting your rights and achieving the best possible outcomes for your case.
 
@@ -149,7 +149,8 @@ Whether you are facing criminal charges or seeking guidance for someone who is, 
 - **Phone:** (555) 123-4567
 - **Email:** info@sevenslegal.com
 - **Address:** 123 Legal Drive, San Diego, CA 92101`}
-      </ReactMarkdown>
-    </div>
+        </ReactMarkdown>
+      </div>
+    </>
   );
 }

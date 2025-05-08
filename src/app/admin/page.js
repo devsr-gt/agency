@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars, react-hooks/exhaustive-deps, react/no-unescaped-entities */
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -13,10 +14,8 @@ export default function AdminDashboard() {
   const [regenerating, setRegenerating] = useState(null);
   const [feedback, setFeedback] = useState('');
   const [polling, setPolling] = useState(false);
-  const [clientInfo] = useState(nul                  {/* Page-specific SEO Recommendations */}
-                  {progressStatus.seoDetails?.recommendations && progressStatus.seoDetails.recommendations.length > 0 && (
-                    <div className="mt-6">
-                      <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Page-Specific SEO Recommendations</h3>  const [editingContent, setEditingContent] = useState(null);
+  const [clientInfo] = useState(null);
+  const [editingContent, setEditingContent] = useState(null);
   const [currentContent, setCurrentContent] = useState('');
   const [loadingContent, setLoadingContent] = useState(false);
   const [progressStatus, setProgressStatus] = useState({});

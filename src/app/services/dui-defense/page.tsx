@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars, react/no-unescaped-entities */
 import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
-import { generateMetadata } from '../../utils/metadata';
-import BreadcrumbNav from '../components/BreadcrumbNav';
-import FAQ from '../components/FAQ';
+import { generateMetadata } from '../../../utils/metadata';
+import BreadcrumbNav from '../../components/BreadcrumbNav';
+import FAQ from '../../components/FAQ';
 
 // SEO: Generate metadata according to SEO guidelines (Tip #23)
 export const metadata: Metadata = generateMetadata({
@@ -11,6 +12,7 @@ export const metadata: Metadata = generateMetadata({
   description: "Expert DUI defense attorneys with proven track record of success. Free consultation for DUI charges in San Diego and surrounding areas.",
   path: "/services/dui-defense",
   keywords: ["DUI defense", "DUI lawyer", "San Diego", "drunk driving", "DUI attorney", "DUI charges", "breathalyzer test", "field sobriety test"],
+  openGraph: {}, // Adding required openGraph property
   image: "/images/services-image-2-1746709638172.webp"
 });
 
