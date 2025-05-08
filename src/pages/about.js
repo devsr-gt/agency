@@ -7,6 +7,21 @@ export default function About() {
     <div className="container mx-auto p-4">
       <ReactMarkdown
         components={{
+          // Use p to unwrap images from paragraphs
+          p: ({ node, children }) => {
+            // Check if the paragraph contains only an image
+            const hasOnlyImage = node.children.length === 1 && 
+              node.children[0].type === 'element' && 
+              node.children[0].tagName === 'img';
+              
+            // If it's just an image, don't wrap in <p>
+            if (hasOnlyImage) {
+              return <>{children}</>;
+            }
+            
+            // Regular paragraph
+            return <p>{children}</p>;
+          },
           img: ({ src, alt }) => (
             <div className="my-4">
               <Image 
@@ -20,57 +35,43 @@ export default function About() {
           )
         }}
       >
-        {`# About Sevens Legal
-
-Welcome to Sevens Legal, APC, a law firm dedicated to providing comprehensive and effective criminal defense representation. With over 40 years of combined experience, our team of skilled attorneys is committed to defending the rights of individuals facing serious criminal charges in San Diego and beyond.
-
-![san diego skyline with courthouse foreground, clear sky](/images/about-image-0-1746659506289.webp)
+        {`# About Us
 
 ## Our Story
 
-Sevens Legal, APC was founded with the mission of providing exceptional legal defense tailored to each client's unique situation. We understand the complexities of the legal system and the impact criminal charges can have on one's life. Our firm is built on a legacy of dedication and perseverance, ensuring each client receives the vigorous defense they deserve. 
+Established with the mission to champion justice and provide unparalleled legal solutions, our firm has been a beacon of advocacy for individuals facing criminal charges and seeking personal injury restitution. For over two decades, we have dedicated ourselves to defending the rights of our clients with integrity and tenacity. Our story is one of growth, commitment, and a steadfast determination to make a difference in the lives of those we represent.
 
-## Our Attorneys
+![professional law firm office, elegant and modern interiors](/images/about-image-0-1746660958152.webp)
 
-### Richard Sevens, Senior Partner
+## Meet Our Attorneys
 
-Richard Sevens brings over two decades of dedicated criminal defense experience to the firm. Known for his strategic approach and deep understanding of the legal landscape, Richard has successfully defended hundreds of clients in complex cases. His leadership and unwavering dedication set the tone for Sevens Legal, APC.
+### John A. Fitzgerald, Esq.
 
-![professional headshot of male attorney in office, confident expression](/images/about-image-1-1746659525032.webp)
+With a career spanning over 25 years, John A. Fitzgerald has established himself as a formidable force in criminal defense. Known for his sharp analytical skills and persuasive courtroom presence, John is dedicated to ensuring justice is served. His track record of successful defenses has earned him recognition as one of the top criminal defense attorneys.
 
-### Lisa Adams, Partner
+![John A. Fitzgerald, seasoned attorney with confident demeanor in a legal setting](/images/about-image-1-1746660973930.webp)
 
-Lisa Adams is a respected attorney who specializes in drug-related offenses and domestic violence cases. Her meticulous attention to detail and compassionate client approach have earned her a reputation as a formidable defender in court. Lisa's expertise and commitment to justice make her an invaluable asset to our team.
+### Emma R. Johnson, Esq.
 
-![professional headshot of female attorney, office background, friendly demeanor](/images/about-image-2-1746659539670.webp)
+Specializing in personal injury law, Emma R. Johnson combines compassion with a zealous advocacy to achieve the best outcomes for her clients. Her approach is both empathetic and strategic, navigating the complexities of personal injury cases with expertise and precision.
 
-## Our Values
+![Emma R. Johnson, compassionate attorney with warm approach, in a legal discussion](/images/about-image-2-1746660988066.webp)
 
-At Sevens Legal, APC, our values guide every aspect of our practice:
+## Our Values and Approach
 
-- **Integrity**: We hold ourselves to the highest ethical standards and are honest and transparent in our dealings.
-- **Commitment**: Our client's needs are at the forefront of everything we do. We are committed to achieving the best possible outcomes.
-- **Expertise**: With over 40 years of combined experience, our team provides knowledgeable and effective legal representation.
+At the heart of our practice are core values that guide our actions: integrity, dedication, and excellence. We believe in a personalized approach, taking the time to understand the unique circumstances of each case. Our attorneys work collaboratively to develop effective strategies tailored to the specific needs of our clients, ensuring they receive the best possible representation.
 
-## Approach
+## Commitment to Community
 
-Our approach is client-centered and results-driven. We take the time to understand each client's unique circumstances and develop personalized strategies to achieve favorable outcomes. We maintain open communication, ensuring our clients are informed and involved throughout the legal process.
+We are proud to be active members of the community, regularly volunteering our time and resources to local initiatives. From pro bono legal clinics to sponsoring community events, our commitment goes beyond the courtroom. We believe in giving back and making a positive impact, supporting programs that promote access to justice and opportunities for all.
 
-## Community Involvement
+![community event with law firm volunteers engaging with local residents](/images/about-image-3-1746661006289.webp)
 
-Sevens Legal, APC believes in giving back to the community that supports us. We actively participate in local events and legal education programs, providing pro bono services and volunteering our time and resources to help make a positive impact.
+## Connect With Us
 
-![attorneys participating in community service event, casual setting](/images/about-image-3-1746659552479.webp)
+Whether you are facing criminal charges or seek compensation for a personal injury, we are here to support and fight for you. Contact us today to schedule a consultation with one of our experienced attorneys. Let us be your advocates in the pursuit of justice.
 
-## Contact Us
-
-If you or a loved one is facing criminal charges, contact us today for a confidential consultation. Let our experienced team of attorneys guide you through the legal complexities and fight for your rights.
-
-**Phone**: (619) 297-2800  
-**Email**: info@sevenslegal.com  
-**Address**: 3555 Fourth Ave. San Diego, CA 92103
-
-Your future is our priority. Trust Sevens Legal, APC to be your unwavering advocate in times of need.`}
+[Contact Us](yourwebsiteurl/contact) | [Call Us: 123-456-7890](tel:1234567890) | [Email: info@yourlawfirm.com](mailto:info@yourlawfirm.com)`}
       </ReactMarkdown>
     </div>
   );

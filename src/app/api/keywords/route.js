@@ -14,23 +14,11 @@ export async function GET(request) {
       { keyword: "federal criminal defense", volume: 3200, difficulty: 63 },
       { keyword: "best criminal defense attorney", volume: 2900, difficulty: 70 }
     ],
-    personalInjury: [
-      { keyword: "personal injury lawyer", volume: 135000, difficulty: 78 },
-      { keyword: "car accident attorney", volume: 49500, difficulty: 75 },
-      { keyword: "slip and fall lawyer", volume: 18200, difficulty: 67 },
-      { keyword: "medical malpractice attorney", volume: 22800, difficulty: 72 },
-      { keyword: "workplace injury lawyer", volume: 12400, difficulty: 65 },
-      { keyword: "truck accident attorney", volume: 14700, difficulty: 69 },
-      { keyword: "wrongful death lawyer", volume: 6800, difficulty: 61 },
-      { keyword: "motorcycle accident attorney", volume: 9900, difficulty: 60 }
-    ],
     local: [
       { keyword: "criminal defense attorney [city]", volume: "varies", difficulty: 45 },
-      { keyword: "personal injury lawyer [city]", volume: "varies", difficulty: 52 },
+      { keyword: "drug charges lawyer [city]", volume: "varies", difficulty: 50 },
       { keyword: "dui lawyer [city]", volume: "varies", difficulty: 40 },
-      { keyword: "car accident attorney [city]", volume: "varies", difficulty: 48 },
-      { keyword: "best criminal lawyer [city]", volume: "varies", difficulty: 43 },
-      { keyword: "injury law firm [city]", volume: "varies", difficulty: 46 }
+      { keyword: "best criminal lawyer [city]", volume: "varies", difficulty: 43 }
     ]
   };
   

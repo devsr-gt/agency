@@ -7,6 +7,21 @@ export default function Homepage() {
     <div className="container mx-auto p-4">
       <ReactMarkdown
         components={{
+          // Use p to unwrap images from paragraphs
+          p: ({ node, children }) => {
+            // Check if the paragraph contains only an image
+            const hasOnlyImage = node.children.length === 1 && 
+              node.children[0].type === 'element' && 
+              node.children[0].tagName === 'img';
+              
+            // If it's just an image, don't wrap in <p>
+            if (hasOnlyImage) {
+              return <>{children}</>;
+            }
+            
+            // Regular paragraph
+            return <p>{children}</p>;
+          },
           img: ({ src, alt }) => (
             <div className="my-4">
               <Image 
@@ -20,36 +35,36 @@ export default function Homepage() {
           )
         }}
       >
-        {`# Sevens Legal: Your Trusted Criminal Defense Advocates
+        {`# Welcome to [Firm Name] - Your Trusted Legal Partner
 
-![a group of experienced lawyers in sleek suits around a large wooden table, engaged in discussion with legal documents in front of them, an office backdrop showcasing law books and diplomas](/images/homepage-image-0-1746659615861.webp)
+At [Firm Name], we understand that facing legal challenges can be daunting. Whether you're dealing with a criminal charge or seeking justice for a personal injury, our dedicated team is here to provide the expert guidance and support you need. With over [X] years of experience, we pride ourselves on delivering personalized legal solutions that achieve the best outcomes for our clients.
 
-## Over 40 Years of Combined Criminal Defense Experience
+![a diverse group of professionally dressed lawyers sitting around a conference table discussing case files in a modern law office](/images/homepage-image-0-1746661100843.webp)
 
-At Sevens Legal, we are dedicated to defending your rights and securing your future. With over 40 years of combined experience, our legal team brings unmatched expertise and commitment to every case. We specialize in a wide array of criminal defense areas, providing unparalleled service and personalized solutions.
+## Our Practice Areas
 
-## Our Areas of Expertise
+### Criminal Defense
+Our attorneys are well-versed in all aspects of criminal law and are committed to protecting your rights. We handle a wide range of cases, including DUI, drug offenses, and white-collar crimes. Let us stand by your side and fight for your freedom.
 
-- **Criminal Defense:** Comprehensive defense strategies for all types of criminal charges.
-- **Drug Charges:** Expert handling of cases involving possession, distribution, and trafficking.
-- **Domestic Violence:** Compassionate representation with a strong focus on your legal rights.
-- **DUI:** Skilled defense to protect your driving privileges and minimize penalties.
+### Personal Injury
+If you've been injured due to someone else's negligence, you deserve compensation. Our experienced personal injury lawyers focus on cases such as auto accidents, medical malpractice, and slip-and-fall injuries. We work tirelessly to ensure you receive the justice and compensation you're entitled to.
 
-## Why Choose Sevens Legal?
+## Why Choose [Firm Name]?
 
-- **Decades of Expertise:** Our attorneys leverage decades of legal practice to deliver exceptional defense strategies.
-- **Client-Centric Approach:** We prioritize your needs, working closely with you to achieve the best possible outcomes.
-- **Proven Track Record:** Our history of successful case resolutions showcases our ability to effectively defend and protect our clients.
+- **Proven Track Record:** With a history of successful verdicts and settlements, we consistently achieve favorable outcomes for our clients.
+- **Personalized Attention:** We treat each case uniquely, providing tailored strategies to meet your specific legal needs.
+- **Compassionate Representation:** Our attorneys are dedicated advocates who prioritize your well-being and strive to build a strong attorney-client relationship.
+- **Free Consultation:** We'll evaluate your case at no cost and provide clear guidance on your legal options.
 
-Take the first step toward a strong defense. Contact Sevens Legal to schedule your free consultation today. Our team is ready to provide you with the expertise and support you deserve.
+## Take the First Step Toward Justice
 
-## Contact Us Now
+Don't face your legal challenges alone. Contact [Firm Name] today to schedule your free consultation with one of our skilled attorneys. Let us put our experience to work for you.
 
-- **Phone:** [Insert Phone Number]
-- **Email:** [Insert Email Address]
-- **Location:** [Insert Physical Location]
+**Call us at [Phone Number] or fill out our online contact form [here](link to contact form).**
 
-Secure your future with Sevens Legal. Your defense begins with a single call.`}
+![a welcoming meeting between a lawyer and a client, shaking hands across a desk in a bright, professional office](/images/homepage-image-1-1746661115269.webp)
+
+Your journey to justice starts with a conversation. Reach out to [Firm Name] and take confidence in knowing you have a formidable ally by your side.`}
       </ReactMarkdown>
     </div>
   );

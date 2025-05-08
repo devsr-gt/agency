@@ -299,31 +299,39 @@ function getAgentNameById(id, agents) {
 
 // Helper function to format page name for file saving
 function formatPageName(pageName) {
-  // Convert to kebab case and handle special cases
-  if (pageName.startsWith('blog')) {
-    return pageName;
+  // Normalize the pageName to lowercase
+  const normalizedPage = pageName.toLowerCase();
+  
+  // Handle blog-related pages - all blog pages become just "blog"
+  if (normalizedPage === 'blog' || normalizedPage.startsWith('blog-') || normalizedPage.startsWith('blogs')) {
+    return 'blog';
   }
   
-  if (pageName === 'services') {
-    return 'servicesoverview';
+  // Handle services-related pages - all services pages become just "services"
+  if (normalizedPage === 'services' || normalizedPage === 'services-overview' || normalizedPage.startsWith('services-')) {
+    return 'services';
   }
   
-  return pageName.toLowerCase().replace(/\s+/g, '-');
+  // For other pages, convert to kebab case
+  return normalizedPage.replace(/\s+/g, '-');
 }
 
 // Helper function to format page title
 function formatPageTitle(pageName) {
-  // Handle special cases
-  if (pageName.startsWith('blog')) {
-    const blogNum = pageName.split('-')[1];
-    return `Blog Post ${blogNum}`;
+  // Normalize the pageName to lowercase
+  const normalizedPage = pageName.toLowerCase();
+  
+  // Handle blog-related pages
+  if (normalizedPage === 'blog' || normalizedPage.startsWith('blog-') || normalizedPage.startsWith('blogs')) {
+    return 'Blog';
   }
   
-  if (pageName === 'services') {
-    return 'Services Overview';
+  // Handle services-related pages
+  if (normalizedPage === 'services' || normalizedPage === 'services-overview' || normalizedPage.startsWith('services-')) {
+    return 'Services';
   }
   
-  // Capitalize each word
+  // Capitalize each word for other pages
   return pageName
     .split(/[- ]/)
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))

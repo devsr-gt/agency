@@ -1,41 +1,4 @@
-import React from 'react';
-import ReactMarkdown from 'react-markdown';
-import Image from 'next/image';
-
-export default function Services() {
-  return (
-    <div className="container mx-auto p-4">
-      <ReactMarkdown
-        components={{
-          // Use p to unwrap images from paragraphs
-          p: ({ node, children }) => {
-            // Check if the paragraph contains only an image
-            const hasOnlyImage = node.children.length === 1 && 
-              node.children[0].type === 'element' && 
-              node.children[0].tagName === 'img';
-              
-            // If it's just an image, don't wrap in <p>
-            if (hasOnlyImage) {
-              return <>{children}</>;
-            }
-            
-            // Regular paragraph
-            return <p>{children}</p>;
-          },
-          img: ({ src, alt }) => (
-            <div className="my-4">
-              <Image 
-                src={src} 
-                alt={alt || ''} 
-                width={600} 
-                height={400} 
-                className="rounded-lg shadow-lg" 
-              />
-            </div>
-          )
-        }}
-      >
-        {`# Our Practice Areas
+# Our Practice Areas
 
 At Law Firm, we are dedicated to providing top-notch legal representation in criminal defense and personal injury cases. Our team of experienced attorneys is committed to protecting your rights and achieving the best possible outcomes. Explore our practice areas below to learn more about how we can assist you.
 
@@ -72,8 +35,4 @@ At Law Firm, our clients benefit from:
 Take the first step towards resolving your legal issues. Contact us today at [insert phone number] or [insert email address] to learn more about how we can help you.
 
 ---
-Ready to trust your case to experienced professionals? Let Law Firm guide you through your legal journey.`}
-      </ReactMarkdown>
-    </div>
-  );
-}
+Ready to trust your case to experienced professionals? Let Law Firm guide you through your legal journey.

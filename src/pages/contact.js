@@ -7,6 +7,21 @@ export default function Contact() {
     <div className="container mx-auto p-4">
       <ReactMarkdown
         components={{
+          // Use p to unwrap images from paragraphs
+          p: ({ node, children }) => {
+            // Check if the paragraph contains only an image
+            const hasOnlyImage = node.children.length === 1 && 
+              node.children[0].type === 'element' && 
+              node.children[0].tagName === 'img';
+              
+            // If it's just an image, don't wrap in <p>
+            if (hasOnlyImage) {
+              return <>{children}</>;
+            }
+            
+            // Regular paragraph
+            return <p>{children}</p>;
+          },
           img: ({ src, alt }) => (
             <div className="my-4">
               <Image 
@@ -22,50 +37,60 @@ export default function Contact() {
       >
         {`# Contact Us
 
-At Sevens Legal, we understand the stress and uncertainty that come with facing criminal charges. Our dedicated team is here to provide the legal expertise you need. With over 40 years of combined experience, we stand ready to defend your rights and guide you through every step of the legal process. Contact us today to get started on your defense.
+## We're Here to Help
+
+At Law Firm, we understand that facing legal challenges can be daunting and stressful. Our experienced attorneys are here to provide you with expert guidance and personalized attention. Whether you are seeking help with criminal defense or personal injury, we encourage you to reach out. Let us be your advocate in your time of need.
 
 ## Get in Touch
 
-We encourage you to reach out for a personalized consultation. Please use the contact form below, or reach us via phone or email. Our attorneys are here to assist you and provide the guidance you need.
+We welcome you to contact us using the form below or reach out directly via phone or email. Our dedicated team is ready to assist you with any inquiries and help set up your initial consultation.
 
 ### Contact Form
 
-[Contact Form Placeholder]
+Please fill out the form below, and one of our legal professionals will get back to you shortly.
+
+- Name: [___________]
+- Email: [___________]
+- Phone: [___________]
+- Message: [___________]
+
+[Submit]
 
 ### Office Locations
 
-- **Downtown Office**
-  - Address: 123 Main Street, Suite 200, Anytown, CA 90210
-  - Phone: (123) 456-7890
-  - Email: info@sevenslegal.com
+#### Main Office
+123 Justice Ave  
+Suite 456  
+Lawville, USA  
+Phone: (123) 456-7890  
 
-- **Uptown Office**
-  - Address: 456 Elm Street, Suite 300, Othertown, CA 90300
-  - Phone: (987) 654-3210
-  - Email: contact@sevenslegal.com
+#### Downtown Office
+789 Legal Blvd  
+3rd Floor  
+Lawtown, USA  
+Phone: (987) 654-3210  
 
-### Phone and Email
+### Email
+For general inquiries, please email us at:  
+[info@lawfirm.com](mailto:info@lawfirm.com)
 
-- General Inquiries: (123) 456-7890
-- Email Us: info@sevenslegal.com
+## Frequently Asked Questions
 
-![image of a diverse legal team in a professional office environment engaged in a planning session](/images/contact-image-0-1746659601111.webp)
+### What should I expect during the initial consultation?
 
-## FAQ: Initial Consultation
+Our initial consultation is designed to understand your legal situation thoroughly. During this meeting, you’ll have the opportunity to discuss the details of your case, ask questions, and learn how we can assist you.
 
-**What can I expect during my initial consultation?**
+### Is there a fee for the initial consultation?
 
-The initial consultation is an opportunity to discuss your case and understand your legal options. Our experienced attorneys will review the details of your situation, answer any questions you may have, and outline potential defense strategies.
+We offer a complimentary initial consultation for personal injury cases. For criminal defense cases, a small fee may apply, which will be discussed when scheduling your appointment.
 
-**How should I prepare for the consultation?**
+### How should I prepare for the initial consultation?
 
-Please bring any relevant documents, such as police reports or court notices, and be ready to discuss the details of your case. This information will help us provide you with the most accurate advice.
+Please bring any relevant documents related to your case, such as police reports, medical records, or any correspondence that will help us better understand your situation.
 
-**Is the initial consultation free?**
+![image of professional attorney meeting with two clients across a desk, discussing legal documents in a modern office setting](/images/contact-image-0-1746661085536.webp)
 
-Yes, we offer a complimentary initial consultation to assess your case and determine how we can best assist you. 
-
-Reach out today and let Sevens Legal put our expertise to work for you. Call us or use the form above to schedule your consultation. We look forward to advocating for you.`}
+Don't let legal challenges overwhelm you. Contact Law Firm today and let us help navigate your path to justice.`}
       </ReactMarkdown>
     </div>
   );

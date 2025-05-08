@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import ClientInfoForm from '../../components/ClientInfoForm';
 
 export default function ClientFormPage() {
@@ -57,6 +58,19 @@ export default function ClientFormPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      {/* Back to Dashboard Button */}
+      <div className="mb-6">
+        <Link 
+          href="/admin"
+          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow transition-colors flex items-center gap-2 w-fit"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+          </svg>
+          Back to Dashboard
+        </Link>
+      </div>
+      
       <h1 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">Client Information Form</h1>
       
       {message && (
