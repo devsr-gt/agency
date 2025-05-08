@@ -7,20 +7,15 @@ export default function Blog() {
     <div className="container mx-auto p-4">
       <ReactMarkdown
         components={{
-          // Use p to unwrap images from paragraphs
+          // Fix for hydration error: p > div is invalid HTML
           p: ({ node, children }) => {
-            // Check if the paragraph contains only an image
-            const hasOnlyImage = node.children.length === 1 && 
-              node.children[0].type === 'element' && 
-              node.children[0].tagName === 'img';
-              
-            // If it's just an image, don't wrap in <p>
-            if (hasOnlyImage) {
-              return <>{children}</>;
-            }
+            // Check if children contains an img element
+            const hasImageChild = node?.children?.some(
+              child => child.type === 'element' && child.tagName === 'img'
+            );
             
-            // Regular paragraph
-            return <p>{children}</p>;
+            // If there's an image child, we return a div instead of p to avoid nesting issues
+            return hasImageChild ? <div>{children}</div> : <p>{children}</p>;
           },
           img: ({ src, alt }) => (
             <div className="my-4">
@@ -37,37 +32,49 @@ export default function Blog() {
       >
         {`# Law Firm Blog
 
-## Navigating the Complexities of Criminal Defense
+## Welcome to Our Legal Insights Blog
 
-Understanding your rights and options when facing criminal charges is critical. At [Law Firm Name], we are dedicated to protecting your future with strategic and informed defense strategies. In this article, we explore the key components of a strong criminal defense case and offer insights into the criminal justice process.
+At Law Firm, our dedication to excellence in criminal defense and personal injury law empowers us to provide top-tier legal services. Our blog is crafted to offer valuable insights, updates on legal trends, and guidance on navigating the complexities of the legal system. Whether you're a potential client seeking information or a professional interested in legal developments, our blog is designed to meet your needs. 
 
-![professional lawyer in law library reviewing legal documents](/images/blog-image-0-1746661021542.webp)
+## Latest Blog Posts
 
-## The Crucial Steps Following a Personal Injury
+### Understanding Your Rights During a Criminal Investigation
 
-After suffering a personal injury, securing fair compensation is essential to cover medical expenses and support your recovery journey. Our experienced attorneys effectively advocate for our clients' rights, ensuring that they receive the justice they deserve. Join us as we discuss the essential steps to take after a personal injury incident and how our legal team can assist you every step of the way.
+Navigating the complexities of a criminal investigation can be daunting. Knowing your rights and understanding how to exercise them is crucial. In this post, we explore the rights you have during an investigation, including the right to remain silent and the right to legal representation. 
 
-![personal injury victim consulting with a lawyer in office with legal books](/images/blog-image-1-1746661034953.webp)
+Read more to empower yourself with essential knowledge that can protect your future. 
 
-## Understanding Your Rights: What To Do When Arrested
+![image of a lawyer advising a client with law books and papers on a wooden desk](/images/blog-image-0-1746663301824.webp)
 
-Being arrested can be a confusing and intimidating experience. Knowing your rights and how to exercise them is paramount. Our blog offers a comprehensive guide on what to do—and what not to do—when arrested, equipping you with the knowledge to navigate this challenging situation effectively.
+### Tips for Securing a Fair Personal Injury Settlement
 
-![person consulting lawyer in police station with handcuffs visible on table](/images/blog-image-2-1746661047247.webp)
+Securing a fair settlement after a personal injury can significantly impact your recovery and future well-being. Our experts share strategic tips for maximizing your compensation, from gathering evidence to negotiating assertively with insurance companies. 
 
-## The Role of Evidence in Building a Successful Case
+Explore our insights to enhance your settlement negotiations effectively.
 
-Evidence is at the heart of every legal case, whether criminal or civil. Our firm excels at gathering and leveraging compelling evidence to support our clients' cases. Read on to learn how evidence can impact your case and the methodologies we use to ensure the best possible outcome.
+![image of an attorney and client examining legal documents in a modern office](/images/blog-image-1-1746663317344.webp)
 
-![lawyer looking at evidence on desk with photos and documents under a lamp](/images/blog-image-3-1746661069847.webp)
+### The Impact of New Legislation on Criminal Defense
 
-## Contact Us
+Stay informed about the latest legal legislation and its implications for criminal defense. Our analysis covers recent changes in laws that may affect defense strategies and client rights. Understanding these shifts is vital for both clients and practitioners alike. 
 
-For personalized legal assistance and dedicated representation, reach out to us today. Whether you’re facing criminal charges or seeking compensation for a personal injury, [Law Firm Name] is here to provide the expert guidance you need. Contact us by phone at [Phone Number] or email us at [Email Address].
+Dive deep into our detailed legislative analysis.
+
+![image showing a group of lawyers in a meeting, with legislative documents and a whiteboard](/images/blog-image-2-1746663333526.webp)
+
+## Get Expert Legal Advice Today
+
+In need of expert legal consultation? Our team of seasoned attorneys is here to support you with personalized advice and representation. Contact us today to schedule a consultation:
+
+**Phone:** (555) 123-4567  
+**Email:** contact@lawfirm.com  
+**Visit Us:** 123 Justice Lane, Cityville
+
+Join our newsletter to stay updated with the latest legal insights and firm news straight to your inbox!
 
 ---
 
-Stay informed with our latest updates and legal insights by visiting our blog regularly. For tailored advice regarding your specific situation, schedule a consultation with our legal team. We are committed to providing the highest level of service and expertise to achieve the best outcomes for our clients.`}
+We invite you to browse our blog and connect with us for unparalleled legal services tailored to your needs.`}
       </ReactMarkdown>
     </div>
   );
