@@ -20,19 +20,25 @@ export default function AdminDashboard() {
   const [progressStatus, setProgressStatus] = useState({});
   const [agentFilter, setAgentFilter] = useState('all');
 
-  // Fetch data from API endpoints
+  // Fetch data from API endpoints with rate limiting
   useEffect(() => {
     let isMounted = true;
+    let fetchTimeoutId = null;
     
     const fetchData = async () => {
       if (!isMounted) return;
+      
       try {
-        setLoading(true);
+        setLoading(prevLoading => {
+          // Only show loading state on initial fetch
+          if (content.length === 0 && activities.length === 0) return true;
+          return prevLoading;
+        });
         
-        // Create an array of promises for parallel fetching
+        // Use a single Promise.all to make parallel requests and avoid redundant calls
         const [contentResponse, orchestrateResponse] = await Promise.all([
-          fetch('/api/content'),
-          fetch('/api/orchestrate').catch(() => ({ ok: false }))
+          fetch('/api/content', { cache: 'no-store' }),
+          fetch('/api/orchestrate', { cache: 'no-store' })
         ]);
         
         // Process content data
@@ -42,13 +48,14 @@ export default function AdminDashboard() {
             setContent(contentData.contentFiles);
             
             // Set progress status based on content
-            setProgressStatus({
+            setProgressStatus(prev => ({
+              ...prev,
               contentCompletion: 100,
               seoOptimization: 80, 
               keywordsGenerated: contentData.contentFiles.length * 3,
               pagesCreated: contentData.contentFiles.length,
               pagesApproved: contentData.contentFiles.length
-            });
+            }));
           }
         }
         
@@ -62,6 +69,8 @@ export default function AdminDashboard() {
           
           if (data.contentStatus && data.contentStatus.length > 0) {
             setContent(prevContent => {
+              if (prevContent.length === 0) return data.contentStatus;
+              
               // Create a map for faster lookups
               const contentMap = new Map();
               prevContent.forEach(item => contentMap.set(item.id, item));
@@ -70,7 +79,10 @@ export default function AdminDashboard() {
               data.contentStatus.forEach(statusItem => {
                 if (contentMap.has(statusItem.id)) {
                   const existing = contentMap.get(statusItem.id);
-                  contentMap.set(statusItem.id, { ...existing, ...statusItem });
+                  // Only update if timestamps differ to prevent unnecessary re-renders
+                  if (existing.lastUpdated !== statusItem.lastUpdated) {
+                    contentMap.set(statusItem.id, { ...existing, ...statusItem });
+                  }
                 } else {
                   contentMap.set(statusItem.id, statusItem);
                 }
@@ -83,29 +95,6 @@ export default function AdminDashboard() {
           if (data.progress) {
             setProgressStatus(prev => ({ ...prev, ...data.progress }));
           }
-          
-          // If we have any data, start polling for updates
-          if ((data.agentActivities && data.agentActivities.length > 0) || 
-              (data.contentStatus && data.contentStatus.length > 0)) {
-            setPolling(true);
-          }
-        } else {
-          // Use sample activity data if orchestration API fails
-          console.warn('Orchestration API not available, using sample activity data');
-          setActivities([
-            {
-              agent: 'Team Lead', 
-              action: 'Content Loaded',
-              details: 'Loaded content files from the content directory',
-              timestamp: new Date().toISOString()
-            },
-            {
-              agent: 'Content Writer',
-              action: 'Content Available',
-              details: 'Found content files in the workspace',
-              timestamp: new Date().toISOString()
-            }
-          ]);
         }
         
         if (isMounted) {
@@ -117,65 +106,24 @@ export default function AdminDashboard() {
           setLoading(false);
         }
       }
+      
+      // Schedule next fetch if polling is enabled and component is still mounted
+      if (isMounted && polling) {
+        fetchTimeoutId = setTimeout(fetchData, 15000); // Poll every 15 seconds instead of continuously
+      }
     };
     
-    // Initial data fetch
+    // Initial fetch
     fetchData();
-    
-    // Set up polling with a proper cleanup
-    let interval = null;
-    
-    if (polling) {
-      interval = setInterval(async () => {
-        if (!isMounted) return;
-        
-        try {
-          const response = await fetch('/api/orchestrate');
-          if (!response.ok || !isMounted) return;
-          
-          const data = await response.json();
-          
-          if (data.agentActivities && isMounted) {
-            setActivities(data.agentActivities);
-          }
-          
-          if (data.contentStatus && isMounted) {
-            setContent(prevContent => {
-              // Create a map for faster lookups
-              const contentMap = new Map();
-              prevContent.forEach(item => contentMap.set(item.id, item));
-              
-              // Update with new data
-              data.contentStatus.forEach(statusItem => {
-                if (contentMap.has(statusItem.id)) {
-                  const existing = contentMap.get(statusItem.id);
-                  contentMap.set(statusItem.id, { ...existing, ...statusItem });
-                } else {
-                  contentMap.set(statusItem.id, statusItem);
-                }
-              });
-              
-              return Array.from(contentMap.values());
-            });
-          }
-          
-          if (data.progress && isMounted) {
-            setProgressStatus(prev => ({ ...prev, ...data.progress }));
-          }
-        } catch (error) {
-          console.error('Polling error:', error);
-        }
-      }, 10000); // Decreased polling frequency to 10 seconds to reduce server load
-    }
     
     // Cleanup function
     return () => {
       isMounted = false;
-      if (interval) {
-        clearInterval(interval);
+      if (fetchTimeoutId) {
+        clearTimeout(fetchTimeoutId);
       }
     };
-  }, [polling]); // Only depend on polling state
+  }, [polling]); // Only depend on polling toggle state
 
   // Function to trigger content regeneration
   const triggerRegeneration = async (id) => {

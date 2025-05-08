@@ -439,6 +439,7 @@ async function buildPages() {
     const pageContent = frontmatterMatch ? content.replace(/---\n[\s\S]*?\n---/, '') : content;
     
     const pageName = file.replace('.md', '');
+    // Updated page script with hydration-safe component structure
     const pageScript = `import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import Image from 'next/image';
@@ -448,8 +449,24 @@ export default function ${pageName.charAt(0).toUpperCase() + pageName.slice(1)}(
     <div className="container mx-auto p-4">
       <ReactMarkdown
         components={{
+          // Use a custom p component for images to avoid invalid nesting
+          p: ({ node, children }) => {
+            // Check if the paragraph contains only an image
+            const hasOnlyImage = 
+              node.children.length === 1 && 
+              node.children[0].type === 'element' && 
+              node.children[0].tagName === 'img';
+
+            // If it's just an image, don't wrap it in a <p> tag
+            if (hasOnlyImage) {
+              return <>{children}</>;
+            }
+            // Otherwise, render as normal paragraph
+            return <p>{children}</p>;
+          },
+          // Custom image component using Next.js Image
           img: ({ src, alt }) => (
-            <div className="my-4">
+            <figure className="my-4">
               <Image 
                 src={src} 
                 alt={alt || ''} 
@@ -457,7 +474,8 @@ export default function ${pageName.charAt(0).toUpperCase() + pageName.slice(1)}(
                 height={400} 
                 className="rounded-lg shadow-lg" 
               />
-            </div>
+              {alt && <figcaption className="text-center text-sm text-gray-500 mt-2">{alt}</figcaption>}
+            </figure>
           )
         }}
       >

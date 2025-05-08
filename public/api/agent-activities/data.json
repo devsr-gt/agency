@@ -430,5 +430,59 @@
     "action": "Page Created",
     "details": "Created Blog (3314 chars in 15s)",
     "timestamp": "2025-05-08T01:17:39.960Z"
+  },
+  {
+    "agent": "Content Writer",
+    "action": "Created",
+    "details": "Assistant created with ID: asst_5h8Dp4SNpgTgpNYxQUEuG7qx",
+    "timestamp": "2025-05-08T01:47:35.755Z"
+  },
+  {
+    "agent": "System",
+    "action": "Setup Complete",
+    "details": "Content generation system ready for Sevens Legal",
+    "timestamp": "2025-05-08T01:47:35.757Z"
+  },
+  {
+    "agent": "System",
+    "action": "Page Generation",
+    "details": "Starting content for homepage",
+    "timestamp": "2025-05-08T01:47:36.301Z"
+  },
+  {
+    "agent": "Content Writer",
+    "action": "Page Created",
+    "details": "Created Homepage (2287 chars in 12s)",
+    "timestamp": "2025-05-08T01:47:52.109Z"
+  },
+  {
+    "agent": "System",
+    "action": "Page Generation",
+    "details": "Starting content for services",
+    "timestamp": "2025-05-08T01:47:52.446Z"
+  },
+  {
+    "agent": "Content Writer",
+    "action": "Page Created",
+    "details": "Created Services (3550 chars in 79s)",
+    "timestamp": "2025-05-08T01:49:13.763Z"
+  },
+  {
+    "agent": "System",
+    "action": "Page Generation",
+    "details": "Starting content for about",
+    "timestamp": "2025-05-08T01:49:14.059Z"
+  },
+  {
+    "agent": "Content Writer",
+    "action": "Page Created",
+    "details": "Created About (3727 chars in 14s)",
+    "timestamp": "2025-05-08T01:49:30.326Z"
+  },
+  {
+    "agent": "System",
+    "action": "Page Generation",
+    "details": "Starting content for contact",
+    "timestamp": "2025-05-08T01:49:31.058Z"
   }
 ]
