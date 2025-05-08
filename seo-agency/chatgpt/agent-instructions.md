@@ -1,10 +1,10 @@
-Based on the provided documents, I have streamlined the instructions to eliminate conflicts and ensure a cohesive workflow for Agata Reilly’s automated system for content creation, web building, and social media management targeting law firms in criminal defense and personal injury. Below is the unified plan, integrating all agents, services, and processes into a clear, step-by-step guide.
+Based on the provided documents, I have streamlined the instructions to eliminate conflicts and ensure a cohesive workflow for Agata Reilly’s automated system for content creation, web building, and social media management targeting law firms in criminal defense. Below is the unified plan, integrating all agents, services, and processes into a clear, step-by-step guide.
 
 ---
 
 ## Unified System Overview
 
-This system automates content creation, web building, and social media management for law firms specializing in criminal defense and personal injury. It leverages AI agents powered by the OpenAI Assistants API, each with specialized roles, to produce high-quality, SEO-optimized content and a Next.js website. The system ensures consistency with Agata Reilly’s brand voice—**authoritative yet approachable**—and adheres to her visual identity (e.g., Montserrat, Merriweather, Oswald fonts; deep blues and crisp whites) and core values: authenticity, innovation, consistency, and results.
+This system automates content creation, web building, and social media management for law firms specializing in criminal defense. It leverages AI agents powered by the OpenAI Assistants API, each with specialized roles, to produce high-quality, SEO-optimized content and a Next.js website. The system ensures consistency with Agata Reilly’s brand voice—**authoritative yet approachable**—and adheres to her visual identity (e.g., Montserrat, Merriweather, Oswald fonts; deep blues and crisp whites) and core values: authenticity, innovation, consistency, and results.
 
 ---
 

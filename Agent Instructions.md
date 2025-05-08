@@ -4,7 +4,7 @@ Below is a comprehensive blueprint for automating content creation, web building
 
 ## **Blueprint Overview**
 
-This end-to-end automation pipeline empowers Agata Reilly’s mission to transform the digital presence of law firms (specializing in criminal defense and personal injury) through strategic, data-driven marketing. The system reflects her brand voice—**authoritative yet approachable**, story-driven, and data-informed—while adhering to her visual identity (e.g., Montserrat, Merriweather, Oswald fonts; deep blues and crisp whites) and core values: authenticity, innovation, consistency, and results.
+This end-to-end automation pipeline empowers Agata Reilly’s mission to transform the digital presence of law firms (specializing in criminal defense) through strategic, data-driven marketing. The system reflects her brand voice—**authoritative yet approachable**, story-driven, and data-informed—while adhering to her visual identity (e.g., Montserrat, Merriweather, Oswald fonts; deep blues and crisp whites) and core values: authenticity, innovation, consistency, and results.
 
 ---
 

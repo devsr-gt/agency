@@ -253,6 +253,18 @@
   },
   "active": "d37739ca3a95580f",
   "lastOpenFiles": [
+    "my-law-firm-site/build-log.txt",
+    "my-law-firm-site/public/images/homepage-image-2-1746629745403.webp",
+    "my-law-firm-site/public/images/homepage-image-1-1746629728816.webp",
+    "my-law-firm-site/public/images/homepage-image-0-1746629715096.webp",
+    "my-law-firm-site/src/pages/sample.js",
+    "my-law-firm-site/src/pages/homepage.js",
+    "my-law-firm-site/src/pages",
+    "my-law-firm-site/public/images/sample-image-3-1746625888353.webp",
+    "my-law-firm-site/public/images/sample-image-2-1746625871456.webp",
+    "my-law-firm-site/public/images/sample-image-1-1746625857020.webp",
+    "my-law-firm-site/public/images/sample-image-0-1746625839332.webp",
+    "my-law-firm-site/content/homepage.md",
     "README.md",
     "my-law-firm-site/src/app/components/ThemeToggle.jsx",
     "my-law-firm-site/src/app/components/ThemeProvider.jsx",
@@ -261,9 +273,6 @@
     "my-law-firm-site/src/app/preview/[id]/page.js",
     "my-law-firm-site/src/app/preview/[id]",
     "my-law-firm-site/src/app/preview",
-    "my-law-firm-site/src/app/admin/page.js",
-    "my-law-firm-site/src/app/admin",
-    "my-law-firm-site/src/app/api/keywords/route.js",
     "my-law-firm-site/content/sample.md",
     "my-law-firm-site/node_modules/dotenv/README.md",
     "my-law-firm-site/node_modules/dotenv/CHANGELOG.md",
@@ -288,13 +297,7 @@
     "my-law-firm-site/node_modules/form-data/Readme.md",
     "my-law-firm-site/node_modules/openai/src/_vendor/zod-to-json-schema/README.md",
     "my-law-firm-site/node_modules/openai/src/internal/qs/README.md",
-    "my-law-firm-site/node_modules/openai/src/internal/qs/LICENSE.md",
-    "my-law-firm-site/node_modules/openai/src/_vendor/partial-json-parser/README.md",
     "my-law-firm-site/public/window.svg",
-    "my-law-firm-site/public/vercel.svg",
-    "my-law-firm-site/public/next.svg",
-    "my-law-firm-site/public/globe.svg",
-    "my-law-firm-site/public/file.svg",
-    "seo-agency/chatgpt/my-law-firm-site/node_modules/next-mdx-remote/header.png"
+    "my-law-firm-site/public/vercel.svg"
   ]
 }
