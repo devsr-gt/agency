@@ -1,84 +1,78 @@
-import fs from 'fs/promises';
-import path from 'path';
 import { NextResponse } from 'next/server';
+import fs from 'fs';
+import path from 'path';
+import matter from 'gray-matter';
 
-export async function GET(request) {
+export async function GET() {
   try {
-    const { searchParams } = new URL(request.url);
-    const pageId = searchParams.get('pageId');
+    const contentDir = path.join(process.cwd(), 'content');
     
-    if (!pageId) {
-      return NextResponse.json(
-        { error: 'Page ID is required' },
-        { status: 400 }
-      );
+    // Check if directory exists
+    if (!fs.existsSync(contentDir)) {
+      return NextResponse.json({ 
+        error: 'Content directory not found' 
+      }, { status: 404 });
     }
     
-    const contentPath = path.join(process.cwd(), 'content', `${pageId}.md`);
+    const files = fs.readdirSync(contentDir);
     
-    // Check if file exists
-    try {
-      await fs.access(contentPath);
-    } catch (fileError) {
-      return NextResponse.json(
-        { error: `Content not found: ${fileError.message}` },
-        { status: 404 }
-      );
-    }
+    const contentFiles = files
+      .filter(file => file.endsWith('.md'))
+      .map(file => {
+        const filePath = path.join(contentDir, file);
+        const fileContent = fs.readFileSync(filePath, 'utf8');
+        const { data, content } = matter(fileContent);
+        
+        // Get file stats for last modified date
+        const stats = fs.statSync(filePath);
+        
+        return {
+          id: file.replace('.md', ''),
+          title: data.title || file.replace('.md', ''),
+          content: content,
+          frontmatter: data,
+          lastUpdated: stats.mtime.toISOString(),
+          status: data.status || 'completed'
+        };
+      });
     
-    // Read content file
-    const content = await fs.readFile(contentPath, 'utf-8');
-    
-    return NextResponse.json({ content, pageId });
+    return NextResponse.json({ contentFiles });
   } catch (error) {
-    console.error('Error fetching content:', error);
-    return NextResponse.json(
-      { error: `Failed to fetch content: ${error.message}` },
-      { status: 500 }
-    );
+    console.error('Error reading content files:', error);
+    return NextResponse.json({ 
+      error: 'Failed to fetch content files' 
+    }, { status: 500 });
   }
 }
 
 export async function POST(request) {
   try {
-    const { pageId, content } = await request.json();
+    const { id, content, frontmatter } = await request.json();
     
-    if (!pageId || !content) {
-      return NextResponse.json(
-        { error: 'Page ID and content are required' },
-        { status: 400 }
-      );
+    if (!id || !content) {
+      return NextResponse.json({ 
+        error: 'Missing required fields' 
+      }, { status: 400 });
     }
     
-    const contentPath = path.join(process.cwd(), 'content', `${pageId}.md`);
+    const contentDir = path.join(process.cwd(), 'content');
+    const filePath = path.join(contentDir, `${id}.md`);
     
-    // Check if file exists
-    try {
-      await fs.access(contentPath);
-    } catch (fileError) {
-      return NextResponse.json(
-        { error: `Content file not found: ${fileError.message}` },
-        { status: 404 }
-      );
-    }
+    // Create frontmatter content
+    const yamlFrontmatter = matter.stringify(content, frontmatter || {});
     
-    // Write updated content to file
-    await fs.writeFile(contentPath, content, 'utf-8');
+    // Write to file
+    fs.writeFileSync(filePath, yamlFrontmatter);
     
-    // Update the last modified timestamp
-    const timestamp = new Date().toISOString();
-    
-    return NextResponse.json({
+    return NextResponse.json({ 
       success: true,
-      pageId,
-      lastUpdated: timestamp,
-      message: 'Content updated successfully'
+      message: `Content for ${id} updated successfully`
     });
+    
   } catch (error) {
-    console.error('Error updating content:', error);
-    return NextResponse.json(
-      { error: `Failed to update content: ${error.message}` },
-      { status: 500 }
-    );
+    console.error('Error updating content file:', error);
+    return NextResponse.json({ 
+      error: 'Failed to update content file' 
+    }, { status: 500 });
   }
 }
