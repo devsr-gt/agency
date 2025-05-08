@@ -10,7 +10,7 @@ async function readStatusData() {
   try {
     const fileData = await fs.readFile(contentStatusPath, 'utf-8');
     return JSON.parse(fileData);
-  } catch (error) {
+  } catch (_error) {
     // If file doesn't exist or is invalid JSON, return empty array
     return [];
   }
@@ -23,7 +23,7 @@ async function writeStatusData(data) {
   // Create directory if it doesn't exist
   try {
     await fs.access(dirPath);
-  } catch (error) {
+  } catch (_error) {
     await fs.mkdir(dirPath, { recursive: true });
   }
   

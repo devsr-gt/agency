@@ -1,56 +1,46 @@
 # Contact Us
 
-## Get the Legal Support You Need
+At Law Firm, we are dedicated to providing expert legal representation to our clients. Whether you're facing criminal charges or dealing with a personal injury case, our experienced attorneys are here to help you navigate the complexities of the legal system. Reach out to us today for a confidential consultation and let us be your trusted advocates.
 
-At Law Firm, we understand the stress and uncertainty that legal challenges can bring. Whether you're facing criminal charges or dealing with a personal injury, our dedicated team is here to provide the expert guidance and representation you need. Reach out to us today to discuss your case and take the first step toward securing your future.
+## Get in Touch
 
-## Contact Information
+We understand that contacting a lawyer can be a daunting step. Our team is committed to making the process as seamless and comfortable as possible. Please fill out the contact form, or reach us via phone or email.
 
-### Phone
-- **Main Office:** (555) 123-4567
-- **24/7 Hotline:** (555) 987-6543
+### Contact Form
+- **Name**
+- **Email**
+- **Phone Number**
+- **Message**
 
-### Email
-- **General Inquiries:** contact@lawfirm.com
-- **Existing Clients:** support@lawfirm.com
+[Submit Button]
 
-### Office Locations
-- **Downtown Office:**  
-  123 Legal Street, Suite 100  
-  Metropolis, ST 54321  
-  [Directions](https://maps.example.com/downtown)
+### Our Office Locations
 
-- **Uptown Office:**  
-  678 Justice Avenue  
-  Metropolis, ST 54322  
-  [Directions](https://maps.example.com/uptown)
+**Main Office**  
+1234 Justice Street  
+Suite 200  
+Anytown, ST 12345  
+Phone: (555) 123-4567  
+Email: contact@lawfirm.com
 
-## Office Hours
-- **Monday to Friday:** 9 AM - 6 PM
-- **Saturday:** By appointment only
-- **Sunday:** Closed
+**Downtown Office**  
+5678 Liberty Avenue  
+Floor 3  
+City Central, ST 67890  
+Phone: (555) 987-6543  
+Email: downtown@lawfirm.com
 
-## Contact Form
-Please fill out the form below, and a member of our team will get back to you promptly.
-
-![a detailed image of a professional law office contact form layout](/images/contact-image-0-1746664072861.webp)
-
----
+![modern law office interior with a reception area, comfortable seating, and a welcoming atmosphere](/images/contact-image-0-1746667160046.webp)
 
 ## Frequently Asked Questions
 
-### What can I expect during my initial consultation?
+**1. What can I expect during my initial consultation?**  
+During your initial consultation, our attorneys will discuss the details of your case, answer any questions you may have, and provide an overview of how we can assist you moving forward. This meeting is confidential and there is no obligation to retain our services.
 
-Your initial consultation at Law Firm is an opportunity for us to understand your situation fully. We will discuss the details of your case, assess your legal options, and recommend a course of action. This consultation is confidential and designed to give you peace of mind and clarity.
+**2. What should I bring to the consultation?**  
+Please bring any relevant documents related to your case, such as police reports, medical records, or correspondence. Having these documents on hand will help us better understand your situation and provide the most accurate advice.
 
-### Is the initial consultation free?
+**3. How long does the consultation usually last?**  
+Initial consultations typically last between 30 minutes to an hour, depending on the complexity of your case. Our goal is to ensure you leave with a clear understanding of your legal options.
 
-Yes, we offer a free initial consultation for all potential clients to ensure you have access to the legal information you need without any financial pressure.
-
-### How should I prepare for my consultation?
-
-To get the most out of your consultation, bring any relevant documents or evidence related to your case. Be prepared to discuss the details of your situation openly and honestly with our attorneys.
-
----
-
-Ready to take the next step? Contact us today to schedule your consultation and begin your journey towards resolution and justice.
+For immediate assistance or to schedule a consultation, please call us at (555) 123-4567 or email us at contact@lawfirm.com. We look forward to serving you and achieving the best possible outcome for your case.

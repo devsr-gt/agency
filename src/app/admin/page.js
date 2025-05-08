@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ThemeToggle } from '../components/ThemeToggle';
 import ContentEditor from '../components/ContentEditor';
-import Image from 'next/image';
 
 export default function AdminDashboard() {
   const [content, setContent] = useState([]);
@@ -23,12 +22,20 @@ export default function AdminDashboard() {
 
   // Fetch data from API endpoints
   useEffect(() => {
+    let isMounted = true;
+    
     const fetchData = async () => {
+      if (!isMounted) return;
       try {
         setLoading(true);
         
-        // Fetch content files
-        const contentResponse = await fetch('/api/content');
+        // Create an array of promises for parallel fetching
+        const [contentResponse, orchestrateResponse] = await Promise.all([
+          fetch('/api/content'),
+          fetch('/api/orchestrate').catch(() => ({ ok: false }))
+        ]);
+        
+        // Process content data
         if (contentResponse.ok) {
           const contentData = await contentResponse.json();
           if (contentData.contentFiles && contentData.contentFiles.length > 0) {
@@ -36,50 +43,55 @@ export default function AdminDashboard() {
             
             // Set progress status based on content
             setProgressStatus({
-              contentCompletion: 100, // All content files exist
-              seoOptimization: 80, // Assuming good SEO
-              keywordsGenerated: contentData.contentFiles.length * 3, // Estimate
+              contentCompletion: 100,
+              seoOptimization: 80, 
+              keywordsGenerated: contentData.contentFiles.length * 3,
               pagesCreated: contentData.contentFiles.length,
-              pagesApproved: contentData.contentFiles.length // All existing files are considered approved
+              pagesApproved: contentData.contentFiles.length
             });
           }
         }
         
-        // Try to fetch orchestration status data (fallback to sample data if needed)
-        try {
-          const response = await fetch('/api/orchestrate');
-          if (response.ok) {
-            const data = await response.json();
-            
-            if (data.agentActivities && data.agentActivities.length > 0) {
-              setActivities(data.agentActivities);
-            }
-            
-            if (data.contentStatus && data.contentStatus.length > 0) {
-              // If API returns content status, merge with our content files data
-              const mergedContent = [...content];
+        // Process orchestration data
+        if (orchestrateResponse.ok) {
+          const data = await orchestrateResponse.json();
+          
+          if (data.agentActivities && data.agentActivities.length > 0) {
+            setActivities(data.agentActivities);
+          }
+          
+          if (data.contentStatus && data.contentStatus.length > 0) {
+            setContent(prevContent => {
+              // Create a map for faster lookups
+              const contentMap = new Map();
+              prevContent.forEach(item => contentMap.set(item.id, item));
+              
+              // Update with new data
               data.contentStatus.forEach(statusItem => {
-                const existingIndex = mergedContent.findIndex(item => item.id === statusItem.id);
-                if (existingIndex >= 0) {
-                  mergedContent[existingIndex] = { ...mergedContent[existingIndex], ...statusItem };
+                if (contentMap.has(statusItem.id)) {
+                  const existing = contentMap.get(statusItem.id);
+                  contentMap.set(statusItem.id, { ...existing, ...statusItem });
+                } else {
+                  contentMap.set(statusItem.id, statusItem);
                 }
               });
-              setContent(mergedContent);
-            }
-            
-            if (data.progress) {
-              setProgressStatus(prev => ({ ...prev, ...data.progress }));
-            }
-            
-            // If we have any data, start polling for updates
-            if ((data.agentActivities && data.agentActivities.length > 0) || 
-                (data.contentStatus && data.contentStatus.length > 0)) {
-              setPolling(true);
-            }
+              
+              return Array.from(contentMap.values());
+            });
           }
-        } catch (error) {
+          
+          if (data.progress) {
+            setProgressStatus(prev => ({ ...prev, ...data.progress }));
+          }
+          
+          // If we have any data, start polling for updates
+          if ((data.agentActivities && data.agentActivities.length > 0) || 
+              (data.contentStatus && data.contentStatus.length > 0)) {
+            setPolling(true);
+          }
+        } else {
+          // Use sample activity data if orchestration API fails
           console.warn('Orchestration API not available, using sample activity data');
-          // Use sample activity data
           setActivities([
             {
               agent: 'Team Lead', 
@@ -90,43 +102,80 @@ export default function AdminDashboard() {
             {
               agent: 'Content Writer',
               action: 'Content Available',
-              details: `Found ${content.length} content files in the workspace`,
+              details: 'Found content files in the workspace',
               timestamp: new Date().toISOString()
             }
           ]);
         }
         
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       } catch (error) {
         console.error('Failed to fetch data:', error);
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
     
+    // Initial data fetch
     fetchData();
     
-    // Set up polling if enabled
-    let interval;
+    // Set up polling with a proper cleanup
+    let interval = null;
+    
     if (polling) {
       interval = setInterval(async () => {
+        if (!isMounted) return;
+        
         try {
           const response = await fetch('/api/orchestrate');
-          if (response.ok) {
-            const data = await response.json();
-            if (data.agentActivities) setActivities(data.agentActivities);
-            if (data.contentStatus) setContent(data.contentStatus);
-            if (data.progress) setProgressStatus(data.progress);
+          if (!response.ok || !isMounted) return;
+          
+          const data = await response.json();
+          
+          if (data.agentActivities && isMounted) {
+            setActivities(data.agentActivities);
           }
-        } catch (_error) {
-          console.error('Polling error:', _error);
+          
+          if (data.contentStatus && isMounted) {
+            setContent(prevContent => {
+              // Create a map for faster lookups
+              const contentMap = new Map();
+              prevContent.forEach(item => contentMap.set(item.id, item));
+              
+              // Update with new data
+              data.contentStatus.forEach(statusItem => {
+                if (contentMap.has(statusItem.id)) {
+                  const existing = contentMap.get(statusItem.id);
+                  contentMap.set(statusItem.id, { ...existing, ...statusItem });
+                } else {
+                  contentMap.set(statusItem.id, statusItem);
+                }
+              });
+              
+              return Array.from(contentMap.values());
+            });
+          }
+          
+          if (data.progress && isMounted) {
+            setProgressStatus(prev => ({ ...prev, ...data.progress }));
+          }
+        } catch (error) {
+          console.error('Polling error:', error);
         }
-      }, 5000); // Poll every 5 seconds
+      }, 10000); // Decreased polling frequency to 10 seconds to reduce server load
     }
     
+    // Cleanup function
     return () => {
-      if (interval) clearInterval(interval);
+      isMounted = false;
+      if (interval) {
+        clearInterval(interval);
+      }
     };
-  }, [polling]);
+  }, [polling]); // Only depend on polling state
 
   // Function to trigger content regeneration
   const triggerRegeneration = async (id) => {

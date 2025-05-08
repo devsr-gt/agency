@@ -7,8 +7,24 @@ export default function Services() {
     <div className="container mx-auto p-4">
       <ReactMarkdown
         components={{
+          // Use a custom p component for images to avoid invalid nesting
+          p: ({ node, children }) => {
+            // Check if the paragraph contains only an image
+            const hasOnlyImage = 
+              node.children.length === 1 && 
+              node.children[0].type === 'element' && 
+              node.children[0].tagName === 'img';
+
+            // If it's just an image, don't wrap it in a <p> tag
+            if (hasOnlyImage) {
+              return <>{children}</>;
+            }
+            // Otherwise, render as normal paragraph
+            return <p>{children}</p>;
+          },
+          // Custom image component using Next.js Image
           img: ({ src, alt }) => (
-            <div className="my-4">
+            <figure className="my-4">
               <Image 
                 src={src} 
                 alt={alt || ''} 
@@ -16,65 +32,62 @@ export default function Services() {
                 height={400} 
                 className="rounded-lg shadow-lg" 
               />
-            </div>
+              {alt && <figcaption className="text-center text-sm text-gray-500 mt-2">{alt}</figcaption>}
+            </figure>
           )
         }}
       >
         {`# Our Legal Services
 
-Welcome to Law Firm, where our dedication, experience, and personalized approach set us apart in the field of criminal defense and personal injury law. Explore our comprehensive services below to understand how we can assist you in your time of need.
+At Law Firm, we are dedicated to providing expert legal representation in criminal defense and personal injury. Our seasoned attorneys are committed to safeguarding your rights, securing the best possible outcome, and ensuring justice is served. Explore our core practice areas below to learn how we can assist you.
 
 ## Criminal Defense
 
-### Defending Your Rights
+Navigating the complexities of the criminal justice system can be overwhelming. Our experienced criminal defense team offers comprehensive legal support to clients facing a wide range of charges, from misdemeanors to serious felonies. 
 
-At Law Firm, we vigorously defend individuals facing serious criminal charges. From the initial consultation to the final verdict, our experienced attorneys are committed to protecting your rights and securing the best possible outcomes. We provide defense services for:
+### How We Help:
+- Conduct thorough investigations to build a robust defense
+- Negotiate effectively with prosecutors for reduced charges or dismissals
+- Provide relentless advocacy in court for acquittals or favorable verdicts
 
-- **DUI and DWI**
-- **Drug Offenses**
-- **Assault and Battery**
-- **White Collar Crimes**
+### What Sets Us Apart:
+- Decades of combined experience in criminal law
+- A proven track record of successful case outcomes, including high-profile acquittals
+- Personalized defense strategies tailored to each client's unique circumstances
 
-Our approach is tailored to each client's unique situation, employing innovative defense strategies and leveraging our extensive knowledge of the legal system. We have a track record of successfully reducing charges and securing acquittals.
+### Case Experience:
+Our defense team recently secured an acquittal for a client wrongfully accused of embezzlement, demonstrating our commitment to rigorous defense and justice.
 
-#### Case Success
-
-In a recent high-profile case, our defense team achieved a full acquittal for a client wrongfully accused of embezzlement, saving them from a potential decade-long sentence.
-
-![confident legal presentation in courtroom](/images/services-image-0-1746664114750.webp)
+![image of experienced lawyer in a courtroom setting, confidently presenting arguments before a judge](/images/services-image-0-1746667248206.webp)
 
 ## Personal Injury
 
-### Your Advocate for Recovery
+If you have suffered injuries due to someone else's negligence, our personal injury attorneys are prepared to fight for the compensation you deserve. We handle all aspects of personal injury cases to ensure your recovery is both comprehensive and just.
 
-Accidents can turn your life upside down, but our personal injury lawyers are here to help you regain control. We understand the physical, emotional, and financial toll these events can take. Our services include:
+### How We Help:
+- Aggressively pursue maximum compensation for medical expenses, lost wages, and emotional distress
+- Engage in expert negotiations with insurance companies on your behalf
+- Provide compassionate guidance and support throughout the recovery process
 
-- **Car Accidents**
-- **Slip and Fall**
-- **Medical Malpractice**
-- **Workplace Injuries**
+### What Sets Us Apart:
+- Extensive experience in managing complex injury cases, from auto accidents to medical malpractice
+- A client-centered approach that prioritizes personal attention and tailored solutions
+- A history of securing substantial settlements and verdicts for our clients
 
-Our firm prides itself on compassionate client service, ensuring that you receive the compensation you deserve while holding responsible parties accountable. Our aggressive negotiation and litigation strategies are grounded in a history of noteworthy settlements and verdicts.
+### Case Experience:
+Recently, our firm achieved a multi-million dollar settlement for a client injured in a commercial trucking accident, exemplifying our commitment to exceptional results.
 
-#### Case Success
-
-Recently, we obtained a $2 million settlement for a client injured in a trucking accident, ensuring their medical and future care needs were fully met.
-
-![client consultation in law office](/images/services-image-1-1746664130514.webp)
+![image of a personal injury lawyer consulting with a client, highlighting professionalism and empathy](/images/services-image-1-1746667264927.webp)
 
 ## Contact Us
 
-Whether you're facing criminal charges or seeking justice for an injury, we are here to help. For a consultation, contact us today:
+Choose Law Firm for expert legal guidance and vigorous representation. Contact us today for a free consultation and let us help you achieve the justice you deserve.
 
-- **Phone:** (555) 123-4567
-- **Email:** contact@lawfirm.com
-- **Visit:** 123 Legal Drive, Justice City, USA
+**Phone:** (555) 123-4567  
+**Email:** contact@lawfirm.com  
+**Location:** 123 Justice Blvd, Suite 200, Anytown, USA
 
-### Schedule a Free Consultation
-
-Don't wait to secure your defense or advocate—schedule a free consultation to explore your legal options and take the first step towards resolving your case.
-
-![welcoming law office reception area](/images/services-image-2-1746664146280.webp)`}
+![image of a modern law firm building with professional signage and welcoming entrance](/images/services-image-2-1746667278315.webp)`}
       </ReactMarkdown>
     </div>
   );

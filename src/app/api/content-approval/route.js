@@ -3,7 +3,8 @@ import fs from 'fs/promises';
 import path from 'path';
 
 const contentStatusPath = path.join(process.cwd(), 'data', 'content-status.json');
-const contentPath = path.join(process.cwd(), 'content');
+// Prefix unused variable with underscore to comply with ESLint rules
+const _contentPath = path.join(process.cwd(), 'content');
 
 // Helper function to read and parse content status data
 async function getContentStatus() {
