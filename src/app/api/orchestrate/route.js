@@ -4,6 +4,9 @@ import { existsSync, readFileSync } from 'fs';
 import path from 'path';
 import { orchestrateAgents } from '../../../../orchestrate.js';
 
+// Import the SEO analyzer
+const { analyzeAllContent } = require('../../../utils/seoAnalyzer');
+
 // Initialize with data from files if available
 let agentActivities = [];
 let contentStatus = [];
@@ -12,7 +15,8 @@ let progressStatus = {
   seoOptimization: 0,
   keywordsGenerated: 0,
   pagesCreated: 0,
-  pagesApproved: 0
+  pagesApproved: 0,
+  seoDetails: {}
 };
 let clientInformation = null;
 
@@ -70,9 +74,29 @@ try {
   
   // Calculate progress status
   if (contentStatus.length > 0) {
+    // Analyze content for SEO optimization
+    const contentDir = path.join(process.cwd(), 'content');
+    let seoScore = 60; // Default fallback
+    let seoDetails = {};
+    
+    try {
+      // Only run analysis if content directory exists
+      if (existsSync(contentDir)) {
+        const seoAnalysis = analyzeAllContent(contentDir, clientInformation);
+        seoScore = seoAnalysis.score;
+        seoDetails = {
+          pageScores: seoAnalysis.pageScores,
+          recommendations: seoAnalysis.recommendations
+        };
+      }
+    } catch (err) {
+      console.error('Error analyzing SEO:', err);
+    }
+    
     progressStatus = {
       contentCompletion: Math.round((contentStatus.length / 5) * 100), // Assuming 5 pages is complete
-      seoOptimization: 60, // Default value
+      seoOptimization: seoScore,
+      seoDetails: seoDetails,
       keywordsGenerated: contentStatus.length * 3, // Rough estimate
       pagesCreated: contentStatus.length,
       pagesApproved: contentStatus.filter(c => c.status === 'approved').length
@@ -87,6 +111,21 @@ export async function GET() {
   try {
     // Check if we need to scan for new content
     await scanForNewContent();
+    
+    // Run SEO analysis to get fresh scores (if content exists)
+    const contentDir = path.join(process.cwd(), 'content');
+    if (existsSync(contentDir)) {
+      try {
+        const seoAnalysis = analyzeAllContent(contentDir, clientInformation);
+        progressStatus.seoOptimization = seoAnalysis.score;
+        progressStatus.seoDetails = {
+          pageScores: seoAnalysis.pageScores,
+          recommendations: seoAnalysis.recommendations
+        };
+      } catch (err) {
+        console.error('Error refreshing SEO analysis:', err);
+      }
+    }
     
     // Return current state of agent activities and content status
     return NextResponse.json({
@@ -289,6 +328,20 @@ function logActivity(activity) {
 function updateContentStatus(contentUpdate) {
   // Find existing content or add new
   const existingIndex = contentStatus.findIndex(c => c.id === contentUpdate.id);
+  
+  // Ensure contentUpdate has a status field and not approvalStatus
+  if (contentUpdate.approvalStatus && !contentUpdate.status) {
+    contentUpdate.status = contentUpdate.approvalStatus;
+    delete contentUpdate.approvalStatus;
+  }
+  
+  // If we're changing from regenerating to approved status, remove any regeneration feedback
+  if (existingIndex >= 0 && 
+      contentStatus[existingIndex].status === 'regenerating' && 
+      contentUpdate.status === 'approved') {
+    // Remove regeneration-specific fields
+    delete contentUpdate.regenerationFeedback;
+  }
   
   if (existingIndex >= 0) {
     contentStatus[existingIndex] = {

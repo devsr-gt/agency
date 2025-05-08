@@ -13,8 +13,10 @@ export default function AdminDashboard() {
   const [regenerating, setRegenerating] = useState(null);
   const [feedback, setFeedback] = useState('');
   const [polling, setPolling] = useState(false);
-  const [clientInfo] = useState(null);
-  const [editingContent, setEditingContent] = useState(null);
+  const [clientInfo] = useState(nul                  {/* Page-specific SEO Recommendations */}
+                  {progressStatus.seoDetails?.recommendations && progressStatus.seoDetails.recommendations.length > 0 && (
+                    <div className="mt-6">
+                      <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Page-Specific SEO Recommendations</h3>  const [editingContent, setEditingContent] = useState(null);
   const [currentContent, setCurrentContent] = useState('');
   const [loadingContent, setLoadingContent] = useState(false);
   const [progressStatus, setProgressStatus] = useState({});
@@ -51,7 +53,7 @@ export default function AdminDashboard() {
             setProgressStatus(prev => ({
               ...prev,
               contentCompletion: 100,
-              seoOptimization: 80, 
+              // Don't override seoOptimization here, let the orchestrate API handle it
               keywordsGenerated: contentData.contentFiles.length * 3,
               pagesCreated: contentData.contentFiles.length,
               pagesApproved: contentData.contentFiles.length
@@ -139,7 +141,7 @@ export default function AdminDashboard() {
         },
         body: JSON.stringify({
           action: 'regenerate',
-          pageId: id,
+          pageId: id, // This is correct as the API expects pageId
           feedback: feedback || 'Please improve this content.'
         }),
       });
@@ -181,7 +183,7 @@ export default function AdminDashboard() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          pageId: id,
+          id: id,
           status: newStatus
         }),
       }).catch(_error => { // Changed 'error' to '_error' as it's not used in the log below
@@ -226,13 +228,14 @@ export default function AdminDashboard() {
   // Function to save edited content
   const handleSaveContent = async (id, content) => {
     try {
+      // First save the content
       const response = await fetch('/api/content', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          pageId: id,
+          id: id,
           content
         }),
       });
@@ -240,10 +243,26 @@ export default function AdminDashboard() {
       if (response.ok) {
         const data = await response.json();
         
-        // Update local content state with new timestamp
+        // Always update status to "approved" after successful edit
+        await fetch('/api/content/status', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            id: id,
+            status: 'approved'
+          }),
+        });
+        
+        // Update local content state with new timestamp and reset status to approved
         setContent(prevContent => 
           prevContent.map(item => 
-            item.id === id ? { ...item, lastUpdated: data.lastUpdated } : item
+            item.id === id ? { 
+              ...item, 
+              lastUpdated: data.lastUpdated,
+              status: 'approved' // Always set to approved when content is saved
+            } : item
           )
         );
         
@@ -393,6 +412,16 @@ export default function AdminDashboard() {
             >
               Activities
             </button>
+            <button
+              className={`py-2 px-4 font-medium ${
+                activeTab === 'seo' 
+                  ? 'text-blue-600 border-b-2 border-blue-600' 
+                  : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'
+              }`}
+              onClick={() => setActiveTab('seo')}
+            >
+              SEO Analysis
+            </button>
           </div>
         </div>
         
@@ -456,7 +485,7 @@ export default function AdminDashboard() {
                                 Reject
                               </button>
                               <Link
-                                href={`/preview?page=${item.id}`}
+                                href={`/preview/${item.id}`}
                                 target="_blank"
                                 className="text-purple-600 hover:text-purple-900 dark:text-purple-400 dark:hover:text-purple-300"
                               >
@@ -489,6 +518,153 @@ export default function AdminDashboard() {
                   </tbody>
                 </table>
               </div>
+            </div>
+          </div>
+        )}
+        
+        {activeTab === 'seo' && (
+          <div>
+            <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-4 mb-6">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">SEO Analysis</h2>
+              
+              <div className="mb-6 flex items-center">
+                <div className="text-5xl font-bold text-blue-600 dark:text-blue-400 mr-4">
+                  {progressStatus.seoOptimization || 0}%
+                </div>
+                <div className="flex-1">
+                  <div className="w-full bg-gray-200 h-4 rounded-full dark:bg-gray-700">
+                    <div 
+                      className={`h-4 rounded-full ${
+                        progressStatus.seoOptimization >= 80 ? 'bg-green-500' : 
+                        progressStatus.seoOptimization >= 60 ? 'bg-blue-500' : 
+                        progressStatus.seoOptimization >= 40 ? 'bg-yellow-500' : 'bg-red-500'
+                      }`} 
+                      style={{ width: `${progressStatus.seoOptimization || 0}%` }}
+                    ></div>
+                  </div>
+                  <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                    Overall SEO Score
+                  </div>
+                </div>
+              </div>
+              
+              {progressStatus.seoDetails?.pageScores && Object.keys(progressStatus.seoDetails.pageScores).length > 0 ? (
+                <div>
+                  <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Page-by-Page Analysis</h3>
+                  <div className="overflow-x-auto">
+                    <table className="min-w-full bg-white dark:bg-gray-800">
+                      <thead className="bg-gray-50 dark:bg-gray-700">
+                        <tr>
+                          <th className="py-2 px-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Page</th>
+                          <th className="py-2 px-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Score</th>
+                          <th className="py-2 px-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Words</th>
+                          <th className="py-2 px-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Keyword Density</th>
+                          <th className="py-2 px-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Total Headings</th>
+                          <th className="py-2 px-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Top Keywords</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                        {Object.entries(progressStatus.seoDetails.pageScores).map(([pageId, pageData]) => (
+                          <tr key={pageId} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                            <td className="py-3 px-4 text-sm font-medium text-gray-900 dark:text-white">{pageId}</td>
+                            <td className="py-3 px-4 text-sm">
+                              <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                                pageData.score >= 80 ? 'bg-green-100 text-green-800' : 
+                                pageData.score >= 60 ? 'bg-blue-100 text-blue-800' : 
+                                pageData.score >= 40 ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800'
+                              }`}>
+                                {pageData.score}%
+                              </span>
+                            </td>
+                            <td className="py-3 px-4 text-sm text-gray-500 dark:text-gray-400">{pageData.details?.wordCount || 0}</td>
+                            <td className="py-3 px-4 text-sm text-gray-500 dark:text-gray-400">{pageData.details?.keywordDensity || '0%'}</td>
+                            <td className="py-3 px-4 text-sm text-gray-500 dark:text-gray-400">
+                              {pageData.details?.headings ? (
+                                typeof pageData.details.headings === 'object' ? (
+                                  <div className="group relative cursor-help">
+                                    <span>{pageData.details.headings.total || 0}</span>
+                                    <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 text-xs font-medium text-white bg-gray-900 rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
+                                      <div className="text-center">
+                                        <div>H1: {pageData.details.headings.h1 || 0}</div>
+                                        <div>H2: {pageData.details.headings.h2 || 0}</div>
+                                        <div>H3: {pageData.details.headings.h3 || 0}</div>
+                                      </div>
+                                      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 rotate-45 w-2 h-2 bg-gray-900"></div>
+                                    </div>
+                                  </div>
+                                ) : (
+                                  // Make sure we don't directly render an object
+                                  typeof pageData.details.headings === 'object' ? 
+                                    JSON.stringify(pageData.details.headings) : 
+                                    String(pageData.details.headings)
+                                )
+                              ) : 0}
+                            </td>
+                            <td className="py-3 px-4 text-sm text-gray-500 dark:text-gray-400">
+                              {pageData.details?.topKeywords && Array.isArray(pageData.details.topKeywords) ? (
+                                <div className="group relative cursor-help">
+                                  <span className="underline dotted">{pageData.details.topKeywords.length > 0 ? pageData.details.topKeywords[0].keyword : 'None'}</span>
+                                  <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 text-xs font-medium text-white bg-gray-900 rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10 whitespace-nowrap">
+                                    <div className="text-left">
+                                      {pageData.details.topKeywords.slice(0, 5).map((keyword, idx) => (
+                                        <div key={idx}>{idx + 1}. "{keyword.keyword}" ({keyword.count})</div>
+                                      ))}
+                                    </div>
+                                    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 rotate-45 w-2 h-2 bg-gray-900"></div>
+                                  </div>
+                                </div>
+                              ) : 'N/A'}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                  
+                  {/* Site-wide SEO Suggestions */}
+                  {progressStatus.seoDetails?.siteWideSuggestions && progressStatus.seoDetails.siteWideSuggestions.length > 0 && (
+                    <div className="mt-6 mb-8">
+                      <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Site-Wide SEO Issues</h3>
+                      <div className="space-y-4">
+                        {progressStatus.seoDetails.siteWideSuggestions.map((suggestion, idx) => (
+                          <div key={idx} className="bg-blue-50 dark:bg-blue-900/30 p-4 rounded-md border-l-4 border-blue-400">
+                            <h4 className="font-medium text-blue-800 dark:text-blue-300">{suggestion.issue}</h4>
+                            <p className="mt-1 text-sm text-blue-700 dark:text-blue-200">
+                              <span className="font-medium">Affected pages:</span> {Array.isArray(suggestion.pages) ? suggestion.pages.join(', ') : 'Multiple pages'}
+                            </p>
+                            <p className="mt-2 text-sm text-blue-700 dark:text-blue-200">
+                              <span className="font-medium">Recommendation:</span> {suggestion.recommendation}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* Page-specific SEO Recommendations */}
+                  {progressStatus.seoDetails.recommendations && progressStatus.seoDetails.recommendations.length > 0 && (
+                    <div className="mt-6">
+                      <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Page-Specific SEO Recommendations</h3>
+                      <div className="space-y-4">
+                        {progressStatus.seoDetails.recommendations.map((rec, idx) => (
+                          <div key={idx} className="bg-yellow-50 dark:bg-yellow-900/30 p-4 rounded-md border-l-4 border-yellow-400">
+                            <h4 className="font-medium text-yellow-800 dark:text-yellow-300">{rec.page}</h4>
+                            <ul className="mt-2 list-disc pl-5 space-y-1">
+                              {rec.recommendations.map((item, i) => (
+                                <li key={i} className="text-sm text-yellow-700 dark:text-yellow-200">{item}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="text-center text-gray-500 dark:text-gray-400 py-8">
+                  No SEO analysis data available. This could be because there's no content to analyze yet.
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -589,6 +765,20 @@ export default function AdminDashboard() {
                 </div>
               </div>
             </div>
+            {progressStatus.seoDetails?.recommendations && progressStatus.seoDetails.recommendations.length > 0 && (
+              <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                <button
+                  onClick={() => alert('SEO Recommendations: ' + 
+                    progressStatus.seoDetails.recommendations.map(rec => 
+                      `\n\n- ${rec.page}: ${rec.recommendations.join(', ')}`
+                    ).join('')
+                  )}
+                  className="underline hover:text-blue-500 dark:hover:text-blue-300"
+                >
+                  View {progressStatus.seoDetails.recommendations.length} SEO recommendations
+                </button>
+              </div>
+            )}
           </div>
           
           <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-4">

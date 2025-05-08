@@ -2,31 +2,33 @@
   {
     "id": "homepage",
     "title": "Homepage",
-    "lastUpdated": "2025-05-08T01:21:19.607Z",
+    "lastUpdated": "2025-05-08T13:08:03.317Z",
     "author": "Content Writer"
   },
   {
     "id": "services",
     "title": "Services",
-    "lastUpdated": "2025-05-08T01:21:19.607Z",
+    "lastUpdated": "2025-05-08T13:08:03.319Z",
     "author": "Content Writer"
   },
   {
     "id": "about",
     "title": "About",
-    "lastUpdated": "2025-05-08T01:21:19.603Z",
-    "author": "Content Writer"
+    "lastUpdated": "2025-05-08T20:32:52.202Z",
+    "author": "Content Writer",
+    "status": "regenerating",
+    "regenerationFeedback": "Make the page 1000 words"
   },
   {
     "id": "contact",
     "title": "Contact",
-    "lastUpdated": "2025-05-08T01:21:19.606Z",
+    "lastUpdated": "2025-05-08T13:08:03.315Z",
     "author": "Content Writer"
   },
   {
     "id": "blog",
     "title": "Blog",
-    "lastUpdated": "2025-05-08T01:21:19.606Z",
+    "lastUpdated": "2025-05-08T13:08:03.314Z",
     "author": "Content Writer"
   }
 ]

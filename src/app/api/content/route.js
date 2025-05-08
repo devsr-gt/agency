@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 
-export async function GET() {
+export async function GET(request) {
   try {
     const contentDir = path.join(process.cwd(), 'content');
     
@@ -14,6 +14,35 @@ export async function GET() {
       }, { status: 404 });
     }
     
+    // Check if a specific page is requested
+    const { searchParams } = new URL(request.url);
+    const pageId = searchParams.get('pageId');
+    
+    if (pageId) {
+      // Single page request
+      const filePath = path.join(contentDir, `${pageId}.md`);
+      
+      if (!fs.existsSync(filePath)) {
+        return NextResponse.json({ 
+          error: `Content for page ${pageId} not found` 
+        }, { status: 404 });
+      }
+      
+      const fileContent = fs.readFileSync(filePath, 'utf8');
+      const { data, content } = matter(fileContent);
+      const stats = fs.statSync(filePath);
+      
+      return NextResponse.json({
+        id: pageId,
+        title: data.title || pageId,
+        content: content,
+        frontmatter: data,
+        lastUpdated: stats.mtime.toISOString(),
+        status: data.status || 'completed'
+      });
+    }
+    
+    // List all pages
     const files = fs.readdirSync(contentDir);
     
     const contentFiles = files
@@ -47,7 +76,11 @@ export async function GET() {
 
 export async function POST(request) {
   try {
-    const { id, content, frontmatter } = await request.json();
+    const requestData = await request.json();
+    // Support both id and pageId parameter names for consistency
+    const id = requestData.id || requestData.pageId;
+    const content = requestData.content;
+    const frontmatter = requestData.frontmatter;
     
     if (!id || !content) {
       return NextResponse.json({ 
@@ -64,9 +97,14 @@ export async function POST(request) {
     // Write to file
     fs.writeFileSync(filePath, yamlFrontmatter);
     
+    // Get the updated timestamp
+    const stats = fs.statSync(filePath);
+    const lastUpdated = stats.mtime.toISOString();
+    
     return NextResponse.json({ 
       success: true,
-      message: `Content for ${id} updated successfully`
+      message: `Content for ${id} updated successfully`,
+      lastUpdated
     });
     
   } catch (error) {

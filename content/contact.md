@@ -1,43 +1,4 @@
-import React from 'react';
-import ReactMarkdown from 'react-markdown';
-import Image from 'next/image';
-
-export default function Contact() {
-  return (
-    <div className="container mx-auto p-4">
-      <ReactMarkdown
-        components={{
-          // Use a custom p component for images to avoid invalid nesting
-          p: ({ node, children }) => {
-            // Check if the paragraph contains only an image
-            const hasOnlyImage = 
-              node.children.length === 1 && 
-              node.children[0].type === 'element' && 
-              node.children[0].tagName === 'img';
-
-            // If it's just an image, don't wrap it in a <p> tag
-            if (hasOnlyImage) {
-              return <>{children}</>;
-            }
-            // Otherwise, render as normal paragraph
-            return <p>{children}</p>;
-          },
-          // Custom image component using Next.js Image
-          img: ({ src, alt }) => (
-            <figure className="my-4">
-              <Image 
-                src={src} 
-                alt={alt || ''} 
-                width={600} 
-                height={400} 
-                className="rounded-lg shadow-lg" 
-              />
-              {alt && <figcaption className="text-center text-sm text-gray-500 mt-2">{alt}</figcaption>}
-            </figure>
-          )
-        }}
-      >
-        {`# Contact Us
+# Contact Us
 
 At Sevens Legal, APC, we understand that facing criminal charges can be an overwhelming and challenging experience. Whether you have been charged or need advice regarding a loved one's situation, our team of seasoned criminal defense attorneys is here to provide the guidance and support you need. With over 40 years of combined legal experience, including expertise from criminal law specialist Samantha Greene, we are dedicated to protecting your rights and securing the best possible outcome for your case. Reach out to us today to discuss your situation and explore your legal options.
 
@@ -78,8 +39,4 @@ We offer a free initial consultation to all potential clients. This allows you t
 ### How can I prepare for my initial consultation?
 To make the most of your consultation, we recommend bringing any documentation related to your case, such as police reports, court documents, or any correspondence. This will help us provide a more accurate assessment of your situation.
 
-Take the first step towards securing your future by contacting Sevens Legal, APC today. We are here to help and ready to fight for you.`}
-      </ReactMarkdown>
-    </div>
-  );
-}
+Take the first step towards securing your future by contacting Sevens Legal, APC today. We are here to help and ready to fight for you.

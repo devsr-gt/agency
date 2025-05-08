@@ -1,43 +1,4 @@
-import React from 'react';
-import ReactMarkdown from 'react-markdown';
-import Image from 'next/image';
-
-export default function Blog() {
-  return (
-    <div className="container mx-auto p-4">
-      <ReactMarkdown
-        components={{
-          // Use a custom p component for images to avoid invalid nesting
-          p: ({ node, children }) => {
-            // Check if the paragraph contains only an image
-            const hasOnlyImage = 
-              node.children.length === 1 && 
-              node.children[0].type === 'element' && 
-              node.children[0].tagName === 'img';
-
-            // If it's just an image, don't wrap it in a <p> tag
-            if (hasOnlyImage) {
-              return <>{children}</>;
-            }
-            // Otherwise, render as normal paragraph
-            return <p>{children}</p>;
-          },
-          // Custom image component using Next.js Image
-          img: ({ src, alt }) => (
-            <figure className="my-4">
-              <Image 
-                src={src} 
-                alt={alt || ''} 
-                width={600} 
-                height={400} 
-                className="rounded-lg shadow-lg" 
-              />
-              {alt && <figcaption className="text-center text-sm text-gray-500 mt-2">{alt}</figcaption>}
-            </figure>
-          )
-        }}
-      >
-        {`# Sevens Legal, APC Blog: Insights into Criminal Defense
+# Sevens Legal, APC Blog: Insights into Criminal Defense
 
 Welcome to the Sevens Legal, APC blog, your go-to resource for valuable information and insights into the world of criminal defense. Our team of dedicated attorneys, led by criminal law specialist Samantha Greene, has over 40 years of combined experience. We provide expert guidance and representation in cases involving DUIs, domestic violence, drug charges, robbery, white-collar crimes, theft, assault, and battery.
 
@@ -83,8 +44,4 @@ Stay informed with our expert insights and let us guide you through your legal c
 
 Follow our blog for regular updates on current legal trends and tips!
 
-![street-level view of Sevens Legal, APC office building](/images/blog-image-4-1746709547375.webp)`}
-      </ReactMarkdown>
-    </div>
-  );
-}
+![street-level view of Sevens Legal, APC office building](/images/blog-image-4-1746709547375.webp)

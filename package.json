@@ -8,7 +8,11 @@
     "start": "next start",
     "lint": "next lint",
     "seo-agency": "node run-seo-agency.js",
-    "test-workflow": "node test-workflow.js"
+    "test-workflow": "node test-workflow.js",
+    "test-seo": "node test-seo-analyzer.js",
+    "test-content-status": "node test-content-status.js",
+    "test-status-manual": "node test-status-manual.js",
+    "test": "node run-tests.js"
   },
   "dependencies": {
     "dotenv": "^16.5.0",

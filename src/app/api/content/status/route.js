@@ -9,7 +9,13 @@ const contentStatusPath = path.join(process.cwd(), 'data', 'content-status.json'
 async function readStatusData() {
   try {
     const fileData = await fs.readFile(contentStatusPath, 'utf-8');
-    return JSON.parse(fileData);
+    const data = JSON.parse(fileData);
+    
+    // Ensure all items have a status property
+    return data.map(item => ({
+      ...item,
+      status: item.status || item.approvalStatus || 'pending'
+    }));
   } catch (_error) {
     // If file doesn't exist or is invalid JSON, return empty array
     return [];
@@ -47,7 +53,9 @@ export async function GET() {
 export async function POST(request) {
   try {
     const requestData = await request.json();
-    const { id, status, feedback } = requestData;
+    // Support both pageId and id parameter formats for compatibility
+    const id = requestData.id || requestData.pageId;
+    const { status, feedback } = requestData;
 
     if (!id) {
       return NextResponse.json(
@@ -62,12 +70,22 @@ export async function POST(request) {
     const updatedData = existingData.map(item => {
       if (item.id === id) {
         updated = true;
-        return {
+        
+        // Create updated item with proper status handling
+        const updatedItem = {
           ...item,
-          ...(status && { approvalStatus: status }),
+          ...(status && { status: status }),
           ...(feedback && { feedback }),
           lastUpdated: new Date().toISOString()
         };
+        
+        // If status is changing to approved or anything other than regenerating,
+        // remove regeneration-specific fields
+        if (status && status !== 'regenerating') {
+          delete updatedItem.regenerationFeedback;
+        }
+        
+        return updatedItem;
       }
       return item;
     });
@@ -76,7 +94,7 @@ export async function POST(request) {
       // If content wasn't found, add a new entry with the provided status
       updatedData.push({
         id,
-        approvalStatus: status || 'pending',
+        status: status || 'pending',
         ...(feedback && { feedback }),
         lastUpdated: new Date().toISOString()
       });

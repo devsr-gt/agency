@@ -71,6 +71,25 @@ export default function ContentPreview() {
   useEffect(() => {
     const fetchContent = async () => {
       try {
+        // Attempt to fetch actual content from the API
+        const response = await fetch(`/api/content?pageId=${params.id}`);
+        
+        if (response.ok) {
+          const data = await response.json();
+          // Extract title from first line of markdown if it starts with # (heading)
+          let title = data.title || params.id;
+          if (data.content && data.content.trim().startsWith('#')) {
+            // Extract the title from the first heading in the markdown
+            const firstLine = data.content.trim().split('\n')[0];
+            title = firstLine.replace(/^#+ /, ''); // Remove # characters and space
+          }
+          setTitle(title);
+          setContent(data.content);
+          setLoading(false);
+          return;
+        }
+        
+        // Fallback to sample content if API fails
         let sampleContent;
         let pageTitle = '';
         
