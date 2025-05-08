@@ -7,16 +7,6 @@ export default function Services() {
     <div className="container mx-auto p-4">
       <ReactMarkdown
         components={{
-          // Fix for hydration error: p > div is invalid HTML
-          p: ({ node, children }) => {
-            // Check if children contains an img element
-            const hasImageChild = node?.children?.some(
-              child => child.type === 'element' && child.tagName === 'img'
-            );
-            
-            // If there's an image child, we return a div instead of p to avoid nesting issues
-            return hasImageChild ? <div>{children}</div> : <p>{children}</p>;
-          },
           img: ({ src, alt }) => (
             <div className="my-4">
               <Image 
@@ -32,51 +22,59 @@ export default function Services() {
       >
         {`# Our Legal Services
 
-Welcome to Law Firm, where your legal needs are our priority. Specializing in both criminal defense and personal injury, our experienced attorneys are dedicated to providing exceptional service and winning results. Explore our primary practice areas below to learn how we can assist you.
+Welcome to Law Firm, where our dedication, experience, and personalized approach set us apart in the field of criminal defense and personal injury law. Explore our comprehensive services below to understand how we can assist you in your time of need.
 
 ## Criminal Defense
 
-When facing criminal charges, you need an aggressive and knowledgeable defense team by your side. At Law Firm, we understand the stakes involved and are committed to protecting your rights and freedom.
+### Defending Your Rights
 
-### How We Help
-Our attorneys are seasoned in handling a diverse range of criminal cases, from misdemeanors to complex felonies. We rigorously investigate each case, challenge the evidence, and craft a strategic defense tailored to your unique situation.
+At Law Firm, we vigorously defend individuals facing serious criminal charges. From the initial consultation to the final verdict, our experienced attorneys are committed to protecting your rights and securing the best possible outcomes. We provide defense services for:
 
-### What Sets Us Apart
-With a track record of success in securing dismissals, reduced charges, and favorable verdicts, our firm is recognized for its relentless advocacy and attention to detail. We bring a deep understanding of the legal landscape to every case, ensuring that you receive the best possible defense.
+- **DUI and DWI**
+- **Drug Offenses**
+- **Assault and Battery**
+- **White Collar Crimes**
 
-### Case Experience
-- Successfully defended a client in a high-profile white-collar crime, leading to an acquittal
-- Achieved a significant reduction in charges for a client facing DUI allegations
-- Obtained a dismissal of charges for a client accused of assault
+Our approach is tailored to each client's unique situation, employing innovative defense strategies and leveraging our extensive knowledge of the legal system. We have a track record of successfully reducing charges and securing acquittals.
 
-![attorney speaking with client across a desk, legal documents spread out](/images/services-image-0-1746663375584.webp)
+#### Case Success
+
+In a recent high-profile case, our defense team achieved a full acquittal for a client wrongfully accused of embezzlement, saving them from a potential decade-long sentence.
+
+![confident legal presentation in courtroom](/images/services-image-0-1746664114750.webp)
 
 ## Personal Injury
 
-Injuries can have devastating impacts on your life. At Law Firm, we fight passionately to secure the compensation you deserve for your suffering, medical expenses, and lost wages.
+### Your Advocate for Recovery
 
-### How We Help
-From car accidents to medical malpractice, our attorneys are adept at navigating the complexities of personal injury law. We collaborate with medical experts, gather comprehensive evidence, and advocate vigorously on your behalf throughout the entire legal process.
+Accidents can turn your life upside down, but our personal injury lawyers are here to help you regain control. We understand the physical, emotional, and financial toll these events can take. Our services include:
 
-### What Sets Us Apart
-Our firm stands out for its compassionate approach and proven results. We prioritize client welfare, ensuring that you receive personalized attention and guidance every step of the way. Your recovery is our ultimate goal.
+- **Car Accidents**
+- **Slip and Fall**
+- **Medical Malpractice**
+- **Workplace Injuries**
 
-### Case Experience
-- Secured a $1.5 million settlement for a client injured in a construction accident
-- Negotiated a $750,000 settlement for a victim of medical negligence
-- Recovered $500,000 for a client involved in a severe motor vehicle collision
+Our firm prides itself on compassionate client service, ensuring that you receive the compensation you deserve while holding responsible parties accountable. Our aggressive negotiation and litigation strategies are grounded in a history of noteworthy settlements and verdicts.
 
-![handshake between lawyer and client with legal documents and scales of justice](/images/services-image-1-1746663391798.webp)
+#### Case Success
+
+Recently, we obtained a $2 million settlement for a client injured in a trucking accident, ensuring their medical and future care needs were fully met.
+
+![client consultation in law office](/images/services-image-1-1746664130514.webp)
 
 ## Contact Us
 
-Ready to discuss your case? Contact Law Firm today to schedule a free consultation. Our dedicated team is here to provide support and start building your case for success.
+Whether you're facing criminal charges or seeking justice for an injury, we are here to help. For a consultation, contact us today:
 
-- Phone: (555) 123-4567
-- Email: contact@lawfirm.com
-- Address: 123 Justice Avenue, Suite 100, Legal City, State 12345
+- **Phone:** (555) 123-4567
+- **Email:** contact@lawfirm.com
+- **Visit:** 123 Legal Drive, Justice City, USA
 
-Don't wait. Your path to justice starts now with Law Firm by your side.`}
+### Schedule a Free Consultation
+
+Don't wait to secure your defense or advocate—schedule a free consultation to explore your legal options and take the first step towards resolving your case.
+
+![welcoming law office reception area](/images/services-image-2-1746664146280.webp)`}
       </ReactMarkdown>
     </div>
   );

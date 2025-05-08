@@ -142,5 +142,77 @@
     "action": "Page Created",
     "details": "Created Blog (2733 chars in 16s)",
     "timestamp": "2025-05-08T00:14:20.432Z"
+  },
+  {
+    "agent": "Content Writer",
+    "action": "Created",
+    "details": "Assistant created with ID: asst_a8F3uXOS9aBQAUuzZyWQBPoA",
+    "timestamp": "2025-05-08T00:22:55.910Z"
+  },
+  {
+    "agent": "System",
+    "action": "Setup Complete",
+    "details": "Content generation system ready for Law Firm",
+    "timestamp": "2025-05-08T00:22:55.914Z"
+  },
+  {
+    "agent": "System",
+    "action": "Page Generation",
+    "details": "Starting content for homepage",
+    "timestamp": "2025-05-08T00:22:56.723Z"
+  },
+  {
+    "agent": "Content Writer",
+    "action": "Page Created",
+    "details": "Created Homepage (2127 chars in 11s)",
+    "timestamp": "2025-05-08T00:23:10.251Z"
+  },
+  {
+    "agent": "System",
+    "action": "Page Generation",
+    "details": "Starting content for services",
+    "timestamp": "2025-05-08T00:23:11.306Z"
+  },
+  {
+    "agent": "Content Writer",
+    "action": "Page Created",
+    "details": "Created Services (2852 chars in 14s)",
+    "timestamp": "2025-05-08T00:23:27.617Z"
+  },
+  {
+    "agent": "System",
+    "action": "Page Generation",
+    "details": "Starting content for about",
+    "timestamp": "2025-05-08T00:23:27.952Z"
+  },
+  {
+    "agent": "Content Writer",
+    "action": "Page Created",
+    "details": "Created About (3237 chars in 13s)",
+    "timestamp": "2025-05-08T00:23:43.117Z"
+  },
+  {
+    "agent": "System",
+    "action": "Page Generation",
+    "details": "Starting content for contact",
+    "timestamp": "2025-05-08T00:23:43.334Z"
+  },
+  {
+    "agent": "Content Writer",
+    "action": "Page Created",
+    "details": "Created Contact (2154 chars in 39s)",
+    "timestamp": "2025-05-08T00:24:25.205Z"
+  },
+  {
+    "agent": "System",
+    "action": "Page Generation",
+    "details": "Starting content for blog",
+    "timestamp": "2025-05-08T00:24:25.600Z"
+  },
+  {
+    "agent": "Content Writer",
+    "action": "Page Created",
+    "details": "Created Blog (3780 chars in 19s)",
+    "timestamp": "2025-05-08T00:24:46.541Z"
   }
 ]

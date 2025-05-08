@@ -7,16 +7,6 @@ export default function Blog() {
     <div className="container mx-auto p-4">
       <ReactMarkdown
         components={{
-          // Fix for hydration error: p > div is invalid HTML
-          p: ({ node, children }) => {
-            // Check if children contains an img element
-            const hasImageChild = node?.children?.some(
-              child => child.type === 'element' && child.tagName === 'img'
-            );
-            
-            // If there's an image child, we return a div instead of p to avoid nesting issues
-            return hasImageChild ? <div>{children}</div> : <p>{children}</p>;
-          },
           img: ({ src, alt }) => (
             <div className="my-4">
               <Image 
@@ -32,49 +22,56 @@ export default function Blog() {
       >
         {`# Law Firm Blog
 
-## Welcome to Our Legal Insights Blog
+## The Importance of Early Legal Representation in Criminal Defense
 
-At Law Firm, our dedication to excellence in criminal defense and personal injury law empowers us to provide top-tier legal services. Our blog is crafted to offer valuable insights, updates on legal trends, and guidance on navigating the complexities of the legal system. Whether you're a potential client seeking information or a professional interested in legal developments, our blog is designed to meet your needs. 
+Navigating the criminal justice system without guidance can be daunting and life-altering. Early legal representation is critical in building a strong defense and protecting your rights from the outset. Understanding the charges, evaluating evidence, and crafting strategic defenses can significantly impact your case outcome.
 
-## Latest Blog Posts
+Our experienced criminal defense attorneys at [Law Firm Name] are here to stand by you every step of the way, offering expert advice and dedicated support. If you or a loved one is facing criminal charges, don't wait to seek legal counsel.
 
-### Understanding Your Rights During a Criminal Investigation
+**Contact us today for a free consultation.**
 
-Navigating the complexities of a criminal investigation can be daunting. Knowing your rights and understanding how to exercise them is crucial. In this post, we explore the rights you have during an investigation, including the right to remain silent and the right to legal representation. 
+![a professional image of a lawyer in a meeting with a client in an office setting, showcasing legal documents and a reassuring atmosphere](/images/blog-image-0-1746663965753.webp)
 
-Read more to empower yourself with essential knowledge that can protect your future. 
+## Personal Injury Claims: Understanding Your Rights
 
-![image of a lawyer advising a client with law books and papers on a wooden desk](/images/blog-image-0-1746663301824.webp)
+An unexpected accident can lead to severe physical, emotional, and financial burdens. Understanding your rights in a personal injury claim is crucial to ensuring you receive the compensation you need for recovery. Our team is committed to fighting for your best interests, allowing you to focus on healing while we handle the legal complexities.
 
-### Tips for Securing a Fair Personal Injury Settlement
+We advocate aggressively for our clients, whether the injury was due to an automobile accident, slip and fall, or medical malpractice. Let us guide you through the intricacies of personal injury law and help you achieve a fair settlement.
 
-Securing a fair settlement after a personal injury can significantly impact your recovery and future well-being. Our experts share strategic tips for maximizing your compensation, from gathering evidence to negotiating assertively with insurance companies. 
+**Schedule a consultation with our personal injury experts.**
 
-Explore our insights to enhance your settlement negotiations effectively.
+![image of a caring lawyer talking to an injured client seated comfortably, with visible legal documents and supportive gestures](/images/blog-image-1-1746663979367.webp)
 
-![image of an attorney and client examining legal documents in a modern office](/images/blog-image-1-1746663317344.webp)
+## Legal Tips for Protecting Your Rights
 
-### The Impact of New Legislation on Criminal Defense
+Being informed can be your best defense. Here are some general tips to help protect your rights in various legal situations:
 
-Stay informed about the latest legal legislation and its implications for criminal defense. Our analysis covers recent changes in laws that may affect defense strategies and client rights. Understanding these shifts is vital for both clients and practitioners alike. 
+1. **Know Your Rights**: Familiarize yourself with your legal rights in different scenarios, such as being stopped by the police, involved in an accident, or dealing with insurance companies.
+2. **Document Everything**: Keep detailed records of any incident, including dates, times, locations, and any communications. This information can be pivotal in building your case.
+3. **Seek Legal Advice Early**: Consult with legal professionals before making any statements or decisions that could impact your case.
 
-Dive deep into our detailed legislative analysis.
+**For more personalized advice, speak with one of our attorneys.**
 
-![image showing a group of lawyers in a meeting, with legislative documents and a whiteboard](/images/blog-image-2-1746663333526.webp)
+![image of a lawyer giving legal advice to an attentive client, with law books and a laptop visible on a desk](/images/blog-image-2-1746663993189.webp)
 
-## Get Expert Legal Advice Today
+## Why Choose [Law Firm Name]?
 
-In need of expert legal consultation? Our team of seasoned attorneys is here to support you with personalized advice and representation. Contact us today to schedule a consultation:
+1. **Expertise and Experience**: Our team has years of experience in both criminal defense and personal injury law, ensuring you receive knowledgeable and reliable representation.
+2. **Personalized Attention**: We pride ourselves on offering personalized service tailored to the unique circumstances of your case.
+3. **Client-Centered Approach**: Your needs are our priority, and we work diligently to achieve the best possible outcomes for our clients.
 
-**Phone:** (555) 123-4567  
-**Email:** contact@lawfirm.com  
-**Visit Us:** 123 Justice Lane, Cityville
+Ready to take the next step? **Contact us** today to discuss your case and explore how we can assist you. 
 
-Join our newsletter to stay updated with the latest legal insights and firm news straight to your inbox!
+![image of a modern law firm office entrance with the firm's name prominently displayed](/images/blog-image-3-1746664010807.webp)
 
 ---
 
-We invite you to browse our blog and connect with us for unparalleled legal services tailored to your needs.`}
+**Contact Information**
+- **Phone**: (123) 456-7890
+- **Email**: info@lawfirmname.com
+- **Address**: 123 Justice Street, Suite 100, Law City, State
+
+**Follow us on social media** for more legal insights and firm updates.`}
       </ReactMarkdown>
     </div>
   );
