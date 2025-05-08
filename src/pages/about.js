@@ -1,11 +1,70 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import Image from 'next/image';
+import Head from 'next/head';
+import Script from 'next/script';
+import { generateWebPageSchema } from '../utils/schemaMarkup';
 
+/**
+ * About page with enhanced SEO features
+ * Implements best practices from SEO-GUIDELINES.md
+ */
 export default function About() {
+  // Schema.org data for About page (Tip #54, #90)
+  const aboutPageSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://sevenslegal.com/about#webpage",
+    "url": "https://sevenslegal.com/about",
+    "name": "About Our Attorneys | Sevens Legal San Diego",
+    "description": "Learn about our experienced criminal defense attorneys with over 40 years of combined experience defending clients in San Diego and surrounding areas.",
+    "isPartOf": {
+      "@id": "https://sevenslegal.com/#website"
+    },
+    "about": {
+      "@id": "https://sevenslegal.com/#organization"
+    },
+    "primaryImageOfPage": {
+      "@type": "ImageObject",
+      "url": "https://sevenslegal.com/images/about-image-0-1746709414486.webp"
+    },
+    "datePublished": "2024-01-01T08:00:00+08:00",
+    "dateModified": "2025-05-08T08:00:00+08:00"
+  };
   return (
-    <div className="container mx-auto p-4">
-      <ReactMarkdown
+    <>
+      {/* SEO Meta Tags (Tip #23, #36) */}
+      <Head>
+        <title>About Our Attorneys | Sevens Legal San Diego</title>
+        <meta name="description" content="Learn about our experienced criminal defense attorneys with over 40 years of combined experience defending clients in San Diego and surrounding areas." />
+        <meta name="keywords" content="criminal defense attorneys, san diego lawyers, legal team, experienced attorneys, defense lawyers, legal experience, criminal law specialists" />
+        <link rel="canonical" href="https://sevenslegal.com/about" />
+        
+        {/* Open Graph Tags */}
+        <meta property="og:title" content="About Our Attorneys | Sevens Legal San Diego" />
+        <meta property="og:description" content="Learn about our experienced criminal defense attorneys with over 40 years of combined experience defending clients in San Diego and surrounding areas." />
+        <meta property="og:url" content="https://sevenslegal.com/about" />
+        <meta property="og:image" content="https://sevenslegal.com/images/about-image-0-1746709414486.webp" />
+        <meta property="og:type" content="website" />
+        
+        {/* Twitter Card Tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="About Our Attorneys | Sevens Legal San Diego" />
+        <meta name="twitter:description" content="Learn about our experienced criminal defense attorneys with over 40 years of combined experience defending clients in San Diego and surrounding areas." />
+        <meta name="twitter:image" content="https://sevenslegal.com/images/about-image-0-1746709414486.webp" />
+      </Head>
+      
+      {/* Schema.org JSON-LD markup (Tip #54, #90) */}
+      <Script
+        id="about-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(aboutPageSchema)
+        }}
+      />
+      
+      <div className="container mx-auto p-4">
+        <ReactMarkdown
         components={{
           // Use a custom p component for images to avoid invalid nesting
           p: ({ node, children }) => {
