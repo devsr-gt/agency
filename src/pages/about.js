@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable react/no-unescaped-entities */
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import Image from 'next/image';

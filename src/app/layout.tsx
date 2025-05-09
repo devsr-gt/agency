@@ -103,7 +103,8 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="icon" href="/wumpus/favicon.svg" />
-        <link rel="canonical" href="https://sevenslegal.com" /> {/* Self-referential canonical for better SEO - Tip #36 */}
+        <link rel="canonical" href="https://sevenslegal.com" />
+        {/* Self-referential canonical for better SEO - Tip #36 */}
         {/* Avoid trailing slash redirections (SEO Tip #31) */}
         <script
           type="application/ld+json"

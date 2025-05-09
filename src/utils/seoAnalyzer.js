@@ -489,7 +489,17 @@ function analyzeAllContent(contentDir, clientInfo = {}) {
   }
 }
 
-module.exports = {
+// Export in both formats to ensure compatibility
+export {
   analyzeSeoOptimization,
   analyzeAllContent
 };
+
+// Also add CommonJS export for compatibility
+// This pattern allows the module to work with both ESM and CJS imports
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    analyzeSeoOptimization,
+    analyzeAllContent
+  };
+}

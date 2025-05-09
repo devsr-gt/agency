@@ -9,13 +9,13 @@ import BreadcrumbNav from '../components/BreadcrumbNav';
 export const metadata: Metadata = generateMetadata({
   title: "Criminal Defense Law Blog",
   description: "Expert insights on criminal defense law, DUI charges, drug offenses, and domestic violence cases from the experienced attorneys at Sevens Legal.",
-  path: "/blog",
+  path: "/blogs",
   keywords: ["criminal defense blog", "legal blog", "law firm blog", "DUI information", "drug charge defense", "domestic violence legal advice"],
   openGraph: {},
   image: "/images/blog-image-0-1746709482001.webp"
 });
 
-export default function BlogPage() {
+export default function BlogsPage() {
   // Example blog posts data - in a real implementation this would come from CMS or API
   const posts = [
     {
@@ -50,14 +50,14 @@ export default function BlogPage() {
   // Define breadcrumb items
   const breadcrumbItems = [
     { name: 'Home', path: '/' },
-    { name: 'Blog', path: '/blog' }
+    { name: 'Blog', path: '/blogs' }
   ];
   
   // SEO: Generate schema.org markup
   const blogPageSchema = generateWebPageSchema(
     "Criminal Defense Law Blog | Sevens Legal",
     "Expert insights on criminal defense law, DUI charges, drug offenses, and domestic violence cases from the experienced attorneys at Sevens Legal.",
-    "https://sevenslegal.com/blog",
+    "https://sevenslegal.com/blogs",
     "https://sevenslegal.com/images/blog-image-0-1746709482001.webp"
   );
   
@@ -117,7 +117,7 @@ export default function BlogPage() {
                 
                 {/* Title with proper heading hierarchy */}
                 <h2 className="text-xl font-bold mb-2">
-                  <Link href={`/blog/${post.slug}`} className="hover:text-blue-700 dark:hover:text-blue-400">
+                  <Link href={`/blogs/${post.slug}`} className="hover:text-blue-700 dark:hover:text-blue-400">
                     {post.title}
                   </Link>
                 </h2>
@@ -144,7 +144,7 @@ export default function BlogPage() {
               {/* Read more link */}
               <div className="px-6 pb-6">
                 <Link 
-                  href={`/blog/${post.slug}`}
+                  href={`/blogs/${post.slug}`}
                   className="text-blue-700 dark:text-blue-400 font-medium hover:underline"
                 >
                   Read more →

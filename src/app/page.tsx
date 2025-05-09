@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable react/no-unescaped-entities */
 import Link from 'next/link';
 import { Metadata } from 'next';
 import { generateMetadata } from '../utils/metadata';
@@ -13,7 +11,7 @@ export const metadata: Metadata = generateMetadata({
   description: "Sevens Legal provides expert criminal defense services with over 40 years of combined experience. Free consultations for DUI, domestic violence, and drug charges.",
   path: "/",
   keywords: ["criminal defense", "attorney", "lawyer", "san diego", "DUI defense", "domestic violence", "drug charges", "legal representation"],
-  openGraph: {}, // Adding required openGraph property
+  openGraph: {}, // Added missing openGraph property
   image: "/images/homepage-image-0-1746709579282.webp"
 });
 

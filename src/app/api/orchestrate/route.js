@@ -3,7 +3,32 @@ import fs from 'fs/promises';
 import { existsSync, readFileSync } from 'fs';
 import path from 'path';
 import { orchestrateAgents } from '../../../../orchestrate.js';
-import { analyzeAllContent } from '../../../utils/seoAnalyzer';
+
+// Use dynamic import to avoid issues with export method mismatches
+// We'll define a wrapper function to use the imported module
+async function analyzeAllContent(contentDir, clientInfo) {
+  try {
+    const seoAnalyzer = await import('../../../utils/seoAnalyzer');
+    // Handle both ESM and CJS export patterns
+    const analyzer = seoAnalyzer.analyzeAllContent || seoAnalyzer.default?.analyzeAllContent;
+    if (typeof analyzer === 'function') {
+      return analyzer(contentDir, clientInfo);
+    }
+    console.error('No valid analyzeAllContent function found in seoAnalyzer module');
+    return { 
+      score: 50,
+      pageScores: {},
+      recommendations: ['SEO analyzer not available']
+    };
+  } catch (error) {
+    console.error('Error importing seoAnalyzer:', error);
+    return { 
+      score: 50,
+      error: error.message,
+      recommendations: ['Error analyzing content: ' + error.message]
+    };
+  }
+}
 
 // Initialize with data from files if available
 let agentActivities = [];
@@ -80,7 +105,7 @@ try {
     try {
       // Only run analysis if content directory exists
       if (existsSync(contentDir)) {
-        const seoAnalysis = analyzeAllContent(contentDir, clientInformation);
+        const seoAnalysis = await analyzeAllContent(contentDir, clientInformation);
         seoScore = seoAnalysis.score;
         seoDetails = {
           pageScores: seoAnalysis.pageScores,
@@ -114,7 +139,7 @@ export async function GET() {
     const contentDir = path.join(process.cwd(), 'content');
     if (existsSync(contentDir)) {
       try {
-        const seoAnalysis = analyzeAllContent(contentDir, clientInformation);
+        const seoAnalysis = await analyzeAllContent(contentDir, clientInformation);
         progressStatus.seoOptimization = seoAnalysis.score;
         progressStatus.seoDetails = {
           pageScores: seoAnalysis.pageScores,

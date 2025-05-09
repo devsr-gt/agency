@@ -209,7 +209,7 @@ async function manageThread(agents, pagesToGenerate = ['homepage', 'services', '
           phone numbers, and email. Add a brief FAQ section about the initial consultation process.`;
         break;
       
-      case 'blogs':
+      case 'blog':
         pageSpecificPrompt = `Create a blog post on a relevant legal topic that would interest 
           potential clients. The post should demonstrate expertise, provide valuable information, 
           and include a call to action to contact the firm for legal help.`;
@@ -278,9 +278,26 @@ async function manageThread(agents, pagesToGenerate = ['homepage', 'services', '
         // Save the clean content to file
         await fsPromises.mkdir('content', { recursive: true });
         const formattedPageName = formatPageName(pageName);
-        await fsPromises.writeFile(path.join('content', `${formattedPageName}.md`), cleanContent);
         
-        console.log(`Content saved to content/${formattedPageName}.md (${cleanContent.length} chars, generated in ${duration}s)`);
+        // Check if we're dealing with a blog post that needs to go in subdirectory
+        if (formattedPageName.includes('/')) {
+          // Create subdirectories as needed
+          const dir = path.dirname(formattedPageName);
+          await fsPromises.mkdir(path.join('content', dir), { recursive: true });
+        }
+        
+        // Save the content with proper file name and extension
+        const fileName = path.basename(formattedPageName);
+        const dirPath = path.dirname(formattedPageName);
+        
+        // If dirPath is '.', it's in the root content folder
+        const finalPath = dirPath === '.' 
+          ? path.join('content', `${fileName}.md`)
+          : path.join('content', dirPath, `${fileName}.md`);
+          
+        await fsPromises.writeFile(finalPath, cleanContent);
+        
+        console.log(`Content saved to ${finalPath} (${cleanContent.length} chars, generated in ${duration}s)`);
         
         // Update content status
         await updateContentStatus(
@@ -319,9 +336,13 @@ function formatPageName(pageName) {
   // Normalize the pageName to lowercase
   const normalizedPage = pageName.toLowerCase();
   
-  // Handle blog-related pages - all blog pages become just "blog"
-  if (normalizedPage === 'blog' || normalizedPage.startsWith('blog-') || normalizedPage.startsWith('blogs')) {
-    return 'blog';
+  // Handle blog-related pages with simple /:title structure
+  if (normalizedPage === 'blog') {
+    return 'blog'; // Main blog index
+  } else if (normalizedPage.startsWith('blog-') || normalizedPage.includes('blog')) {
+    // Extract just the title part without any prefixes
+    const slug = normalizedPage.replace('blog-', '').replace(/\s+/g, '-');
+    return slug; // Direct /:title format without blog/ prefix
   }
   
   // Handle services-related pages - all services pages become just "services"
@@ -339,8 +360,16 @@ function formatPageTitle(pageName) {
   const normalizedPage = pageName.toLowerCase();
   
   // Handle blog-related pages
-  if (normalizedPage === 'blog' || normalizedPage.startsWith('blog-') || normalizedPage.startsWith('blogs')) {
-    return 'Blog';
+  if (normalizedPage === 'blog') {
+    return 'Blog'; // Main blog index title
+  } else if (normalizedPage.startsWith('blog-') || normalizedPage.includes('blog')) {
+    // Create individual blog post titles
+    const titleBase = normalizedPage.replace('blog-', '');
+    // Capitalize each word for blog post title
+    return titleBase
+      .split(/[- ]/)
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
   }
   
   // Handle services-related pages
@@ -359,38 +388,56 @@ function formatPageTitle(pageName) {
 async function processImages() {
   console.log('Processing images from markdown content...');
   const contentDir = 'content';
-  const files = await fsPromises.readdir(contentDir);
-  for (const file of files) {
-    console.log(`Processing file: ${file}`);
-    let content = await fsPromises.readFile(path.join(contentDir, file), 'utf8');
-    const placeholderRegex = /!\[.*?\]\(generate: (.*?)\)/g;
-    let match;
-    let imageCount = 0;
+  
+  // Recursive function to process files in a directory and its subdirectories
+  async function processFilesInDir(dir) {
+    const entries = await fsPromises.readdir(dir, { withFileTypes: true });
     
-    while ((match = placeholderRegex.exec(content)) !== null) {
-      const description = match[1];
-      console.log(`Generating image for: ${description}`);
+    for (const entry of entries) {
+      const fullPath = path.join(dir, entry.name);
       
-      try {
-        const image = await openai.images.generate({ 
-          prompt: description, 
-          model: 'dall-e-3',
-          size: '1024x1024',
-          quality: 'standard'
-        });
+      if (entry.isDirectory()) {
+        // Recursively process subdirectories
+        await processFilesInDir(fullPath);
+      } else if (entry.name.endsWith('.md')) {
+        // Process markdown files
+        console.log(`Processing file: ${fullPath}`);
+        let content = await fsPromises.readFile(fullPath, 'utf8');
+        const placeholderRegex = /!\[.*?\]\(generate: (.*?)\)/g;
+        let match;
+        let imageCount = 0;
         
-        if (image && image.data && image.data[0] && image.data[0].url) {
-          const imageName = `${file.split('.')[0]}-image-${imageCount}-${Date.now()}.webp`;
-          const imagePath = path.join('public', 'images', imageName);
-          const webImagePath = `/images/${imageName}`;
+        // Get content category from path for better image naming
+        const contentCategory = path.relative(contentDir, dir).replace(/\\/g, '/');
+        const baseName = entry.name.replace('.md', '');
+        const imageNamePrefix = contentCategory 
+          ? `${contentCategory}-${baseName}` 
+          : baseName;
+        
+        while ((match = placeholderRegex.exec(content)) !== null) {
+          const description = match[1];
+          console.log(`Generating image for: ${description}`);
           
-          console.log(`Downloading image to: ${imagePath}`);
-          
-          // Create directories if they don't exist
-          await fsPromises.mkdir(path.dirname(imagePath), { recursive: true })
-            .catch(err => {
-              if (err.code !== 'EEXIST') throw err;
+          try {
+            const image = await openai.images.generate({ 
+              prompt: description, 
+              model: 'dall-e-3',
+              size: '1024x1024',
+              quality: 'standard'
             });
+            
+            if (image && image.data && image.data[0] && image.data[0].url) {
+              const imageName = `${imageNamePrefix}-image-${imageCount}-${Date.now()}.webp`;
+              const imagePath = path.join('public', 'images', imageName);
+              const webImagePath = `/images/${imageName}`;
+              
+              console.log(`Downloading image to: ${imagePath}`);
+              
+              // Create directories if they don't exist
+              await fsPromises.mkdir(path.dirname(imagePath), { recursive: true })
+                .catch(err => {
+                  if (err.code !== 'EEXIST') throw err;
+                });
           
           // Download and save the image
           const imageResponse = await fetch(image.data[0].url);
@@ -411,9 +458,14 @@ async function processImages() {
     }
     
     // Save the updated markdown content
-    await fsPromises.writeFile(path.join(contentDir, file), content);
+    await fsPromises.writeFile(fullPath, content);
     console.log(`Updated markdown saved with ${imageCount} image(s)`);
+      }
+    }
   }
+  
+  // Start processing from the content root directory
+  await processFilesInDir(contentDir);
 }
 
 // Build Next.js Pages
@@ -421,30 +473,78 @@ async function buildPages() {
   console.log('Building Next.js pages from markdown content...');
   const contentDir = 'content';
   const pagesDir = path.join('src', 'pages');
+  const appDir = path.join('src', 'app');
   
-  // Create pages directory if it doesn't exist
+  // Create directories if they don't exist
   await fsPromises.mkdir(pagesDir, { recursive: true })
     .catch(err => {
       if (err.code !== 'EEXIST') throw err;
     });
+    
+  await fsPromises.mkdir(appDir, { recursive: true })
+    .catch(err => {
+      if (err.code !== 'EEXIST') throw err;
+    });
   
-  const files = await fsPromises.readdir(contentDir);
-  for (const file of files) {
-    console.log(`Processing file for page creation: ${file}`);
-    const content = await fsPromises.readFile(path.join(contentDir, file), 'utf8');
+  // Helper function to process content files recursively
+  async function processContentFiles(contentPath, relativePath = '') {
+    const entries = await fsPromises.readdir(contentPath, { withFileTypes: true });
     
-    // Extract frontmatter if present
-    const frontmatterMatch = content.match(/---\n([\s\S]*?)\n---/);
-    const frontmatter = frontmatterMatch ? frontmatterMatch[1] : '';
-    const pageContent = frontmatterMatch ? content.replace(/---\n[\s\S]*?\n---/, '') : content;
-    
-    const pageName = file.replace('.md', '');
-    // Updated page script with hydration-safe component structure
-    const pageScript = `import React from 'react';
+    for (const entry of entries) {
+      const entryPath = path.join(contentPath, entry.name);
+      const relPath = relativePath ? path.join(relativePath, entry.name) : entry.name;
+      
+      if (entry.isDirectory()) {
+        // Recursively process directories
+        await processContentFiles(entryPath, relPath);
+      } else if (entry.name.endsWith('.md')) {
+        console.log(`Processing content file: ${relPath}`);
+        const content = await fsPromises.readFile(entryPath, 'utf8');
+        
+        // Extract frontmatter if present
+        const frontmatterMatch = content.match(/---\n([\s\S]*?)\n---/);
+        const frontmatter = frontmatterMatch ? frontmatterMatch[1] : '';
+        const pageContent = frontmatterMatch ? content.replace(/---\n[\s\S]*?\n---/, '') : content;
+        
+        // Determine appropriate file paths and component names
+        const basename = entry.name.replace('.md', '');
+        
+        // Special handling for blog index file
+        if (basename === '_index' && relPath.startsWith('blog')) {
+          console.log('Processing blog index file');
+          await generateBlogIndexPages(contentPath, relativePath);
+          continue;
+        }
+        
+        // Create component name from basename
+        const componentName = basename
+          .split('-')
+          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+          .join('');
+        
+        // Determine if we're building for app router or pages router
+        // Blog content goes to App Router, other content goes to Pages Router for now
+        let targetDir;
+        if (relativePath.startsWith('blog')) {
+          // For App Router, create page.tsx in appropriate directory
+          // e.g., blog/post-slug/page.tsx
+          const appRouterPath = path.join(appDir, relativePath === 'blog' ? 'blog' : path.dirname(relativePath));
+          targetDir = path.join(appRouterPath, basename === '_index' ? '' : basename);
+          await fsPromises.mkdir(targetDir, { recursive: true })
+            .catch(err => {
+              if (err.code !== 'EEXIST') throw err;
+            });
+        } else {
+          // Use Pages Router for non-blog content
+          targetDir = pagesDir;
+        }
+        
+        // Updated page script with hydration-safe component structure
+        const pageScript = `import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import Image from 'next/image';
 
-export default function ${pageName.charAt(0).toUpperCase() + pageName.slice(1)}() {
+export default function ${componentName}() {
   return (
     <div className="container mx-auto p-4">
       <ReactMarkdown
@@ -485,12 +585,208 @@ export default function ${pageName.charAt(0).toUpperCase() + pageName.slice(1)}(
   );
 }`;
 
-    await fsPromises.writeFile(path.join(pagesDir, `${pageName}.js`), pageScript);
-    console.log(`Page created: ${pagesDir}/${pageName}.js`);
-    
-    // Copy content status to include build status
-    await updateContentStatus(pageName, 'built');
+        // Determine where to save the file and in what format
+        let outputFilePath;
+        let outputFormat = 'js';
+        
+        if (relativePath.startsWith('blog')) {
+          // For App Router, use page.tsx in the slug directory
+          outputFilePath = path.join(targetDir, 'page.tsx');
+          outputFormat = 'tsx'; 
+        } else {
+          // For Pages Router
+          outputFilePath = path.join(targetDir, `${basename}.js`);
+        }
+        
+        // Add metadata for TypeScript/TSX files
+        if (outputFormat === 'tsx') {
+          const metadataScript = `import { Metadata } from 'next';
+import { generateMetadata } from '${relativePath.includes('/') ? '../'.repeat(relativePath.split('/').length) : ''}../utils/metadata';
+${pageScript}
+
+// SEO: Generate metadata
+export const metadata: Metadata = generateMetadata({
+  title: "${componentName.replace(/([A-Z])/g, ' $1').trim()}",
+  description: "Professional legal advice and representation for ${componentName.replace(/([A-Z])/g, ' $1').trim().toLowerCase()} cases.",
+  path: "/${relativePath.replace('/_index', '')}",
+  keywords: ["legal advice", "law firm", "${componentName.replace(/([A-Z])/g, ' $1').trim().toLowerCase()}", "attorney"],
+  openGraph: {}
+});`;
+          await fsPromises.writeFile(outputFilePath, metadataScript);
+        } else {
+          await fsPromises.writeFile(outputFilePath, pageScript);
+        }
+        
+        console.log(`Page created: ${outputFilePath}`);
+        
+        // Update content status to include build status
+        const statusId = relativePath ? 
+          (relativePath + '/' + basename).replace('/_index', '') :
+          basename;
+        await updateContentStatus(statusId, formatPageTitle(statusId), 'built', 'Content Writer');
+      }
+    }
   }
+  
+  // Function to generate blog index pages from blog posts
+  async function generateBlogIndexPages(blogDir, relativePath) {
+    console.log('Generating blog index pages...');
+    
+    // Create App Router blog directory
+    const blogAppDir = path.join(appDir, 'blog');
+    await fsPromises.mkdir(blogAppDir, { recursive: true })
+      .catch(err => {
+        if (err.code !== 'EEXIST') throw err;
+      });
+    
+    // Create blog index page.tsx
+    const blogIndexScript = `import { Metadata } from 'next';
+import Link from 'next/link';
+import Image from 'next/image';
+import { generateMetadata } from '../../utils/metadata';
+import { generateWebPageSchema, generateBreadcrumbSchema } from '../../utils/schemaMarkup';
+import BreadcrumbNav from '../components/BreadcrumbNav';
+
+// SEO: Generate metadata according to SEO guidelines
+export const metadata: Metadata = generateMetadata({
+  title: "Criminal Defense Law Blog",
+  description: "Expert insights on criminal defense law, DUI charges, drug offenses, and domestic violence cases from our experienced attorneys.",
+  path: "/blog",
+  keywords: ["criminal defense blog", "legal blog", "law firm blog", "legal advice", "attorney blog"],
+  openGraph: {},
+  image: "/images/blog-image-0-1746709482001.webp"
+});
+
+export default function BlogPage() {
+  // Blog posts data - in a real implementation this would come from CMS or API
+  const posts = [
+    {
+      title: "Understanding DUI Laws in California",
+      slug: "understanding-dui-laws-california",
+      excerpt: "Learn about the latest DUI laws in California and how they might impact your case if you're facing charges.",
+      publishDate: "2025-03-15T08:00:00.000Z",
+      author: "John Smith",
+      featuredImage: "/images/blog-image-0-1746709482001.webp",
+      categories: ["DUI Defense", "California Law"]
+    },
+    {
+      title: "What to Expect During Your Criminal Case",
+      slug: "what-to-expect-during-criminal-case",
+      excerpt: "A step-by-step guide to the criminal justice process and what defendants should expect.",
+      publishDate: "2025-04-02T08:00:00.000Z",
+      author: "Samantha Greene",
+      featuredImage: "/images/blog-image-1-1746709498700.webp",
+      categories: ["Criminal Defense", "Legal Process"]
+    },
+    {
+      title: "Domestic Violence Defense Strategies",
+      slug: "domestic-violence-defense-strategies",
+      excerpt: "Explore effective defense strategies for those facing domestic violence charges.",
+      publishDate: "2025-04-28T08:00:00.000Z",
+      author: "Robert Johnson",
+      featuredImage: "/images/blog-image-2-1746709515145.webp",
+      categories: ["Domestic Violence", "Defense Strategies"]
+    }
+  ];
+  
+  // Define breadcrumb items
+  const breadcrumbItems = [
+    { name: 'Home', path: '/' },
+    { name: 'Blog', path: '/blog' }
+  ];
+  
+  // SEO: Generate schema.org markup
+  const blogPageSchema = generateWebPageSchema(
+    "Criminal Defense Law Blog", 
+    "Expert insights on criminal defense law topics from our experienced attorneys.",
+    "https://yourwebsite.com/blog",
+    "https://yourwebsite.com/images/blog-image-0-1746709482001.webp"
+  );
+  
+  const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbItems);
+
+  return (
+    <>
+      {/* Schema markup for SEO */}
+      <script 
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPageSchema) }}
+      />
+      <script 
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      
+      <main className="container mx-auto px-4 py-8">
+        <BreadcrumbNav items={breadcrumbItems} />
+        
+        <section className="mb-12">
+          <h1 className="text-3xl md:text-4xl font-bold mb-4">Criminal Defense Law Blog</h1>
+          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl">
+            Expert insights and legal information on criminal defense matters from our experienced attorneys.
+          </p>
+        </section>
+        
+        {/* Blog post listing */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {posts.map((post) => (
+            <article key={post.slug} className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+              <div className="relative h-48">
+                <Image
+                  src={post.featuredImage}
+                  alt={post.title}
+                  fill={true}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  className="object-cover"
+                />
+              </div>
+              <div className="p-6">
+                <div className="mb-3">
+                  {post.categories.map(category => (
+                    <span key={category} className="mr-2 inline-block px-2 py-1 rounded-full bg-blue-100 text-blue-800 text-xs">
+                      {category}
+                    </span>
+                  ))}
+                </div>
+                <h2 className="text-xl font-bold mb-2">
+                  <Link href={\`/blog/\${post.slug}\`} className="hover:text-blue-700">
+                    {post.title}
+                  </Link>
+                </h2>
+                <p className="text-gray-600 dark:text-gray-300 mb-4">
+                  {post.excerpt}
+                </p>
+                <div className="text-sm text-gray-500">
+                  <span>{post.author}</span>
+                  <span className="mx-2">•</span>
+                  <time dateTime={post.publishDate}>
+                    {new Date(post.publishDate).toLocaleDateString()}
+                  </time>
+                </div>
+                <div className="mt-4">
+                  <Link href={\`/blog/\${post.slug}\`} className="text-blue-700 font-medium hover:underline">
+                    Read more →
+                  </Link>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </main>
+    </>
+  );
+}`;
+    
+    const blogIndexPath = path.join(blogAppDir, 'page.tsx');
+    await fsPromises.writeFile(blogIndexPath, blogIndexScript);
+    console.log(`Blog index page created at: ${blogIndexPath}`);
+    
+    // Update content status for blog index
+    await updateContentStatus('blog', 'Blog', 'built', 'Content Writer');
+  }
+  
+  // Start processing content files
+  await processContentFiles(contentDir);
 }
 
 // Regenerate specific content based on feedback
@@ -655,5 +951,7 @@ module.exports = {
   buildPages,
   regenerateContent,
   logActivity,
-  updateContentStatus
+  updateContentStatus,
+  formatPageName,
+  formatPageTitle
 };

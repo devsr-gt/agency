@@ -12,7 +12,7 @@ export const metadata: Metadata = generateMetadata({
   description: "Expert DUI defense attorneys with proven track record of success. Free consultation for DUI charges in San Diego and surrounding areas.",
   path: "/services/dui-defense",
   keywords: ["DUI defense", "DUI lawyer", "San Diego", "drunk driving", "DUI attorney", "DUI charges", "breathalyzer test", "field sobriety test"],
-  openGraph: {}, // Adding required openGraph property
+  openGraph: {}, // Added missing openGraph property
   image: "/images/services-image-2-1746709638172.webp"
 });
 
