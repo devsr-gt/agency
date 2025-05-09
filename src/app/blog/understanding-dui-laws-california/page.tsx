@@ -19,7 +19,7 @@ const post = {
 export const metadata: Metadata = generateMetadata({
   title: post.title,
   description: post.description,
-  path: `/blogs/${post.slug}`,
+  path: `/${post.slug}`, // Flat URL structure via Next.js rewrites
   keywords: ["DUI laws", "California DUI", "drunk driving", "DUI penalties", "DUI defense attorney", "blood alcohol content", "legal limit", "DUI arrest"],
   image: post.featuredImage,
   openGraph: {

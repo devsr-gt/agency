@@ -336,13 +336,16 @@ function formatPageName(pageName) {
   // Normalize the pageName to lowercase
   const normalizedPage = pageName.toLowerCase();
   
-  // Handle blog-related pages with simple /:title structure
+  // Handle blog-related pages with structure that supports flat URLs via rewrites
   if (normalizedPage === 'blog') {
     return 'blog'; // Main blog index
-  } else if (normalizedPage.startsWith('blog-') || normalizedPage.includes('blog')) {
-    // Extract just the title part without any prefixes
+  } else if (normalizedPage.startsWith('blog-')) {
+    // For blog posts, maintain blog/ folder structure but use flat URLs in the frontend
+    // This follows the pattern:
+    // - File structure: /blog/my-post/page.tsx
+    // - URL structure:  /my-post  (flat URL via Next.js rewrites)
     const slug = normalizedPage.replace('blog-', '').replace(/\s+/g, '-');
-    return slug; // Direct /:title format without blog/ prefix
+    return `blog/${slug}`; // Keep in blog folder for organization, but URLs will be flat
   }
   
   // Handle services-related pages - all services pages become just "services"
@@ -526,10 +529,15 @@ async function buildPages() {
         // Blog content goes to App Router, other content goes to Pages Router for now
         let targetDir;
         if (relativePath.startsWith('blog')) {
-          // For App Router, create page.tsx in appropriate directory
-          // e.g., blog/post-slug/page.tsx
-          const appRouterPath = path.join(appDir, relativePath === 'blog' ? 'blog' : path.dirname(relativePath));
-          targetDir = path.join(appRouterPath, basename === '_index' ? '' : basename);
+          // For App Router, create structure in blog folder but with URL rewrite support
+          if (basename === '_index' || relativePath === 'blog') {
+            // For the main blog index, use /blog/page.tsx
+            targetDir = path.join(appDir, 'blog');
+          } else {
+            // For blog posts, place them in /blog/:slug folder but they'll be accessed via /:slug URL
+            targetDir = path.join(appDir, 'blog', basename);
+          }
+          
           await fsPromises.mkdir(targetDir, { recursive: true })
             .catch(err => {
               if (err.code !== 'EEXIST') throw err;
